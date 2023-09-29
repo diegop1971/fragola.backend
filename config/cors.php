@@ -21,6 +21,7 @@ return [
         'login',
         'logout',
         'user',
+        'products',
     ],
 
     'allowed_methods' => ['*'],

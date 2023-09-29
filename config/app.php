@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use src\backoffice\Products\Domain\Providers\ProductServiceProvider;
 
 return [
 
@@ -169,6 +170,28 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
+
+        /*
+        |--------------------------------------------------------------------------
+        | Diegop Service Providers
+        |--------------------------------------------------------------------------
+        */
+        /* Backoffice
+        |--------------------------------------------------------------------------
+        */
+ ProductServiceProvider::class,
+        src\backoffice\Categories\Domain\Providers\CategoryServiceProvider::class,
+        src\backoffice\Stock\Domain\Providers\StockServiceProvider::class,
+        src\backoffice\StockMovementType\Domain\Providers\StockMovementTypeServiceProvider::class,
+    
+        /* Frontoffice
+        |--------------------------------------------------------------------------
+        */
+        src\frontoffice\Home\Domain\Providers\HomeProductServiceProvider::class,
+        src\frontoffice\Categories\Domain\Providers\CategoryServiceProvider::class,
+        src\frontoffice\Cart\Domain\Providers\CartSessionServiceProvider::class,
+        src\frontoffice\Products\Domain\Providers\ProductServiceProvider::class,
+
     ])->toArray(),
 
     /*

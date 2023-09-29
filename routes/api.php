@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use src\frontoffice\Products\Application\Find\GetEnabledProductsInActiveCategories;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,8 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::get('/products', GetEnabledProductsInActiveCategories::class)->name('home');
 
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('auth:sanctum');
 
