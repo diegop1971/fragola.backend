@@ -60,7 +60,7 @@ Route::get('/', function () {
 |
 */
 
-Route::get('/', GetProductsCardListController::class)->name('home');
+//Route::get('/', GetProductsCardListController::class)->name('home');
 
 Route::get('/best-selling-products', GetHomeBestsellingProductsController::class)->name('selling-products');
 

@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
-use src\frontoffice\Products\Application\Find\GetEnabledProductsInActiveCategories;
+use App\Http\Controllers\Frontoffice\Home\GetProductsCardListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +16,6 @@ use src\frontoffice\Products\Application\Find\GetEnabledProductsInActiveCategori
 |
 */
 
-Route::get('/products', GetEnabledProductsInActiveCategories::class)->name('home');
-
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('auth:sanctum');
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
@@ -25,3 +23,5 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->midd
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/productsCardList', GetProductsCardListController::class)->middleware('auth:sanctum');

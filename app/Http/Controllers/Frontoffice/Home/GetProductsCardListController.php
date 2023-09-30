@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontoffice\Home;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use src\frontoffice\Home\Application\Find\GetHomeProducts;
 
@@ -12,18 +13,22 @@ class GetProductsCardListController extends Controller
         //$this->middleware('auth');
     }
 
-    public function __invoke(GetHomeProducts $homeProducts)
+    public function __invoke(GetHomeProducts $homeProducts):JsonResponse
     {
-        $title = 'Welcome';
+        $title = 'Card List Products';
 
-        $metaDescription = 'Welcome meta-description';
+        $metaDescription = 'CardListProducts meta-description';
         
-        $homeProducts = $homeProducts->__invoke();
+        $homeProductsData = $homeProducts->__invoke();
 
         $title = 'Productos';  
 
-        $data = 'datos del controlador';
-
-        return view('components.frontoffice.home.home-main', compact(['title', 'metaDescription', 'homeProducts']));
+        $responseData = [
+            'title' => $title,
+            'metaDescription' => $metaDescription,
+            'homeProducts' => $homeProductsData,
+        ];
+        
+        return response()->json($responseData);
     }
 }
