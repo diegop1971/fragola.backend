@@ -14,8 +14,16 @@ class CreateStockMovementController extends Controller
 
         $products = $ProductsGet->__invoke();
 
-        $stockMovementTypes = $stockMovementTypeGet->__invoke();
-
-        return view('components.backoffice.stock.create', compact(['title', 'products', 'stockMovementTypes']));
+        try {
+            $stockMovementTypes = $stockMovementTypeGet->__invoke();
+            
+            return response()->json([
+                'title' => $title,
+                'products' => $products,
+                'stockMovementTypes' => $stockMovementTypes,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }
