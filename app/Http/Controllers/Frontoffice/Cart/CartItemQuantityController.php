@@ -33,7 +33,7 @@ class CartItemQuantityController extends Controller
             'productId' => $product['id'],
             'productName' => $product['name'],
             'productQty' => $qty,
-            'productPrice' => round($product['price'], 2)
+            'productUnitPrice' => round($product['price'], 2)
         ];
 
         if (!$request->Session()->exists('cart')) {
@@ -50,7 +50,7 @@ class CartItemQuantityController extends Controller
                         'productId' => $product['id'],
                         'productName' => $product['name'],
                         'productQty' => $cant,
-                        'productPrice' => round($product['price'], 2)
+                        'productUnitPrice' => round($product['price'], 2)
                     ]);
                     $this->flag = true;
                 }

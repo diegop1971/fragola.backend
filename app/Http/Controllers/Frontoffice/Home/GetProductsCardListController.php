@@ -15,20 +15,22 @@ class GetProductsCardListController extends Controller
 
     public function __invoke(GetHomeProducts $homeProducts):JsonResponse
     {
-        $title = 'Card List Products';
+        try {
+            $title = 'Card List Products';
 
-        $metaDescription = 'CardListProducts meta-description';
-        
-        $homeProductsData = $homeProducts->__invoke();
+            $metaDescription = 'CardListProducts meta-description';
+            
+            $homeProductsData = $homeProducts->__invoke();
 
-        $title = 'Productos';  
-
-        $responseData = [
-            'title' => $title,
-            'metaDescription' => $metaDescription,
-            'homeProducts' => $homeProductsData,
-        ];
-        
-        return response()->json($responseData);
+            $responseData = [
+                'title' => $title,
+                'metaDescription' => $metaDescription,
+                'homeProducts' => $homeProductsData,
+            ];
+            
+            return response()->json($responseData);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

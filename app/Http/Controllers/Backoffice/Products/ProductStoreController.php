@@ -41,7 +41,8 @@ class ProductStoreController extends Controller
         $descriptionShort = $data['description_short'] ?? '';
         
         $command = new CreateProductCommand(
-                                            RamseyUuid::random(), 
+                                            //RamseyUuid::random(), 
+                                            $data['id'],
                                             $data['name'], 
                                             $description, 
                                             $descriptionShort, 

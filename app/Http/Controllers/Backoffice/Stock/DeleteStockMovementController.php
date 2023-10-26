@@ -21,10 +21,12 @@ class DeleteStockMovementController extends Controller
     {
         try {
             $deleteStockCommandHandler->__invoke(new DeleteStockCommand($id));
-        } catch (Throwable $e) {
-            return redirect()->route('backoffice.stock.index');
+
+            return response()->json([
+                'message' => 'The product has been deleted from the database.',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-        
-        return redirect()->route('backoffice.stock.index');
     }
 }
