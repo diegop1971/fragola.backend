@@ -27,7 +27,6 @@ class AsyncShowCartController extends Controller
         } else {
             $sessionCartItems = $this->sessionManager->getKeySessionData('cart');
         }
-
-        return $sessionCartItems;
+        return response()->json(['sessionCartItems' => $sessionCartItems]);
     }
 }
