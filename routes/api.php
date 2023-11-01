@@ -41,7 +41,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('cart')->group(function () {
     Route::get('/get-cart-products', AsyncShowCartController::class)->middleware('auth:sanctum');
-    Route::get('/delete-item/{itemId}', CartItemDeleteController::class);
+    Route::delete('/delete-item/{itemId}', CartItemDeleteController::class);
     Route::post('/add-to-cart', AddToCartController::class)->name('cart.add-to-cart');
     Route::post('/cart-item-qty', CartItemQuantityController::class)->name('cart.cart-item-qty');
     Route::group(['prefix' => 'mi-carrito'], function () {
