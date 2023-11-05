@@ -26,7 +26,32 @@ class AsyncShowCartController extends Controller
             $sessionCartItems = [];
         } else {
             $sessionCartItems = $this->sessionManager->getKeySessionData('cart');
+            $cartTotalItemCount = $this->calculateCartTotalItemCount($sessionCartItems);
+            $cartTotalAmount = $this->calculateCartTotalAmount($sessionCartItems);
         }
-        return response()->json(['sessionCartItems' => $sessionCartItems]);
+
+        return response()->json([
+            'sessionCartItems' => $sessionCartItems, 
+            'cartTotalItemCount' => $cartTotalItemCount, 
+            'cartTotalAmount' => $cartTotalAmount
+        ]);
+    }
+
+    private function calculateCartTotalItemCount($sessionCartItems) 
+    {
+        $cartTotalItemCount = array_reduce($sessionCartItems, function($acumulador, $elemento) {
+            return $acumulador + $elemento['productQty'];
+        }, 0);
+
+        return $cartTotalItemCount;
+    }
+
+    private function calculateCartTotalAmount($sessionCartItems) 
+    {
+        $cartTotalAmount = array_reduce($sessionCartItems, function($acumulador, $elemento) {
+            return $acumulador + $elemento['productQty'] * $elemento['productUnitPrice'];
+        }, 0);
+
+        return $cartTotalAmount;
     }
 }
