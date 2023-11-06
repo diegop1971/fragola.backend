@@ -6,7 +6,7 @@ use src\frontoffice\Cart\Domain\Cart;
 
 interface ICartRepository
 {
-    // public function searchAll(): ?array;
+    public function searchAll(string $keyName): ?array;
 
     // public function search(string $id): ?array;
 

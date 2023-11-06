@@ -81,10 +81,10 @@ Route::prefix('cart')->group(function () {
         Route::get('/delete-item/{itemId}', CartItemDeleteController::class);
         Route::post('/add-to-cart', AddToCartController::class)->name('cart.add-to-cart');
         Route::post('/cart-item-qty', CartItemQuantityController::class)->name('cart.cart-item-qty');
-        Route::group(['prefix' => 'mi-carrito'], function () {
+        /*Route::group(['prefix' => 'mi-carrito'], function () {
                 Route::get('/', CartGetController::class)->name('my-cart');               
                 Route::get('/deletecart', DeleteCartController::class)->name('cart.delete-cart');
-        });
+        });*/
 });
 
 Route::prefix('Purchase')->group(function () {

@@ -4,51 +4,50 @@ namespace App\Http\Controllers\Frontoffice\Cart;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use src\frontoffice\Cart\Domain\ICartSessionManager;
-
+use src\frontoffice\Cart\Application\Find\GetCartItems;
 
 class AsyncShowCartController extends Controller
 {
-    private $sessionManager;
+    private $getCartItems;
+    private $cartItemCount = 0;
+    private $cartTotalAmount = 0;
 
-    public function __construct(ICartSessionManager $sessionManager)
+    public function __construct(GetCartItems $getCartItems)
     {
-        $this->sessionManager = $sessionManager;
+        $this->getCartItems = $getCartItems;
     }
 
     public function __invoke(Request $request)
     {
-        $customerId = auth()->id();
+        $cartItems = $this->getCartItems->__invoke();
 
+        $customerId = auth()->id();
         session()->put('customerId', $customerId);
 
-        if (!Session()->exists('cart')) {
-            $sessionCartItems = [];
-        } else {
-            $sessionCartItems = $this->sessionManager->getKeySessionData('cart');
-            $cartTotalItemCount = $this->calculateCartTotalItemCount($sessionCartItems);
-            $cartTotalAmount = $this->calculateCartTotalAmount($sessionCartItems);
+        if($cartItems != []) {
+            $this->cartItemCount = $this->calculateCartTotalItemCount($cartItems);
+            $this->cartTotalAmount = $this->calculateCartTotalAmount($cartItems);
         }
 
         return response()->json([
-            'sessionCartItems' => $sessionCartItems, 
-            'cartTotalItemCount' => $cartTotalItemCount, 
-            'cartTotalAmount' => $cartTotalAmount
+            'sessionCartItems' => $cartItems, 
+            'cartTotalItemCount' => $this->cartItemCount, 
+            'cartTotalAmount' => $this->cartTotalAmount
         ]);
     }
 
-    private function calculateCartTotalItemCount($sessionCartItems) 
+    private function calculateCartTotalItemCount($cartItems) 
     {
-        $cartTotalItemCount = array_reduce($sessionCartItems, function($acumulador, $elemento) {
+        $cartTotalItemCount = array_reduce($cartItems, function($acumulador, $elemento) {
             return $acumulador + $elemento['productQty'];
         }, 0);
 
         return $cartTotalItemCount;
     }
 
-    private function calculateCartTotalAmount($sessionCartItems) 
+    private function calculateCartTotalAmount($cartItems) 
     {
-        $cartTotalAmount = array_reduce($sessionCartItems, function($acumulador, $elemento) {
+        $cartTotalAmount = array_reduce($cartItems, function($acumulador, $elemento) {
             return $acumulador + $elemento['productQty'] * $elemento['productUnitPrice'];
         }, 0);
 

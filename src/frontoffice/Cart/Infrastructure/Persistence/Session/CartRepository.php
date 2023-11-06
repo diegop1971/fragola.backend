@@ -2,6 +2,7 @@
 
 namespace src\frontoffice\Cart\Infrastructure\Persistence\Session;
 
+use Illuminate\Session\SessionManager;
 use Illuminate\Support\Facades\Log;
 use src\frontoffice\Cart\Domain\Cart;
 use src\frontoffice\Cart\Domain\ICartSessionManager;
@@ -21,6 +22,17 @@ class CartRepository implements ICartRepository
         $this->sessionManager = $sessionManager;
     }
 
+    public function searchAll(string $keyName): ?array
+    {
+        if (!Session()->exists($keyName)) {
+            $sessionCartItems = [];
+        } else {
+            $sessionCartItems = $this->sessionManager->getKeySessionData($keyName);
+        }
+
+        return $sessionCartItems;
+    }
+    
     public function update(Cart $cart): void
     {
         $productId = $cart->productId()->value();

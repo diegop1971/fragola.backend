@@ -2,7 +2,6 @@
 
 namespace src\frontoffice\Cart\Application\Update;
 
-use Illuminate\Support\Facades\Log;
 use src\frontoffice\Cart\Domain\Cart;
 use src\frontoffice\Cart\Domain\ProductId;
 use src\frontoffice\Cart\Domain\ProductQty;
