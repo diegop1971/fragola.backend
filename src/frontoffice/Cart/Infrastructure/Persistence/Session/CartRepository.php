@@ -2,8 +2,6 @@
 
 namespace src\frontoffice\Cart\Infrastructure\Persistence\Session;
 
-use Illuminate\Session\SessionManager;
-use Illuminate\Support\Facades\Log;
 use src\frontoffice\Cart\Domain\Cart;
 use src\frontoffice\Cart\Domain\ICartSessionManager;
 use src\frontoffice\Cart\Domain\Interfaces\ICartRepository;

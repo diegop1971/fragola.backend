@@ -21,6 +21,7 @@ return [
         'login',
         'logout',
         'home',
+        'cart',
         'user',
         'products',
     ],
