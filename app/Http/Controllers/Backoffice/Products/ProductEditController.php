@@ -7,6 +7,7 @@ use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
 use src\backoffice\Products\Application\Find\ProductFinder;
 use src\backoffice\Categories\Application\Find\CategoriesGet;
+use Illuminate\Http\JsonResponse;
 
 class ProductEditController extends Controller
 {
@@ -17,7 +18,7 @@ class ProductEditController extends Controller
         $this->productFinder = $productFinder;
     }
 
-    public function __invoke($id, CategoriesGet $categoriesGet)
+    public function __invoke($id, CategoriesGet $categoriesGet): JsonResponse
     {
         $title = 'Editar producto';
 
@@ -38,6 +39,10 @@ class ProductEditController extends Controller
             throw new CustomException($e->getMessage());
         }
 
-        return view('components.backoffice.products.edit', compact('title', 'product', 'categories'));
+        return response()->json([
+            'title' => $title,
+            'categories' => $categories,
+            'product' => $product,
+        ]);
     }
 }

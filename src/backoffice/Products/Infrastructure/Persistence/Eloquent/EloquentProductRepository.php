@@ -13,6 +13,8 @@ class EloquentProductRepository implements ProductRepository
 {
     public function searchAll(): ?array
     {                
+        //$products = ProductEloquentModel::with('category')->get();
+
         $products = ProductEloquentModel::with('category')->get();
                                 
         if ($products->isEmpty()) {
