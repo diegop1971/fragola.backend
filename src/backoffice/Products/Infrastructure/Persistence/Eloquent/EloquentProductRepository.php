@@ -4,36 +4,50 @@ declare(strict_types=1);
 
 namespace src\backoffice\Products\Infrastructure\Persistence\Eloquent;
 
+use Illuminate\Support\Facades\Log;
+use src\backoffice\Products\Domain\Product;
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Domain\ProductRepository;
+use src\backoffice\Products\Application\Find\ProductDTO;
 use src\backoffice\Products\Infrastructure\Persistence\Eloquent\ProductEloquentModel;
-use src\backoffice\Products\Domain\Product;
 
 class EloquentProductRepository implements ProductRepository
 {
     public function searchAll(): ?array
-    {                
-        //$products = ProductEloquentModel::with('category')->get();
+    {
+        $products = ProductEloquentModel::leftJoin('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'categories.name as category_name')
+            ->get();
 
-        $products = ProductEloquentModel::with('category')->get();
-                                
         if ($products->isEmpty()) {
-
-            return  $products = [];
+            return [];
         }
 
         return $products->toArray();
     }
 
-    public function search($id): ?array
+    public function search($id): ?ProductDTO
     {
-        $model = ProductEloquentModel::with(['category'])->find($id);
-
+        $model = ProductEloquentModel::leftJoin('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'categories.name as category_name')
+            ->where('products.id', '=', $id)
+            ->first();
+        
         if (null === $model) {
             return null;
         }
 
-        return $model->toArray();
+        $productDTO = new ProductDTO(
+            $model->id,
+            $model->name,
+            $model->description,
+            $model->price,
+            $model->category_id,
+            $model->category_name,
+            $model->enabled,
+        );
+
+        return $productDTO;
     }
 
     public function save(Product $product): void

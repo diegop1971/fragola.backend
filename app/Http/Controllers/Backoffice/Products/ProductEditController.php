@@ -8,10 +8,12 @@ use App\Http\Controllers\Controller;
 use src\backoffice\Products\Application\Find\ProductFinder;
 use src\backoffice\Categories\Application\Find\CategoriesGet;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class ProductEditController extends Controller
 {
     private $productFinder;
+    private $productList;
 
     public function __construct(ProductFinder $productFinder)
     {
@@ -26,23 +28,26 @@ class ProductEditController extends Controller
 
         try {
             $product = $this->productFinder->__invoke($id);
-
-            $product = [
-                'id' => $product['id'],
-                'name' => $product['name'],
-                'description' => $product['description'],
-                'price' => $product['price'],
-                'category_id' => $product['category_id'],
-                'enabled' => $product['enabled'],
+            
+            $this->productList = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'description' => $product->description,
+                'price' => $product->price,
+                'category_id' => $product->category_id,
+                'category_name' => $product->category_name,
+                'enabled' => $product->enabled,
             ];
+            log::info($this->productList);
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+            //throw new CustomException($e->getMessage());
+            throw new Exception($e);
         }
-
+        
         return response()->json([
             'title' => $title,
             'categories' => $categories,
-            'product' => $product,
+            'productList' => $this->productList,
         ]);
     }
 }

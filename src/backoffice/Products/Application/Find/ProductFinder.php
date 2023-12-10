@@ -6,6 +6,7 @@ namespace src\backoffice\Products\Application\Find;
 
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Domain\ProductRepository;
+use src\backoffice\Products\Application\Find\ProductDTO;
 
 final class ProductFinder
 {
@@ -16,7 +17,7 @@ final class ProductFinder
         $this->repository = $repository;
     }
 
-    public function __invoke(string $id): ?array
+    public function __invoke(string $id): ?ProductDTO
     {
         $product = $this->repository->search($id);
 
