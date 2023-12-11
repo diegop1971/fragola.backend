@@ -3,13 +3,12 @@
 namespace src\backoffice\Products\Domain;
 
 use src\backoffice\Products\Domain\Product;
-use src\backoffice\Products\Application\Find\ProductDTO;
 
 interface ProductRepository
 {
     public function searchAll(): ?array;
 
-    public function search($id): ?ProductDTO;
+    public function search($id): ?IProductFinderCommand;
 
     public function save(Product $product): void;
 

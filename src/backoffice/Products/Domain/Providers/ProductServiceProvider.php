@@ -2,13 +2,16 @@
 namespace src\backoffice\Products\Domain\Providers;
 
 use src\Shared\Domain\SlugGenerator;
+use src\Shared\Domain\UuidGenerator;
 use Illuminate\Support\ServiceProvider;
 use src\Shared\Domain\Bus\Command\Container;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use src\Shared\Infrastructure\LaravelContainer;
+use src\Shared\Infrastructure\RamseyUuidGenerator;
 use src\backoffice\Products\Domain\ProductRepository;
-use src\Shared\Infrastructure\CviebrockEloquentSluggable;
+use src\backoffice\Products\Domain\IProductFinderCommand;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
+use src\backoffice\Products\Application\Find\ProductFinderCommand;
 use src\backoffice\Products\Infrastructure\Persistence\Eloquent\EloquentProductRepository;
 
 class ProductServiceProvider extends ServiceProvider
@@ -36,15 +39,14 @@ class ProductServiceProvider extends ServiceProvider
       );
 
       $this->app->bind(
-        SlugGenerator::class,
-        CviebrockEloquentSluggable::class
-      );
-
-      $this->app->bind(
         ProductRepository::class, 
         EloquentProductRepository::class
       );
 
+      $this->app->bind(
+        IProductFinderCommand::class,
+        ProductFinderCommand::class
+      );
     }
 
     /**

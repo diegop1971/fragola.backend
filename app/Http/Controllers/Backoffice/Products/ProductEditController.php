@@ -30,20 +30,20 @@ class ProductEditController extends Controller
             $product = $this->productFinder->__invoke($id);
             
             $this->productList = [
-                'id' => $product->id,
-                'name' => $product->name,
-                'description' => $product->description,
-                'price' => $product->price,
-                'category_id' => $product->category_id,
-                'category_name' => $product->category_name,
-                'enabled' => $product->enabled,
+                'id' => $product->productId(),
+                'name' => $product->productName(),
+                'description' => $product->productDescription(),
+                'price' => $product->productUnitPrice(),
+                'category_id' => $product->productCategoryId(),
+                'category_name' => $product->productCategoryName(),
+                'enabled' => $product->productEnabled(),
             ];
-            log::info($this->productList);
+            //log::info($this->productList);
         } catch (Exception $e) {
             //throw new CustomException($e->getMessage());
             throw new Exception($e);
         }
-        
+
         return response()->json([
             'title' => $title,
             'categories' => $categories,
