@@ -8,7 +8,7 @@ interface ProductRepository
 {
     public function searchAll(): ?array;
 
-    public function search($id): ?IProductFinderCommand;
+    public function search($id): ?array;
 
     public function save(Product $product): void;
 

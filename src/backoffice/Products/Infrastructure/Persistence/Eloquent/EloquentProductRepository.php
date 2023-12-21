@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Log;
 use src\backoffice\Products\Domain\Product;
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Domain\ProductRepository;
-
-use src\backoffice\Products\Application\Find\ProductFinderCommand;
 use src\backoffice\Products\Infrastructure\Persistence\Eloquent\ProductEloquentModel;
 
 class EloquentProductRepository implements ProductRepository
@@ -27,28 +25,18 @@ class EloquentProductRepository implements ProductRepository
         return $products->toArray();
     }
 
-    public function search($id): ?ProductFinderCommand
+    public function search($id): ?array
     {
-        $model = ProductEloquentModel::leftJoin('categories', 'products.category_id', '=', 'categories.id')
+        $product = ProductEloquentModel::leftJoin('categories', 'products.category_id', '=', 'categories.id')
             ->select('products.*', 'categories.name as category_name')
             ->where('products.id', '=', $id)
             ->first();
         
-        if (null === $model) {
+        if (null === $product) {
             return null;
         }
-
-        $productDTO = new ProductFinderCommand(
-            $model->id,
-            $model->name,
-            $model->description,
-            $model->price,
-            $model->category_id,
-            $model->category_name,
-            $model->enabled,
-        );
-
-        return $productDTO;
+        
+        return $product->toArray();
     }
 
     public function save(Product $product): void
