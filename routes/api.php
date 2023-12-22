@@ -97,8 +97,8 @@ Route::prefix('products')->group(function ()
     Route::get('/{id}/edit', ProductEditController::class)
             ->where('id', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}')
             ->name('backoffice.products.edit');
-    /*Route::put('/update', ProductUpdateController::class)->name('backoffice.products.update');
-    Route::delete('/{id}', ProductDeleteController::class)
+    Route::put('/update', ProductUpdateController::class)->name('backoffice.products.update');
+    /*Route::delete('/{id}', ProductDeleteController::class)
             ->where('id', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}')
             ->name('backoffice.products.destroy');*/
 });

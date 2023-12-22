@@ -7,6 +7,7 @@ namespace src\backoffice\Products\Application\Update;
 use src\backoffice\Products\Domain\ProductId;
 use src\backoffice\Products\Domain\ProductName;
 use src\backoffice\Categories\Domain\CategoryId;
+use src\backoffice\Products\Application\Delete\ProductDeleter;
 use src\Shared\Domain\Bus\Command\CommandHandler;
 use src\backoffice\Products\Domain\ProductEnabled;
 use src\backoffice\Products\Domain\ProductUnitPrice;
@@ -20,16 +21,16 @@ use src\backoffice\Products\Application\Update\UpdateProductCommand;
 
 final class UpdateProductCommandHandler implements CommandHandler
 {
-    private string $id; 
-    private string $name; 
-    private string $description; 
-    private string $descriptionShort; 
-    private float $unitPrice; 
-    private string $categoryId; 
-    private int $minimumQuantity; 
-    private int $lowStockThreshold; 
-    private bool $lowStockAlert; 
-    private bool $enabled;
+    private ProductId $id; 
+    private ProductName $name; 
+    private ProductDescription $description; 
+    private ProductDescriptionShort $descriptionShort; 
+    private ProductUnitPrice $unitPrice; 
+    private CategoryId $categoryId; 
+    private ProductMinimumQuantity $minimumQuantity; 
+    private ProductLowStockThreshold $lowStockThreshold; 
+    private ProductLowStockAlert $lowStockAlert; 
+    private ProductEnabled $enabled;
 
     public function __construct(private ProductUpdater $updater)
     {
