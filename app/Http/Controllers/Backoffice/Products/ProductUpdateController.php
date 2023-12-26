@@ -20,7 +20,7 @@ class ProductUpdateController extends Controller
     public function __invoke(Request $request)
     {
         $data = $request->all();
-        Log::info($data);
+
         $data = request()->validate([
                                     'id' => 'required',
                                     'name' => 'required',

@@ -12,22 +12,22 @@ use src\backoffice\Categories\Domain\CategoryRepository;
 
 final class CategoryUpdater
 {
-    public function __construct(private CategoryRepository $repository)
-    {
+    public function __construct(
+        private CategoryRepository $repository
+    ) {
         $this->repository = $repository;
     }
 
     public function __invoke(
-                            CategoryId $id, 
-                            CategoryName $name, 
-                            CategoryEnabled $enabled
-                        )
-    {
+        CategoryId $id,
+        CategoryName $name,
+        CategoryEnabled $enabled
+    ) {
         $category = Category::update(
-                                    $id, 
-                                    $name, 
-                                    $enabled
-                                );
+            $id,
+            $name,
+            $enabled
+        );
 
         $this->repository->update($category);
     }
