@@ -22,16 +22,16 @@ class ProductUpdateController extends Controller
         $data = $request->all();
 
         $data = request()->validate([
-                                    'id' => 'required',
-                                    'name' => 'required',
-                                    'description' => 'required',
-                                    'description_short' => 'required',
-                                    'price' => 'required',
-                                    'category_id' => 'required',
-                                    'minimum_quantity' => 'required',
-                                    'low_stock_threshold' => 'required',
-                                    'low_stock_alert' => 'required',
-                                    'enabled' => 'required',
+                                    'id' => 'required|uuid',
+                                    'name' => 'required|string',
+                                    'description' => 'required|string',
+                                    'description_short' => 'required|string',
+                                    'price' => 'required|numeric|min:1',
+                                    'category_id' => 'required|numeric|min:1',
+                                    'minimum_quantity' => 'required|numeric|min:1',
+                                    'low_stock_threshold' => 'required|numeric|min:1',
+                                    'low_stock_alert' => 'required|in:0,1',
+                                    'enabled' => 'required|in:0,1',
                                 ], [
                                     'id.required' => 'El id del producto es obligatorio',
                                     'name.required' => 'El nombre del producto es obligatorio',
@@ -40,6 +40,7 @@ class ProductUpdateController extends Controller
                                     'price.required' => 'El precio unitario es obligatorio',
                                     'category_id.required' => 'El id de categoria es obligatorio',
                                     'minimum_quantity.required' => 'La cantidad mínima de producto en stock es obligatoria',
+                                    'low_stock_threshold.required' => 'El campo de alerta por bajo stock es obligatorio',
                                     'low_stock_alert.required' => 'El campo de alerta por bajo stock es obligatorio',
                                     'enabled' => 'El campo enabled es obligatorio',
                                 ]);
