@@ -17,14 +17,11 @@ class CategoriesGetController extends Controller
     {
         try {
             $title = 'Categories List';
-
-            $metaDescription = 'CategoriesList meta-description';
             
             $categoriesList = $categoriesGet->__invoke();
 
             $responseData = [
                 'title' => $title,
-                'metaDescription' => $metaDescription,
                 'categoriesList' => $categoriesList,
             ];
             

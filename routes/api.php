@@ -91,9 +91,8 @@ Route::prefix('products')->group(function ()
     Route::get('/', ProductsGetController::class)->name('backoffice.products.index');
     /*Route::get('/{id}', ProductGetController::class)
             ->where('id', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}')
-            ->name('backoffice.products.show');
-    Route::get('/create', ProductCreateController::class)->name('backoffice.products.create');
-    Route::post('/store', ProductStoreController::class)->name('backoffice.products.store');*/
+            ->name('backoffice.products.show');*/
+    Route::post('/store', ProductStoreController::class)->name('backoffice.products.store');
     Route::get('/{id}/edit', ProductEditController::class)
             ->where('id', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}')
             ->name('backoffice.products.edit');

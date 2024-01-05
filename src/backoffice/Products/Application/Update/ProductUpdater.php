@@ -60,6 +60,6 @@ final class ProductUpdater
 
     private function validateOperation($lowStockThreshold, $minimum_quantity): void
     {
-        $peperoni = $this->validateLowStockThresholdQuantityService->validateLowStockThresholdQuantity($lowStockThreshold, $minimum_quantity);    
+        $this->validateLowStockThresholdQuantityService->validateLowStockThresholdQuantity($lowStockThreshold, $minimum_quantity);    
     }
 }

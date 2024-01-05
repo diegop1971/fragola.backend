@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace src\backoffice\Products\Application\Create;
 
 use src\backoffice\Products\Domain\Product;
-use src\backoffice\Products\Domain\ProductId;
-use src\backoffice\Products\Domain\ProductName;
-use src\backoffice\Categories\Domain\CategoryId;
-use src\backoffice\Products\Domain\ProductEnabled;
-use src\backoffice\Products\Domain\ProductUnitPrice;
 use src\backoffice\Products\Domain\ProductRepository;
-use src\backoffice\Products\Domain\ProductDescription;
-use src\backoffice\Products\Domain\ProductLowStockAlert;
-use src\backoffice\Products\Domain\ProductMinimumQuantity;
-use src\backoffice\Products\Domain\ProductDescriptionShort;
-use src\backoffice\Products\Domain\ProductLowStockThreshold;
+use src\backoffice\Categories\Domain\CategoryId;
+
+use src\backoffice\Products\Domain\ValueObjects\ProductId;
+use src\backoffice\Products\Domain\ValueObjects\ProductName;
+use src\backoffice\Products\Domain\ValueObjects\ProductEnabled;
+use src\backoffice\Products\Domain\ValueObjects\ProductUnitPrice;
+use src\backoffice\Products\Domain\ValueObjects\ProductDescription;
+use src\backoffice\Products\Domain\ValueObjects\ProductLowStockAlert;
+use src\backoffice\Products\Domain\ValueObjects\ProductMinimumQuantity;
+use src\backoffice\Products\Domain\ValueObjects\ProductDescriptionShort;
+use src\backoffice\Products\Domain\ValueObjects\ProductLowStockThreshold;
+use src\backoffice\Products\Domain\Interfaces\IValidateLowStockThresholdQuantity;
 
 final class ProductCreator
 {

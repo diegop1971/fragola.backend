@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace src\backoffice\Products\Application\Create;
 
-use src\backoffice\Products\Domain\ProductId;
-use src\backoffice\Products\Domain\ProductName;
 use src\backoffice\Categories\Domain\CategoryId;
 use src\Shared\Domain\Bus\Command\CommandHandler;
-use src\backoffice\Products\Domain\ProductEnabled;
-use src\backoffice\Products\Domain\ProductUnitPrice;
-use src\backoffice\Products\Domain\ProductDescription;
-use src\backoffice\Products\Domain\ProductLowStockAlert;
-use src\backoffice\Products\Domain\ProductMinimumQuantity;
-use src\backoffice\Products\Domain\ProductDescriptionShort;
-use src\backoffice\Products\Domain\ProductLowStockThreshold;
 use src\backoffice\Products\Application\Create\ProductCreator;
 use src\backoffice\Products\Application\Create\CreateProductCommand;
+
+use src\backoffice\Products\Domain\ValueObjects\ProductId;
+use src\backoffice\Products\Domain\ValueObjects\ProductName;
+use src\backoffice\Products\Domain\ValueObjects\ProductEnabled;
+use src\backoffice\Products\Domain\ValueObjects\ProductUnitPrice;
+use src\backoffice\Products\Domain\ValueObjects\ProductDescription;
+use src\backoffice\Products\Domain\ValueObjects\ProductLowStockAlert;
+use src\backoffice\Products\Domain\ValueObjects\ProductMinimumQuantity;
+use src\backoffice\Products\Domain\ValueObjects\ProductDescriptionShort;
+use src\backoffice\Products\Domain\ValueObjects\ProductLowStockThreshold;
 
 final class CreateProductCommandHandler implements CommandHandler
 {
