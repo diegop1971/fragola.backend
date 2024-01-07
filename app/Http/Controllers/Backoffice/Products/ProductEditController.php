@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Backoffice\Products;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 use App\Exceptions\CustomException;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\backoffice\Products\Application\Find\ProductFinder;
 use src\backoffice\Categories\Application\Find\CategoriesGet;
-use Illuminate\Http\JsonResponse;
 
 class ProductEditController extends Controller
 {
     private $productFinder;
     private $productList;
+    private $categoriesList;
 
     public function __construct(ProductFinder $productFinder)
     {
@@ -23,20 +25,22 @@ class ProductEditController extends Controller
     {
         $title = 'Editar producto';
 
-        $categories = $categoriesGet->__invoke();
-
         try {
             $this->productList = $this->productFinder->__invoke($id);
-            
-        } catch (Exception $e) {
-            //throw new CustomException($e->getMessage());
-            throw new Exception($e);
-        }
 
-        return response()->json([
-            'title' => $title,
-            'categories' => $categories,
-            'productList' => $this->productList,
-        ]);
+            $this->categoriesList = $categoriesGet->__invoke();
+
+            return response()->json([
+                'title' => $title,
+                'categories' => $this->categoriesList,
+                'productList' => $this->productList,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El servidor no pudo completar la solicitud',
+                'status' => 500,
+            ], 500);
+        }
     }
 }
