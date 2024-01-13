@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Backoffice\Products;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
-use App\Exceptions\CustomException;
+use src\Shared\Domain\DomainError;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Application\Find\ProductFinder;
 use src\backoffice\Categories\Application\Find\CategoriesGet;
 
@@ -35,7 +36,15 @@ class ProductEditController extends Controller
                 'categories' => $this->categoriesList,
                 'productList' => $this->productList,
             ]);
+        } catch (ProductNotExist $e) {
+            Log::info('product no exist');
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'status' => 404,
+            ], 404);
         } catch (Exception $e) {
+            Log::info('general exception');
             return response()->json([
                 'success' => false,
                 'message' => 'El servidor no pudo completar la solicitud',

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace src\backoffice\Products\Application\Find;
 
+use Illuminate\Support\Facades\Log;
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Domain\ProductRepository;
 
@@ -11,7 +12,7 @@ final class ProductFinder
 {
     private $repository;
 
-    public function __construct(ProductRepository $repository, )
+    public function __construct(ProductRepository $repository,)
     {
         $this->repository = $repository;
     }
@@ -19,6 +20,10 @@ final class ProductFinder
     public function __invoke(string $id): ?array
     {
         $product = $this->repository->search($id);
+        
+        if (null === $product) {
+            throw new ProductNotExist($id);
+        }
 
         $productList = [
             'id' => $product['id'],
@@ -34,10 +39,6 @@ final class ProductFinder
             'enabled' => $product['enabled'],
         ];
 
-        if (null === $productList) {
-            throw new ProductNotExist($id);
-        }
-        
         return $productList;
     }
 }

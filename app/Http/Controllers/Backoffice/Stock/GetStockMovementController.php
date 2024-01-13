@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backoffice\Stock;
 
 use Throwable;
-use App\Exceptions\CustomException;
+//use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
 use src\backoffice\Stock\Application\Find\StockFinder;
 
@@ -21,7 +21,7 @@ class GetStockMovementController extends Controller
         try {
             $stockMovement = $this->stockFinder->__invoke($id);
         } catch (Throwable $e) {
-            throw new CustomException($e->getMessage());
+            //throw new CustomException($e->getMessage());
         }
         
         $title = 'Stock - Ver movimiento ';

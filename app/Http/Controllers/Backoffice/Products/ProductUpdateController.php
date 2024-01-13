@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice\Products;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 use src\backoffice\Products\Application\Update\UpdateProductCommand;
@@ -73,6 +74,8 @@ class ProductUpdateController extends Controller
                 'status' => 200
             ], 200);
         } catch (\Exception $e) {
+            Log::info($e->getCode());
+            Log::info($e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'El servidor no pudo completar la solicitud',

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backoffice\Stock;
 
 use Exception;
-use App\Exceptions\CustomException;
+//use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
 use src\backoffice\Stock\Application\Find\StockFinder;
 use src\backoffice\Products\Application\Find\ProductsGet;
@@ -30,7 +30,7 @@ class EditStockMovementController extends Controller
             $stockMovement = $this->stockFinder->__invoke($id);
 
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+            //throw new CustomException($e->getMessage());
         }
 
         return view(

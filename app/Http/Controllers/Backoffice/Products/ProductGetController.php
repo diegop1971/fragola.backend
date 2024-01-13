@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backoffice\Products;
 
 use Throwable;
-use App\Exceptions\CustomException;
+//use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
 use src\backoffice\Products\Application\Find\ProductFinder;
 
@@ -21,7 +21,7 @@ class ProductGetController extends Controller
         try {
             $product = $this->productFinder->__invoke($id);
         } catch (Throwable $e) {
-            throw new CustomException($e->getMessage());
+            //throw new CustomException($e->getMessage());
         }
         
         $title = 'Producto ';

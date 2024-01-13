@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backoffice\Categories;
 
 use Throwable;
-use App\Exceptions\CustomException;
+//use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
 use src\backoffice\Categories\Application\Find\CategoryFinder;
 
@@ -21,7 +21,7 @@ class CategoryGetController extends Controller
         try {
             $category = $this->categoryFinder->__invoke($id);
         } catch (Throwable $e) {
-            throw new CustomException($e->getMessage());
+            //throw new CustomException($e->getMessage());
         }
         
         $title = 'Categoria ';

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backoffice\Categories;
 
 use Exception;
-use App\Exceptions\CustomException;
+//use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
 use src\backoffice\Categories\Application\Find\CategoryFinder;
 
@@ -29,7 +29,7 @@ class CategoryEditController extends Controller
                 'enabled' => $category['enabled'],
             ];
         } catch (Exception $e) {
-            throw new CustomException($e->getMessage());
+            //throw new CustomException($e->getMessage());
         }
 
         return view('components.backoffice.categories.edit', compact('title', 'category'));
