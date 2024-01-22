@@ -76,9 +76,8 @@ class ProductUpdateController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'No se actualizó el producto, el servidor no pudo completar la solicitud.',
-                'details' => null,
-                'status' => 500,
+                'message' => $e->getMessage(),
+                'status' => $e->getCode(),
             ], 500);
         }
     }
