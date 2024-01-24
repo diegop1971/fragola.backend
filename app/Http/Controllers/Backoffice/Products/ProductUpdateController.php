@@ -51,7 +51,7 @@ class ProductUpdateController extends Controller
                 'success' => false,
                 'message' => 'Error de validacion en formulario, el producto no se pudo actualizar!',
                 'details' => $e->errors(),
-                'status' => 422
+                'code' => 422
             ], 422);
         }
 
@@ -71,14 +71,14 @@ class ProductUpdateController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => "Producto actualizado correctamente",
-                'status' => 200
+                'code' => 200
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'No se actualizó el producto, el servidor no pudo completar la solicitud.',
                 'details' => null,
-                'status' => 500,
+                'code' => 500,
             ], 500);
         }
     }

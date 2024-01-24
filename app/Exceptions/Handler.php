@@ -36,7 +36,7 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'success' => false,
                 'message' => 'Ruta no encontrada',
-                'status' => 404,
+                'code' => 404,
             ], 404);
         }
 
