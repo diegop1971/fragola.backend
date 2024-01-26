@@ -43,7 +43,6 @@ class ProductEditController extends Controller
                 'code' => 404,
             ], 404);
         } catch (Exception $e) {
-            Log::info('Exception: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'El servidor no pudo completar la solicitud',
