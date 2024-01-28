@@ -19,7 +19,7 @@ final class ProductNotExist extends DomainError
 
     public function errorCode(): string
     {
-        return 'product_not_exist';
+        return 'PRODUCT_NOT_EXIST';
     }
 
     protected function errorMessage(): string

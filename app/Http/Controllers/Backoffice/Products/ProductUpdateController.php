@@ -67,13 +67,13 @@ class ProductUpdateController extends Controller
                 'code' => 200
             ], 200);
         } catch (\Exception $e) {
-            $mappedError =$this->errorMappingService->mapToHttpCode(422);
+            $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => 'No se actualizó el producto, el servidor no pudo completar la solicitud.',
+                'message' => $mappedError['message'],
                 'details' => null,
-                'code' => $mappedError,
-            ], 500);
+                'code' => $mappedError['http_code'],
+            ], $mappedError['http_code']);
         }
     }
 }

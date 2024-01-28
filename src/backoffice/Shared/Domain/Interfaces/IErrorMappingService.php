@@ -4,5 +4,5 @@ namespace src\backoffice\Shared\Domain\Interfaces;
 
 interface IErrorMappingService 
 {
-    public function mapToHttpCode(int $errorCode): int;
+    public function mapToHttpCode(int $errorCode): array;
 }

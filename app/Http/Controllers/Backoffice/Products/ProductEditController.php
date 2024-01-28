@@ -15,6 +15,7 @@ class ProductEditController extends Controller
     private $productFinder;
     private $productList;
     private $categoriesList;
+    private $errorMappingService;
 
     public function __construct(ProductFinder $productFinder)
     {
@@ -42,13 +43,14 @@ class ProductEditController extends Controller
                 'message' => $e->getMessage(),
                 'code' => 404,
             ], 404);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => 'El servidor no pudo completar la solicitud',
+                'message' => $mappedError['message'],
                 'details' => null,
-                'code' => 500,
-            ], 500);
+                'code' => $mappedError['http_code'],
+            ], $mappedError['http_code']);
         }
     }
 }
