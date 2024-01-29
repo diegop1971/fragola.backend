@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Application\Find\ProductFinder;
 use src\backoffice\Categories\Application\Find\CategoriesGet;
@@ -37,7 +38,7 @@ class ProductEditController extends Controller
                 'productList' => $this->productList,
             ]);
         } catch (ProductNotExist $e) {
-            Log::info('ProductNotExist: ' . $e->getMessage());
+            Log::info('ProductNotExist: ' . $e->getErrorCode());
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
