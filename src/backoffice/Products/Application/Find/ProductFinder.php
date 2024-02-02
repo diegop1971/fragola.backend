@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Domain\ProductRepository;
 
-final class ProductFinder
+class ProductFinder
 {
     private $repository;
 

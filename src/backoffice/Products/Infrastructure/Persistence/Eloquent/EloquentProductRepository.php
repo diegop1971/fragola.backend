@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace src\backoffice\Products\Infrastructure\Persistence\Eloquent;
 
-use Illuminate\Support\Facades\Log;
 use src\backoffice\Products\Domain\Product;
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Domain\ProductRepository;
-use src\backoffice\Products\Domain\ProductMinimumQuantity;
 use src\backoffice\Products\Infrastructure\Persistence\Eloquent\ProductEloquentModel;
 
 class EloquentProductRepository implements ProductRepository
@@ -50,6 +48,9 @@ class EloquentProductRepository implements ProductRepository
         $model->description_short = $product->productDescriptionShort()->value();
         $model->price = $product->productUnitPrice()->value();
         $model->category_id = $product->categoryId()->value();
+        $model->low_stock_alert = $product->productLowStockAlert()->value();
+        $model->minimum_quantity = $product->productMinimumQuantity()->value();
+        $model->low_stock_threshold = $product->productLowStockThreshold()->value();
         $model->enabled = $product->ProductEnabled()->value();
 
         $model->save();
@@ -65,10 +66,10 @@ class EloquentProductRepository implements ProductRepository
         $model->description_short = $product->productDescriptionShort()->value();
         $model->price = $product->productUnitPrice()->value();
         $model->category_id = $product->categoryId()->value();
-        $model->enabled = $product->ProductEnabled()->value();
         $model->low_stock_alert = $product->productLowStockAlert()->value();
         $model->minimum_quantity = $product->productMinimumQuantity()->value();
         $model->low_stock_threshold = $product->productLowStockThreshold()->value();
+        $model->enabled = $product->ProductEnabled()->value();
 
         $model->update();
     }

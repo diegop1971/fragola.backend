@@ -12,7 +12,6 @@ use App\Http\Controllers\Backoffice\Products\ProductsGetController;
 use App\Http\Controllers\Frontoffice\Cart\CartItemDeleteController;
 use App\Http\Controllers\Backoffice\Products\ProductStoreController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
-use App\Http\Controllers\Backoffice\Products\ProductCreateController;
 use App\Http\Controllers\Backoffice\Products\ProductDeleteController;
 use App\Http\Controllers\Backoffice\Products\ProductUpdateController;
 use App\Http\Controllers\Frontoffice\Cart\CartItemQuantityController;

@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Backoffice\Products;
 
-use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 use src\backoffice\Products\Domain\ProductNotExist;
@@ -28,6 +26,7 @@ class ProductEditController extends Controller
     public function __invoke($id, CategoriesGet $categoriesGet): JsonResponse
     {
         $title = 'Editar producto';
+
         try {
             $this->productList = $this->productFinder->__invoke($id);
 
@@ -37,7 +36,7 @@ class ProductEditController extends Controller
                 'title' => $title,
                 'categories' => $this->categoriesList,
                 'productList' => $this->productList,
-            ]);
+            ], 200);
         } catch (ProductNotExist $e) {
             return response()->json([
                 'success' => false,

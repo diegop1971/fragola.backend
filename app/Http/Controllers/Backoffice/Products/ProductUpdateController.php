@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Backoffice\Products;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Validation\ValidationException;
@@ -60,7 +58,6 @@ class ProductUpdateController extends Controller
             ], 200);
         } catch (ValidationException $e) {
             $errors = $e->validator->errors()->toArray();
-
             return response()->json([
                 'success' => false, 
                 'message' => $e->getMessage(),
