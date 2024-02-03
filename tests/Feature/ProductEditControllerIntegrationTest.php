@@ -5,24 +5,24 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Mockery\MockInterface;
 use Illuminate\Support\Facades\Log;
-
-use src\backoffice\Products\Domain\Product;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Application\Find\ProductFinder;
+use src\backoffice\Products\Application\Create\ProductCreator;
 use src\backoffice\Products\Infrastructure\Persistence\Eloquent\EloquentProductRepository;
 
-class ProductEditControllerTest extends TestCase
+class ProductEditControllerIntegrationTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     */
-    public function it_returns_a_200_response_if_the_product_does_exist()
+    public function test_it_returns_a_200_response_if_the_product_exists(): void
     {
-        $this->mock(ProductFinder::class, function (MockInterface $mock) {
+        $this->mock(ProductCreator::class, function (MockInterface $mock) {
+            
+
+        });
+
+        /*$this->mock(ProductCreator::class, function (MockInterface $mock) {
             $mock->shouldReceive('__invoke')->with('742d72a0-915e-11d9-a07b-c4346b041272')->andReturn(
                 new EloquentProductRepository(
                     '04e0d91f-3f69-45cd-bcc0-3dca811723d9', //id
@@ -38,11 +38,12 @@ class ProductEditControllerTest extends TestCase
                     'true', // enabled
 
 
-            ));
-        });
+                )
+            );
+        });*/
 
         $response = $this->withoutMiddleware()->get(route('backoffice.products.edit', '742d72a0-915e-11d9-a07b-c4346b041272'));
-        Log::info($response);
+
         $response->assertStatus(200);
 
         $response->assertStatus(200);
@@ -53,10 +54,7 @@ class ProductEditControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
-    public function it_returns_a_404_response_if_the_product_does_not_exist()
+    public function test_it_returns_a_404_response_if_the_product_does_not_exist(): void
     {
         $this->mock(ProductFinder::class, function (MockInterface $mock) {
             $mock->shouldReceive('__invoke')

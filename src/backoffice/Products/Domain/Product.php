@@ -26,9 +26,9 @@ final class Product
         private ProductDescriptionShort $productDescriptionShort,
         private ProductUnitPrice $productUnitPrice,
         private CategoryId $categoryId,
+        private ProductLowStockAlert $lowStockAlert,
         private ProductMinimumQuantity $minimumQuantity,
         private ProductLowStockThreshold $lowStockThreshold,
-        private ProductLowStockAlert $lowStockAlert,
         private ProductEnabled $productEnabled
     ) {
     }
@@ -40,9 +40,9 @@ final class Product
         ProductDescriptionShort $productDescriptionShort,
         ProductUnitPrice $productUnitPrice,
         CategoryId $categoryId,
+        ProductLowStockAlert $lowStockAlert,
         ProductMinimumQuantity $minimumQuantity,
         ProductLowStockThreshold $lowStockThreshold,
-        ProductLowStockAlert $lowStockAlert,
         ProductEnabled $productEnabled
     ): self {
         $product = new self(
@@ -52,9 +52,9 @@ final class Product
             $productDescriptionShort,
             $productUnitPrice,
             $categoryId,
+            $lowStockAlert,
             $minimumQuantity,
             $lowStockThreshold,
-            $lowStockAlert,
             $productEnabled
         );
 
@@ -68,9 +68,9 @@ final class Product
         ProductDescriptionShort $productDescriptionShort,
         ProductUnitPrice $productUnitPrice,
         CategoryId $categoryId,
+        ProductLowStockAlert $lowStockAlert,
         ProductMinimumQuantity $minimumQuantity,
         ProductLowStockThreshold $lowStockThreshold,
-        ProductLowStockAlert $lowStockAlert,
         ProductEnabled $productEnabled
     ): self {
         $product = new self(
@@ -80,9 +80,9 @@ final class Product
             $productDescriptionShort,
             $productUnitPrice,
             $categoryId,
+            $lowStockAlert,
             $minimumQuantity,
             $lowStockThreshold,
-            $lowStockAlert,
             $productEnabled
         );
 

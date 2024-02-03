@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice\Products;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use Illuminate\Validation\ValidationException;
@@ -24,25 +25,24 @@ class ProductStoreController extends Controller
     public function __invoke(Request $request)
     {
         $data = $request->all();
-
+  
         try {
             $data = request()->validate([
-                'id' => 'required|uuid',
                 'name' => 'required|string',
                 'description' => 'required|string',
                 'description_short' => 'required|string',
                 'price' => 'required|numeric|min:1',
                 'category_id' => 'required|numeric|min:1',
+                'low_stock_alert' => 'required|in:0,1',
                 'minimum_quantity' => 'required|numeric|min:1',
                 'low_stock_threshold' => 'required|numeric|min:1',
-                'low_stock_alert' => 'required|in:0,1',
                 'enabled' => 'required|in:0,1',
             ]);
-
+     
             $id = RamseyUuid::random();
             $description = $data['description'] ?? '';
             $descriptionShort = $data['description_short'] ?? '';
-
+            
             $command = new CreateProductCommand(
                 $id,
                 $data['name'],
@@ -50,9 +50,9 @@ class ProductStoreController extends Controller
                 $descriptionShort,
                 $data['price'],
                 $data['category_id'],
+                $data['low_stock_alert'],
                 $data['minimum_quantity'],
                 $data['low_stock_threshold'],
-                $data['low_stock_alert'],
                 $data['enabled'],
             );
 

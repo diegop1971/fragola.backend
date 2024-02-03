@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace src\backoffice\Products\Application\Create;
 
 use src\backoffice\Products\Domain\Product;
-use src\backoffice\Products\Domain\ProductRepository;
 use src\backoffice\Categories\Domain\CategoryId;
-
+use src\backoffice\Products\Domain\ProductRepository;
 use src\backoffice\Products\Domain\ValueObjects\ProductId;
 use src\backoffice\Products\Domain\ValueObjects\ProductName;
 use src\backoffice\Products\Domain\ValueObjects\ProductEnabled;
@@ -17,7 +16,6 @@ use src\backoffice\Products\Domain\ValueObjects\ProductLowStockAlert;
 use src\backoffice\Products\Domain\ValueObjects\ProductMinimumQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescriptionShort;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockThreshold;
-use src\backoffice\Products\Domain\Interfaces\IValidateLowStockThresholdQuantity;
 
 final class ProductCreator
 {
@@ -25,7 +23,6 @@ final class ProductCreator
     {
         $this->repository = $repository;
     }
-
     public function __invoke(
                             ProductId $productId, 
                             ProductName $productName, 
@@ -33,9 +30,9 @@ final class ProductCreator
                             ProductDescriptionShort $productDescriptionShort,
                             ProductUnitPrice $productUnitPrice, 
                             CategoryId $categoryId, 
+                            ProductLowStockAlert $lowStockAlert,
                             ProductMinimumQuantity $minimum_quantity,
                             ProductLowStockThreshold $lowStockThreshold,
-                            ProductLowStockAlert $lowStockAlert,
                             ProductEnabled $enabled
                         )
     {
@@ -46,9 +43,9 @@ final class ProductCreator
                                     $productDescriptionShort,
                                     $productUnitPrice, 
                                     $categoryId, 
+                                    $lowStockAlert,
                                     $minimum_quantity,
                                     $lowStockThreshold,
-                                    $lowStockAlert,
                                     $enabled
                                 );
 

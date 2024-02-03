@@ -31,9 +31,9 @@ class CategoryStoreController extends Controller
             'enabled.required' => 'El campo enabled es obligatorio',
         ]);
 
-        $command = new CreateCategoryCommand(RamseyUuid::random(),$data['name'], $data['enabled']);
+        $command = new CreateCategoryCommand(1,$data['name'], $data['enabled']);
 
-        $command = new CreateCategoryCommand(RamseyUuid::random(),$data['name'], $data['enabled']);
+        //$command = new CreateCategoryCommand(RamseyUuid::random(),$data['name'], $data['enabled']);
 
         try {
             // Código donde se llama a $this->commandBus->execute($command);
