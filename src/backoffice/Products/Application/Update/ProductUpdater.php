@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace src\backoffice\Products\Application\Update;
 
-use Illuminate\Support\Facades\Log;
 use src\backoffice\Products\Domain\Product;
 use src\backoffice\Categories\Domain\CategoryId;
 use src\backoffice\Products\Domain\ProductRepository;
@@ -35,9 +34,9 @@ final class ProductUpdater
         ProductDescriptionShort $productDescriptionShort,
         ProductUnitPrice $productUnitPrice,
         CategoryId $categoryId,
+        ProductLowStockAlert $lowStockAlert,
         ProductMinimumQuantity $minimum_quantity,
         ProductLowStockThreshold $lowStockThreshold,
-        ProductLowStockAlert $lowStockAlert,
         ProductEnabled $enabled
     ) {
         $this->validateOperation($lowStockThreshold, $minimum_quantity);
@@ -49,9 +48,9 @@ final class ProductUpdater
             $productDescriptionShort,
             $productUnitPrice,
             $categoryId,
+            $lowStockAlert,
             $minimum_quantity,
             $lowStockThreshold,
-            $lowStockAlert,
             $enabled
         );
 

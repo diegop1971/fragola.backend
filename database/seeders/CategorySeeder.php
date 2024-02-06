@@ -2,26 +2,40 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use src\backoffice\Categories\Infrastructure\Persistence\Eloquent\EloquentCategoryModel;
+use src\Shared\Domain\ValueObject\Uuid as RamseyUuid;
 
 class CategorySeeder extends Seeder
 {
     public function run(): void
     {
         $categories = [
-            'Ropa',
-            'Accesorios',
-            'Calzado',
+            [
+                'name' => 'Ropa',
+                'enabled' => true,
+            ],
+            [
+                'name' => 'Accesorios',
+                'enabled' => true,
+            ],
+            [
+                'name' => 'Calzado',
+                'enabled' => true,
+            ],
         ];
 
-        foreach ($categories as $categoryName) {
-            EloquentCategoryModel::create([
-                                        'name' => $categoryName,
-                                        'enabled' => true, 
-                                    ]);
+        foreach ($categories as $categoryData) { 
+            $uuid = RamseyUuid::random();
+
+            // Comprueba si la categoría ya existe
+            if (!EloquentCategoryModel::where('id', $uuid)->exists()) {
+                EloquentCategoryModel::create([
+                    'id' => $uuid,
+                    'name' => $categoryData['name'],
+                    'enabled' => $categoryData['enabled'],
+                ]);
+            }
         }
     }
 }

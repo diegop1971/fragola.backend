@@ -6,13 +6,13 @@ namespace src\backoffice\Products\Application\Update;
 
 use src\backoffice\Categories\Domain\CategoryId;
 use src\Shared\Domain\Bus\Command\CommandHandler;
-use src\backoffice\Products\Application\Update\UpdateProductCommand;
-use src\backoffice\Products\Application\Update\ProductUpdater;
 use src\backoffice\Products\Domain\ValueObjects\ProductId;
 use src\backoffice\Products\Domain\ValueObjects\ProductName;
+use src\backoffice\Products\Application\Update\ProductUpdater;
 use src\backoffice\Products\Domain\ValueObjects\ProductEnabled;
 use src\backoffice\Products\Domain\ValueObjects\ProductUnitPrice;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescription;
+use src\backoffice\Products\Application\Update\UpdateProductCommand;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockAlert;
 use src\backoffice\Products\Domain\ValueObjects\ProductMinimumQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescriptionShort;
@@ -26,9 +26,9 @@ final class UpdateProductCommandHandler implements CommandHandler
     private ProductDescriptionShort $descriptionShort;
     private ProductUnitPrice $unitPrice;
     private CategoryId $categoryId;
+    private ProductLowStockAlert $lowStockAlert;
     private ProductMinimumQuantity $minimumQuantity;
     private ProductLowStockThreshold $lowStockThreshold;
-    private ProductLowStockAlert $lowStockAlert;
     private ProductEnabled $enabled;
 
     public function __construct(private ProductUpdater $updater)
@@ -44,9 +44,9 @@ final class UpdateProductCommandHandler implements CommandHandler
         $this->descriptionShort = new ProductDescriptionShort($command->productDescriptionShort());
         $this->unitPrice = new ProductUnitPrice($command->productUnitPrice());
         $this->categoryId = new CategoryId($command->categoryId());
+        $this->lowStockAlert = new ProductLowStockAlert($command->productLowStockAlert());
         $this->minimumQuantity = new ProductMinimumQuantity($command->productMinimumQuantity());
         $this->lowStockThreshold = new ProductLowStockThreshold($command->productLowStockThreshold());
-        $this->lowStockAlert = new ProductLowStockAlert($command->productLowStockAlert());
         $this->enabled = new ProductEnabled($command->enabled());
 
         $this->updater->__invoke(
@@ -56,9 +56,9 @@ final class UpdateProductCommandHandler implements CommandHandler
             $this->descriptionShort,
             $this->unitPrice,
             $this->categoryId,
+            $this->lowStockAlert,
             $this->minimumQuantity,
             $this->lowStockThreshold,
-            $this->lowStockAlert,
             $this->enabled
         );
     }

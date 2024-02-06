@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use src\backoffice\Products\Infrastructure\Persistence\Eloquent\ProductEloquentModel;
 use src\backoffice\Categories\Infrastructure\Persistence\Eloquent\EloquentCategoryModel;
@@ -200,16 +201,16 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($products as $product) {
-            $category = EloquentCategoryModel::where('name', $product['tipo'])->first();
-
-            if ($category) {
+            $randomCategory = EloquentCategoryModel::inRandomOrder()->first();
+        
+            if ($randomCategory) {
                 ProductEloquentModel::create([
                     'id' => $product['id'],
                     'name' => $product['name'],
                     'description' => $product['description'],
                     'description_short' => $product['description_short'],
                     'price' => $product['price'],
-                    'category_id' => $category->id,
+                    'category_id' => $randomCategory->id,
                     'minimum_quantity' => $product['minimum_quantity'],
                     'low_stock_threshold' => $product['low_stock_threshold'],
                     'low_stock_alert' => $product['low_stock_alert'],

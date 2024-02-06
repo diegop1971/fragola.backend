@@ -41,17 +41,6 @@ class EloquentProductRepository implements ProductRepository
 
     public function save(Product $product): void
     {
-        Log::info($product->productId()->value());
-        Log::info($product->productName()->value());
-        Log::info($product->productDescription()->value());
-        Log::info($product->productDescriptionShort()->value());
-        Log::info($product->productUnitPrice()->value());
-        Log::info($product->categoryId()->value());
-        Log::info($product->productLowStockAlert()->value());
-        Log::info($product->productMinimumQuantity()->value());
-        Log::info($product->productLowStockThreshold()->value());
-        Log::info($product->ProductEnabled()->value());
-
         $model = new ProductEloquentModel();
 
         $model->id = $product->productId()->value();

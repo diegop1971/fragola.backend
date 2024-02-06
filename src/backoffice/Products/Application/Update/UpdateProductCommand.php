@@ -7,20 +7,19 @@ namespace src\backoffice\Products\Application\Update;
 use src\Shared\Domain\Bus\Command\Command;
 
 final class UpdateProductCommand implements Command
-{   
+{
     public function __construct(
-                                private string $id, 
-                                private string $name, 
-                                private string $description, 
-                                private string $descriptionShort, 
-                                private float $unitPrice, 
-                                private string $categoryId, 
-                                private int $minimumQuantity, 
-                                private int $lowStockThreshold, 
-                                private bool $lowStockAlert,  
-                                private bool $enabled
-                            ) {
-
+        private string $id,
+        private string $name,
+        private string $description,
+        private string $descriptionShort,
+        private float $unitPrice,
+        private string $categoryId,
+        private bool $lowStockAlert,
+        private int $minimumQuantity,
+        private int $lowStockThreshold,
+        private bool $enabled
+    ) {
     }
 
     public function productId(): string

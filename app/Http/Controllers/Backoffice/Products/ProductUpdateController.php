@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Backoffice\Products;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
 use src\backoffice\Products\Application\Update\UpdateProductCommand;
@@ -32,10 +32,10 @@ class ProductUpdateController extends Controller
                 'description' => 'required|string',
                 'description_short' => 'required|string',
                 'price' => 'required|numeric|min:1',
-                'category_id' => 'required|numeric|min:1',
+                'category_id' => 'required|string',
+                'low_stock_alert' => 'required|in:0,1',
                 'minimum_quantity' => 'required|numeric|min:1',
                 'low_stock_threshold' => 'required|numeric|min:1',
-                'low_stock_alert' => 'required|in:0,1',
                 'enabled' => 'required|in:0,1',
             ]);
             
@@ -46,9 +46,9 @@ class ProductUpdateController extends Controller
                 $data['description_short'],
                 $data['price'],
                 $data['category_id'],
+                $data['low_stock_alert'],
                 $data['minimum_quantity'],
                 $data['low_stock_threshold'],
-                $data['low_stock_alert'],
                 $data['enabled'],
             ));
             return response()->json([
