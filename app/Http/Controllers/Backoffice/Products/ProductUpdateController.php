@@ -9,6 +9,7 @@ use Illuminate\Validation\ValidationException;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
 use src\backoffice\Products\Application\Update\UpdateProductCommand;
 use src\backoffice\Products\Application\Update\UpdateProductCommandHandler;
+use Throwable;
 
 class ProductUpdateController extends Controller
 {
@@ -25,7 +26,6 @@ class ProductUpdateController extends Controller
     {
         try {
             $data = $request->all();
-
             $data = request()->validate([
                 'id' => 'required|uuid',
                 'name' => 'required|string',
@@ -64,12 +64,12 @@ class ProductUpdateController extends Controller
                 'detail' => $errors,
                 'code' => 422
             ], 422);
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],
-                'details' => null,
+                'detail' => null,
                 'code' => $mappedError['http_code'],
             ], $mappedError['http_code']);
         }

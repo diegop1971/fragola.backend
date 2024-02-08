@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backoffice\Products;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use src\Shared\Domain\Bus\Command\CommandBus;
@@ -9,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 use src\Shared\Domain\ValueObject\Uuid as RamseyUuid;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
 use src\backoffice\Products\Application\Create\CreateProductCommand;
+use Throwable;
 
 class ProductStoreController extends Controller
 {
@@ -70,12 +72,12 @@ class ProductStoreController extends Controller
                 'detail' => $errors,
                 'code' => 422
             ], 422);
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],
-                'details' => null,
+                'detail' => null,
                 'code' => $mappedError['http_code'],
             ], $mappedError['http_code']);
         }
