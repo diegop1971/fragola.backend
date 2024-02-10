@@ -12,11 +12,26 @@ use src\backoffice\Stock\Infrastructure\Persistence\Eloquent\EloquentStockModel;
 
 class EloquentStockRepository implements StockRepositoryInterface
 {
-    
-    public function __construct() {
+
+    public function __construct()
+    {
     }
 
     public function searchAll(): ?array
+    {
+        $stocks = EloquentStockModel::leftJoin('products', 'stock_movements.product_id', '=', 'products.id')
+            ->leftJoin('stock_movement_types', 'stock_movements.movement_type_id', '=', 'stock_movement_types.id')
+            ->select('stock_movements.*', 'stock_movement_types.movement_type', 'products.name as product_name')
+            ->get();
+
+        if ($stocks->isEmpty()) {
+            return [];
+        }
+
+        return $stocks->toArray();
+    }
+
+    /*public function searchAll(): ?array
     {                
         $stocks = EloquentStockModel::with('product', 'stockMovementType')->get();
 
@@ -26,7 +41,7 @@ class EloquentStockRepository implements StockRepositoryInterface
         }
 
         return $stocks->toArray();
-    }
+    }*/
 
     public function search($id): ?array
     {
@@ -37,12 +52,12 @@ class EloquentStockRepository implements StockRepositoryInterface
         }
 
         $model->quantity = abs($model->quantity);
-    
+
         return $model->toArray();
     }
 
     public function save(Stock $stock): void
-    {  
+    {
         $model = new EloquentStockModel();
 
         $model->id = $stock->stockId()->value();
@@ -52,10 +67,10 @@ class EloquentStockRepository implements StockRepositoryInterface
         $model->date = $stock->stockDate()->value();
         $model->notes = $stock->stockNotes()->value();
         $model->enabled = $stock->stockEnabled()->value();
-        
+
         $model->save();
     }
-    
+
     public function update(Stock $stock): void
     {
         $model = EloquentStockModel::find($stock->stockId()->value());
@@ -70,11 +85,11 @@ class EloquentStockRepository implements StockRepositoryInterface
 
         $model->update();
     }
-    
+
     public function delete($id): void
     {
         $model = EloquentStockModel::find($id);
-        
+
         if (null === $model) {
             throw new StockNotExist($id);
         }
@@ -89,7 +104,7 @@ class EloquentStockRepository implements StockRepositoryInterface
         if (null === $models) {
             throw new StockNotExist($productId);
         }
-        
+
         return $models->toArray();
     }
 
@@ -111,7 +126,7 @@ class EloquentStockRepository implements StockRepositoryInterface
         if (null === $count) {
             throw new StockNotExist($productId);
         }
-        
+
         return $count;
     }
 

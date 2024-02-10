@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backoffice\Stock;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\backoffice\Stock\Application\Find\StockGet;
 
@@ -12,10 +13,7 @@ class GetStockMovementsController extends Controller
         $stocks = $stockGet->__invoke();
 
         $title = 'Stock - Movimientos';
-
-        return view(
-                    'components.backoffice.stock.index', 
-                    compact('stocks', 'title'
-                ));
+        Log::info($stocks);
+        return $stocks;
     }
 }
