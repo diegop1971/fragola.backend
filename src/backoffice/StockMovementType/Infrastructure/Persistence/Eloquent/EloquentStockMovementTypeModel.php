@@ -12,10 +12,12 @@ use src\backoffice\Stock\Infrastructure\Persistence\Eloquent\EloquentStockModel;
 class EloquentStockMovementTypeModel extends Model
 {
     use HasFactory;
-
+    use HasUuids;
+    
     protected $table = 'stock_movement_types';
 
     protected $fillable = [
+        'id',
         'movement_type',                         
         'description', 
         'stock_impact',

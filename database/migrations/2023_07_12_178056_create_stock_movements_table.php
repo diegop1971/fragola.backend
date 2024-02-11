@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('product_id')->index();
-            $table->integer('movement_type_id')->unsigned()->default(1)->nullable(false)->constrained('movement_types');
+            $table->uuid('movement_type_id')->nullable(false)->constrained('stock_movement_types');
             $table->integer('quantity');
             $table->datetime('date');
             $table->text('notes')->nullable();

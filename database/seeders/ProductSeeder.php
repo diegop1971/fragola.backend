@@ -2,10 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use src\backoffice\Products\Infrastructure\Persistence\Eloquent\ProductEloquentModel;
 use src\backoffice\Categories\Infrastructure\Persistence\Eloquent\EloquentCategoryModel;
 
