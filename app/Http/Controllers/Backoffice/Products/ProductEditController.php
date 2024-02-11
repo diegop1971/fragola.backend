@@ -9,6 +9,7 @@ use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Application\Find\ProductFinder;
 use src\backoffice\Categories\Application\Find\CategoriesGet;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use Throwable;
 
 class ProductEditController extends Controller
 {
@@ -43,7 +44,7 @@ class ProductEditController extends Controller
                 'message' => $e->getMessage(),
                 'code' => 404,
             ], 404);
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
