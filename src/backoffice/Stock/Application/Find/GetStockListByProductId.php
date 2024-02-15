@@ -6,7 +6,7 @@ namespace src\backoffice\Stock\Application\Find;
 
 use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
 
-final class StockGet
+final class GetStockListByProductId
 {
     private $repository;
 
@@ -15,9 +15,10 @@ final class StockGet
         $this->repository = $repository;
     }
 
-    public function __invoke(): array
+    public function __invoke($id): array
     {
-        $stocks = $this->repository->getStockGroupedByProductId();
+        $stocks = $this->repository->getStockListByProductId($id);
+        
 
         return $stocks;
     }

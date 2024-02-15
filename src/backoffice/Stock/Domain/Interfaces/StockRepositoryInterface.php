@@ -10,6 +10,10 @@ interface StockRepositoryInterface
 
     public function search(string $id): ?array;
 
+    public function getStockListByProductId(string $id): ?array;
+
+    public function getStockGroupedByProductId(): ?array;
+
     public function save(Stock $stock): void;
 
     public function update(Stock $stock): void;

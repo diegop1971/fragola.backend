@@ -10,7 +10,7 @@ class ValidateLowStockThresholdQuantityService implements IValidateLowStockThres
 {
     public function validateLowStockThresholdQuantity(ProductLowStockThreshold  $productLowStockThreshold, ProductMinimumQuantity $productMinimumQuantity): void
     {
-        if ($productLowStockThreshold->value() <= $productMinimumQuantity->value()) {
+        if ($productLowStockThreshold->value() < $productMinimumQuantity->value()) {
             throw new \InvalidArgumentException("Low Stock Threshold debe ser igual o mayor que minimum quantity.", 422);
         }
     }

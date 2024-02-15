@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace src\backoffice\Stock\Infrastructure\Persistence\Eloquent;
 
-use src\backoffice\Stock\Domain\Stock;
 use Illuminate\Support\Facades\DB;
+use src\backoffice\Stock\Domain\Stock;
 use src\backoffice\Stock\Domain\StockNotExist;
 use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
 use src\backoffice\Stock\Infrastructure\Persistence\Eloquent\EloquentStockModel;
@@ -31,29 +31,49 @@ class EloquentStockRepository implements StockRepositoryInterface
         return $stocks->toArray();
     }
 
-    /*public function searchAll(): ?array
-    {                
-        $stocks = EloquentStockModel::with('product', 'stockMovementType')->get();
-
-        if ($stocks->isEmpty()) {
-
-            return  $stocks = [];
-        }
-
-        return $stocks->toArray();
-    }*/
-
-    public function search($id): ?array
+    public function search($productId): ?array
     {
-        $model = EloquentStockModel::with(['product', 'stockMovementType'])->find($id);
+        $stock = EloquentStockModel::leftJoin('products', 'stock_movements.product_id', '=', 'products.id')
+            ->leftJoin('stock_movement_types', 'stock_movements.movement_type_id', '=', 'stock_movement_types.id')
+            ->select('stock_movements.*', 'stock_movement_types.movement_type', 'products.name as product_name')
+            ->where('stock_movements.product_id', $productId)
+            ->first();
 
-        if (null === $model) {
+        if (null === $stock) {
             return null;
         }
 
-        $model->quantity = abs($model->quantity);
+        return $stock->toArray();
+    }
 
-        return $model->toArray();
+    public function getStockListByProductId($productId): ?array
+    {
+        $stock = EloquentStockModel::leftJoin('products', 'stock_movements.product_id', '=', 'products.id')
+            ->leftJoin('stock_movement_types', 'stock_movements.movement_type_id', '=', 'stock_movement_types.id')
+            ->select('stock_movements.*', 'stock_movement_types.movement_type', 'products.name as product_name')
+            ->where('stock_movements.product_id', $productId)
+            ->get();
+
+        if (null === $stock) {
+            return null;
+        }
+
+        return $stock->toArray();
+    }
+
+    public function getStockGroupedByProductId(): ?array
+    {
+        $stock = EloquentStockModel::leftJoin('products', 'stock_movements.product_id', '=', 'products.id')
+            ->leftJoin('stock_movement_types', 'stock_movements.movement_type_id', '=', 'stock_movement_types.id')
+            ->selectRaw('products.id, products.name as product_name, SUM(stock_movements.quantity) as quantity, COUNT(*) as items, products.enabled')
+            ->groupBy('product_id')
+            ->get();
+
+        if ($stock->isEmpty()) {
+            return [];
+        }
+
+        return $stock->toArray();
     }
 
     public function save(Stock $stock): void

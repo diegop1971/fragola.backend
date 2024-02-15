@@ -26,16 +26,14 @@ class EditStockMovementController extends Controller
 
         $stockMovementTypes = $stockMovementTypeGet->__invoke();
 
-        try {
-            $stockMovement = $this->stockFinder->__invoke($id);
+        $stockItem = $this->stockFinder->__invoke($id);
 
-        } catch (Exception $e) {
-            //throw new CustomException($e->getMessage());
-        }
+        return response()->json([
+            'title' => $title,
+            'stockItem' => $stockItem,
+            'products' => $products,
+            'stockMovementTypes' => $stockMovementTypes,
+        ]);
 
-        return view(
-                    'components.backoffice.stock.edit', 
-                    compact('title', 'stockMovement', 'products', 'stockMovementTypes'
-                ));
     }
 }

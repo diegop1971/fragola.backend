@@ -29,6 +29,7 @@ use App\Http\Controllers\Backoffice\Categories\CategoryUpdateController;
 use App\Http\Controllers\Backoffice\Stock\CreateStockMovementController;
 use App\Http\Controllers\Backoffice\Stock\DeleteStockMovementController;
 use App\Http\Controllers\Frontoffice\Home\GetProductsCardListController;
+use App\Http\Controllers\Backoffice\Stock\GetStockListByProductIdController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,6 +107,11 @@ Route::prefix('products')->group(function ()
 
 Route::prefix('stock')->group(function () {
         Route::get('/', GetStockMovementsController::class)->name('backoffice.stock.index');
+
+        Route::get('stocklistByProductId/{id}', GetStockListByProductIdController::class)
+                ->where('id', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}')
+                ->name('backoffice.stock.showStockListByProductId');
+
         Route::get('/{id}', GetStockMovementController::class)
                 ->where('id', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}')
                 ->name('backoffice.stock.show');
