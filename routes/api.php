@@ -2,11 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Frontoffice\Cart\CartGetController;
 use App\Http\Controllers\Frontoffice\Cart\AddToCartController;
-use App\Http\Controllers\Frontoffice\Cart\DeleteCartController;
-use App\Http\Controllers\Backoffice\Stock\StockUpdateController;
-use App\Http\Controllers\Backoffice\Products\ProductGetController;
 use App\Http\Controllers\Frontoffice\Cart\AsyncShowCartController;
 use App\Http\Controllers\Backoffice\Products\ProductEditController;
 use App\Http\Controllers\Backoffice\Products\ProductsGetController;
@@ -17,19 +13,13 @@ use App\Http\Controllers\Backoffice\Products\ProductDeleteController;
 use App\Http\Controllers\Backoffice\Products\ProductUpdateController;
 use App\Http\Controllers\Backoffice\Stock\GetStockMovementController;
 use App\Http\Controllers\Frontoffice\Cart\CartItemQuantityController;
-use App\Http\Controllers\Backoffice\Categories\CategoryEditController;
-use App\Http\Controllers\Backoffice\Stock\EditStockMovementController;
 use App\Http\Controllers\Backoffice\Stock\GetStockMovementsController;
 use App\Http\Controllers\Backoffice\Categories\CategoriesGetController;
-use App\Http\Controllers\Backoffice\Categories\CategoryStoreController;
 use App\Http\Controllers\Backoffice\Stock\StoreStockMovementController;
-use App\Http\Controllers\Backoffice\Categories\CategoryCreateController;
-use App\Http\Controllers\Backoffice\Categories\CategoryDeleteController;
-use App\Http\Controllers\Backoffice\Categories\CategoryUpdateController;
 use App\Http\Controllers\Backoffice\Stock\CreateStockMovementController;
-use App\Http\Controllers\Backoffice\Stock\DeleteStockMovementController;
 use App\Http\Controllers\Frontoffice\Home\GetProductsCardListController;
 use App\Http\Controllers\Backoffice\Stock\GetStockListByProductIdController;
+use App\Http\Controllers\Backoffice\StockMovementTypes\MovementTypesGetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,13 +107,9 @@ Route::prefix('stock')->group(function () {
                 ->name('backoffice.stock.show');
         Route::get('/create', CreateStockMovementController::class)->name('backoffice.stock.create');
         Route::post('/store', StoreStockMovementController::class)->name('backoffice.stock.store');
-        Route::get('/{id}/edit', EditStockMovementController::class)
-                ->where('id', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}')
-                ->name('backoffice.stock.edit');
-        Route::put('/update', StockUpdateController::class)->name('backoffice.stock.update');
-        Route::delete('/{id}', DeleteStockMovementController::class)
-                ->where('id', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}')
-                ->name('backoffice.stock.destroy');
-        //Route::get('/{slug}', ProductGetBySlugController::class)->where('slug', '[A-Za-z0-9\-\/]+')->name('backoffice.product.show');
+});
+
+Route::prefix('stock-movement-types')->group(function () {
+        Route::get('/', MovementTypesGetController::class)->name('backoffice.stock-movement-types.index');
 });
 

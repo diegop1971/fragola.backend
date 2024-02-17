@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Backoffice\Stock;
+namespace App\Http\Controllers\Backoffice\StockMovementTypes;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use src\backoffice\Stock\Application\Find\StockGet;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
-use Throwable;
+use src\backoffice\StockMovementType\Application\Find\StockMovementTypesGet;
 
-class GetStockMovementsController extends Controller
+class MovementTypesGetController extends Controller
 {
     private $errorMappingService;
 
@@ -17,17 +17,19 @@ class GetStockMovementsController extends Controller
         $this->errorMappingService = $errorMappingService;
     }
 
-    public function __invoke(StockGet $stockGet)
+    public function __invoke(StockMovementTypesGet $movementTypesGet): JsonResponse
     {
         try {
-            $pageTitle = 'Stock list';
-            $stockItem = $stockGet->__invoke();
+            $title = 'Movement types List';
 
-            return response()->json([
-                'pageTitle' => $pageTitle,
-                'stockItem' => $stockItem,
-            ]);
-        } catch (Throwable $e) {
+            $stockMovementTypes = $movementTypesGet->__invoke();
+
+            $responseData = [
+                'title' => $title,
+                'stockMovementTypes' => $stockMovementTypes,
+            ];
+            return response()->json($responseData);
+        } catch (\Exception $e) {
             $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,

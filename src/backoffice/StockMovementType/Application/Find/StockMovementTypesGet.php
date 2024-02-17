@@ -6,7 +6,7 @@ namespace src\backoffice\StockMovementType\Application\Find;
 
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 
-final class StockMovementTypeGet
+final class StockMovementTypesGet
 {
     private $repository;
 

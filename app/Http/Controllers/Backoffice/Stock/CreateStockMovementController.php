@@ -2,28 +2,49 @@
 
 namespace App\Http\Controllers\Backoffice\Stock;
 
+use Throwable;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use src\backoffice\Products\Application\Find\ProductsGet;
-use src\backoffice\StockMovementType\Application\Find\StockMovementTypeGet;
+use src\backoffice\Stock\Domain\StockNotExist;
+use src\backoffice\Categories\Application\Find\CategoriesGet;
+use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\StockMovementType\Application\Find\StockMovementTypesGet;
 
 class CreateStockMovementController extends Controller
 {
-    public function __invoke(ProductsGet $ProductsGet, StockMovementTypeGet $stockMovementTypeGet)
+    private $errorMappingService;
+
+    public function __construct()
     {
-        $title = 'Stock - Ingresar movimiento';
+    }
 
-        $products = $ProductsGet->__invoke();
-
+    public function __invoke(StockMovementTypesGet $stockMovementTypeGet, CategoriesGet $categoriesGet, IErrorMappingService $errorMappingService)
+    {
+        $title = 'Stock - Create Item';
+        Log::info('peperoni');
         try {
             $stockMovementTypes = $stockMovementTypeGet->__invoke();
-            
+            $categories = $categoriesGet->__invoke();
+
             return response()->json([
                 'title' => $title,
-                'products' => $products,
                 'stockMovementTypes' => $stockMovementTypes,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+                'categories' => $categories,
+            ], 200);
+        } catch (StockNotExist $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'code' => 404,
+            ], 404);
+        } catch (Throwable $e) {
+            $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => $mappedError['message'],
+                'details' => null,
+                'code' => $mappedError['http_code'],
+            ], $mappedError['http_code']);
         }
     }
 }

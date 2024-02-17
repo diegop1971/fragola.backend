@@ -4,27 +4,11 @@ declare(strict_types = 1);
 
 namespace src\backoffice\Stock\Domain;
 
-use src\Shared\Domain\DomainError;
+use src\Shared\Domain\DomainException;
 
-
-final class StockNotExist extends DomainError
+final class StockNotExist extends DomainException
 {
-    private $id;
-
-    public function __construct($id)
-    {
-        $this->id = $id;
-
-        parent::__construct();
-    }
-
-    public function errorCode(): string
-    {
-        return 'stock_not_exist';
-    }
-
-    protected function errorMessage(): string
-    {
-        return sprintf('El movimiento de stock con el código %s no existe en el stock', $this->id);
+    public function __construct($id) {
+        parent::__construct(2001, sprintf('El movimiento de stock con el código %s no existe', $id));
     }
 }
