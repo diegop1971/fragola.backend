@@ -25,6 +25,20 @@ class EloquentProductRepository implements ProductRepository
         return $products->toArray();
     }
 
+    public function getAllEnabledProductNamesAndIDs(): ?array
+    {
+        $products = ProductEloquentModel::select('id', 'name')
+                  ->where('enabled', true)
+                  ->orderby('name', 'asc')
+                  ->get();
+
+        if ($products->isEmpty()) {
+            return [];
+        }
+
+        return $products->toArray();
+    }
+
     public function search($id): ?array
     {
         $product = ProductEloquentModel::leftJoin('categories', 'products.category_id', '=', 'categories.id')

@@ -7,6 +7,8 @@ interface StockMovementTypeRepository
 {
     public function searchAll(): ?array;
 
+    public function getAllEnabledStockMovementTypesNamesAndIDs(): ?array;
+
     public function search($id): ?array;
 
     public function save(StockMovementType $stockMovementType): void;

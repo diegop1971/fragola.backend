@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
 use src\backoffice\StockMovementType\Application\Find\StockMovementTypesGet;
 
-class MovementTypesGetController extends Controller
+class StockMovementTypesGetController extends Controller
 {
     private $errorMappingService;
 

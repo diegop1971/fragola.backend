@@ -8,6 +8,8 @@ interface ProductRepository
 {
     public function searchAll(): ?array;
 
+    public function getAllEnabledProductNamesAndIDs(): ?array;
+
     public function search($id): ?array;
 
     public function save(Product $product): void;

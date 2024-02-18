@@ -23,6 +23,20 @@ class EloquentStockMovementTypeRepository implements StockMovementTypeRepository
         return $stockMovementTypes->toArray();
     }
 
+    public function getAllEnabledStockMovementTypesNamesAndIDs(): ?array
+    {
+        $products = EloquentStockMovementTypeModel::select('id', 'movement_type')
+                  ->where('enabled', true)
+                  ->orderby('movement_type', 'asc')
+                  ->get();
+        
+        if ($products->isEmpty()) {
+            return [];
+        }
+
+        return $products->toArray();
+    }
+
     public function search($id): ?array
     {
         $model = EloquentStockMovementTypeModel::find($id);
