@@ -15,7 +15,7 @@ use App\Http\Controllers\Backoffice\Stock\GetStockMovementController;
 use App\Http\Controllers\Frontoffice\Cart\CartItemQuantityController;
 use App\Http\Controllers\Backoffice\Stock\GetStockMovementsController;
 use App\Http\Controllers\Backoffice\Categories\CategoriesGetController;
-use App\Http\Controllers\Backoffice\Stock\StoreStockMovementController;
+use App\Http\Controllers\Backoffice\Stock\StockMovementStoreController;
 use App\Http\Controllers\Backoffice\Products\StockProductsGetController;
 use App\Http\Controllers\Backoffice\Stock\CreateStockMovementController;
 use App\Http\Controllers\Frontoffice\Home\GetProductsCardListController;
@@ -108,7 +108,7 @@ Route::prefix('stock')->group(function () {
                 ->where('id', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}')
                 ->name('backoffice.stock.show');
         Route::get('/create', CreateStockMovementController::class)->name('backoffice.stock.create');
-        Route::post('/store', StoreStockMovementController::class)->name('backoffice.stock.store');
+        Route::post('/store', StockMovementStoreController::class)->name('backoffice.stock.store');
 });
 
 Route::prefix('stock-movement-types')->group(function () {

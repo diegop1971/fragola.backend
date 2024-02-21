@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Backoffice\Products;
+namespace App\Http\Controllers\Backoffice\Stock;
 
 use Throwable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use Illuminate\Validation\ValidationException;
 use src\Shared\Domain\ValueObject\Uuid as RamseyUuid;
+use src\backoffice\Stock\Application\Create\CreateStockCommand;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
-use src\backoffice\Products\Application\Create\CreateProductCommand;
 
-class ProductStoreController extends Controller
+class StockMovementStoreController extends Controller
 {
     private $commandBus;
     private $errorMappingService;
@@ -26,35 +25,23 @@ class ProductStoreController extends Controller
     public function __invoke(Request $request)
     {
         $data = $request->all();
-Log::info($data);
         try {
             $data = request()->validate([
-                'name' => 'required|string',
-                'description' => 'required|string',
-                'description_short' => 'required|string',
-                'price' => 'required|numeric|min:1',
-                'category_id' => 'required|string',
-                'low_stock_alert' => 'required|in:0,1',
-                'minimum_quantity' => 'required|numeric|min:1',
-                'low_stock_threshold' => 'required|numeric|min:1',
+                'product_id' => 'required|uuid',
+                'movement_type_id' => 'required|uuid',
+                'quantity' => 'required|numeric|min:1',
+                'date' => 'required|date',
+                'notes' => 'nullable|string',
                 'enabled' => 'required|in:0,1',
             ]);
-            
-            $id = RamseyUuid::random();
-            $description = $data['description'] ?? '';
-            $descriptionShort = $data['description_short'] ?? '';
-            
-            $command = new CreateProductCommand(
-                $id,
-                $data['name'],
-                $description,
-                $descriptionShort,
-                $data['price'],
-                $data['category_id'],
-                $data['low_stock_alert'],
-                $data['minimum_quantity'],
-                $data['low_stock_threshold'],
-                $data['enabled'],
+            $command = new CreateStockCommand(
+                RamseyUuid::random(),
+                $data['product_id'],
+                $data['movement_type_id'],
+                $data['quantity'],
+                $data['date'],
+                $data['notes'] ? $data['notes'] : '',
+                $data['enabled']
             );
 
             $this->commandBus->execute($command);
@@ -66,7 +53,6 @@ Log::info($data);
             ], 200);
         } catch (ValidationException $e) {
             $errors = $e->validator->errors()->toArray();
-            Log::info($errors);
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),

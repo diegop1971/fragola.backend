@@ -12,7 +12,7 @@ final class CreateStockCommand implements Command
     public function __construct(
         private string $stockId, 
         private string $stockProductId, 
-        private int $stockMovementTypeId, 
+        private string $stockMovementTypeId, 
         private int $stockQuantity, 
         private string $stockDate, 
         private string $stockNotes,
@@ -30,7 +30,7 @@ final class CreateStockCommand implements Command
         return $this->stockProductId;
     }
 
-    public function stockMovementTypeId(): int
+    public function stockMovementTypeId(): string
     {
         return $this->stockMovementTypeId;
     }

@@ -21,7 +21,7 @@ class CreateStockMovementController extends Controller
     public function __invoke(StockMovementTypesGet $stockMovementTypeGet, CategoriesGet $categoriesGet, IErrorMappingService $errorMappingService)
     {
         $title = 'Stock - Create Item';
-        Log::info('peperoni');
+        
         try {
             $stockMovementTypes = $stockMovementTypeGet->__invoke();
             $categories = $categoriesGet->__invoke();
