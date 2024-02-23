@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace src\backoffice\Products\Infrastructure\Persistence\Eloquent;
 
-use Illuminate\Support\Facades\Log;
 use src\backoffice\Products\Domain\Product;
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Domain\ProductRepository;

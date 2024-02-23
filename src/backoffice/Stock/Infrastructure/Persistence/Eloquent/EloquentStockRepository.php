@@ -52,12 +52,12 @@ class EloquentStockRepository implements StockRepositoryInterface
             ->leftJoin('stock_movement_types', 'stock_movements.movement_type_id', '=', 'stock_movement_types.id')
             ->select('stock_movements.*', 'stock_movement_types.movement_type', 'products.name as product_name')
             ->where('stock_movements.product_id', $productId)
+            ->orderByDesc('created_at')
             ->get();
 
-        if (null === $stock) {
+        if ($stock->isEmpty()) {
             return null;
         }
-
         return $stock->toArray();
     }
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace src\backoffice\Products\Application\Find;
 
-use Illuminate\Support\Facades\Log;
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Domain\ProductRepository;
 
@@ -20,7 +19,7 @@ class ProductFinder
     public function __invoke(string $id): ?array
     {
         $product = $this->repository->search($id);
-        
+
         if (null === $product) {
             throw new ProductNotExist($id);
         }
