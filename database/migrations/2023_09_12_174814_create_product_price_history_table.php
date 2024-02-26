@@ -20,7 +20,6 @@ return new class extends Migration
             $table->decimal('special_price', 10, 2);
             $table->date('discount_start_date');
             $table->date('discount_end_date');
-            $table->integer('minimum_quantity')->unsigned()->default(1)->nullable(false);
             $table->integer('maximum_quantity')->unsigned()->default(1)->nullable(false);
             $table->integer('tax_rules_group')->unsigned()->default(1)->nullable(false);
             $table->integer('currency')->unsigned()->default(1)->nullable(false);

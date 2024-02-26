@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Backoffice\Products;
 
+use Throwable;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
 use src\backoffice\Products\Application\Delete\DeleteProductCommand;
 use src\backoffice\Products\Application\Delete\DeleteProductCommandHandler;
-use Throwable;
 
 class ProductDeleteController extends Controller
 {
@@ -37,6 +38,7 @@ class ProductDeleteController extends Controller
             ], 404);
         } catch (Throwable $e) {
             $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+            //Log::info($mappedError);
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],

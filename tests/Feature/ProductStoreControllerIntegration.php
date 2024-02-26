@@ -34,7 +34,6 @@ class ProductStoreControllerIntegrationTest extends TestCase
             5000, // price
             '2', // category_id
             '1', // low_stock_alert
-            30, // minimum_quantity
             50, // low_stock_threshold
             '1', // enabled
         ];
@@ -67,7 +66,6 @@ class ProductStoreControllerIntegrationTest extends TestCase
 
         // Envía la petición POST al controlador
         $response = $this->postJson(route('backoffice.products.store'), $productData);
-        //Log::info(json_encode($response));
         // Comprueba la respuesta del controlador
         $response->assertStatus(200);
         $response->assertJson([

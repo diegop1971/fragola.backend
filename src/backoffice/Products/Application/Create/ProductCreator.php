@@ -13,10 +13,10 @@ use src\backoffice\Products\Domain\ValueObjects\ProductEnabled;
 use src\backoffice\Products\Domain\ValueObjects\ProductUnitPrice;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescription;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockAlert;
-use src\backoffice\Products\Domain\ValueObjects\ProductMinimumQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescriptionShort;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockThreshold;
 use src\backoffice\Products\Domain\Interfaces\IValidateLowStockThresholdQuantity;
+use src\backoffice\Products\Domain\ValueObjects\ProductOutOfStock;
 
 final class ProductCreator
 {
@@ -34,11 +34,11 @@ final class ProductCreator
         ProductUnitPrice $productUnitPrice,
         CategoryId $categoryId,
         ProductLowStockAlert $lowStockAlert,
-        ProductMinimumQuantity $minimum_quantity,
         ProductLowStockThreshold $lowStockThreshold,
+        ProductOutOfStock $outOfStock,
         ProductEnabled $enabled
     ) {
-        $this->validateOperation($lowStockThreshold, $minimum_quantity);
+        $this->validateOperation($lowStockThreshold);
         
         $product = Product::create(
             $productId,
@@ -48,16 +48,16 @@ final class ProductCreator
             $productUnitPrice,
             $categoryId,
             $lowStockAlert,
-            $minimum_quantity,
             $lowStockThreshold,
+            $outOfStock,
             $enabled
         );
 
         $this->repository->save($product);
     }
 
-    private function validateOperation($lowStockThreshold, $minimum_quantity): void
+    private function validateOperation($lowStockThreshold): void
     {
-        $this->validateLowStockThresholdQuantityService->validateLowStockThresholdQuantity($lowStockThreshold, $minimum_quantity);
+        $this->validateLowStockThresholdQuantityService->validateLowStockThresholdQuantity($lowStockThreshold);
     }
 }

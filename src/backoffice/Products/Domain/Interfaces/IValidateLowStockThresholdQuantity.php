@@ -7,5 +7,5 @@ use src\backoffice\Products\Domain\ValueObjects\ProductLowStockThreshold;
 
 interface IValidateLowStockThresholdQuantity
 {
-    public function validateLowStockThresholdQuantity(ProductLowStockThreshold  $productLowStockThreshold, ProductMinimumQuantity $productMinimumQuantity): void;
+    public function validateLowStockThresholdQuantity(ProductLowStockThreshold  $productLowStockThreshold): void;
 }

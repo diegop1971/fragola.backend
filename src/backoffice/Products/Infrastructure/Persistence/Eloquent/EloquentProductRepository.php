@@ -24,32 +24,43 @@ class EloquentProductRepository implements ProductRepository
         return $products->toArray();
     }
 
+    public function search($id): ?array
+    {
+        $product = ProductEloquentModel::where('id', '=', $id)->first();
+
+        if (null === $product) {
+            return null;
+        }
+
+        return $product->toArray();
+    }
+
+    public function getProductDetailsWithCategory($id): ?array
+    {
+        $product = ProductEloquentModel::leftJoin('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'categories.name as category_name')
+            ->where('products.id', '=', $id)
+            ->first();
+
+        if (null === $product) {
+            return null;
+        }
+
+        return $product->toArray();
+    }
+
     public function getAllEnabledProductNamesAndIDs(): ?array
     {
         $products = ProductEloquentModel::select('id', 'name')
-                  ->where('enabled', true)
-                  ->orderby('name', 'asc')
-                  ->get();
+            ->where('enabled', true)
+            ->orderby('name', 'asc')
+            ->get();
 
         if ($products->isEmpty()) {
             return [];
         }
 
         return $products->toArray();
-    }
-
-    public function search($id): ?array
-    {
-        $product = ProductEloquentModel::leftJoin('categories', 'products.category_id', '=', 'categories.id')
-            ->select('products.*', 'categories.name as category_name')
-            ->where('products.id', '=', $id)
-            ->first();
-        
-        if (null === $product) {
-            return null;
-        }
-        
-        return $product->toArray();
     }
 
     public function save(Product $product): void
@@ -63,13 +74,13 @@ class EloquentProductRepository implements ProductRepository
         $model->price = $product->productUnitPrice()->value();
         $model->category_id = $product->categoryId()->value();
         $model->low_stock_alert = $product->productLowStockAlert()->value();
-        $model->minimum_quantity = $product->productMinimumQuantity()->value();
         $model->low_stock_threshold = $product->productLowStockThreshold()->value();
+        $model->out_of_stock = $product->productOutOfStock()->value();
         $model->enabled = $product->ProductEnabled()->value();
 
         $model->save();
     }
-    
+
     public function update(Product $product): void
     {
         $model = ProductEloquentModel::find($product->productId()->value());
@@ -81,21 +92,21 @@ class EloquentProductRepository implements ProductRepository
         $model->price = $product->productUnitPrice()->value();
         $model->category_id = $product->categoryId()->value();
         $model->low_stock_alert = $product->productLowStockAlert()->value();
-        $model->minimum_quantity = $product->productMinimumQuantity()->value();
         $model->low_stock_threshold = $product->productLowStockThreshold()->value();
+        $model->out_of_stock = $product->productOutOfStock()->value();
         $model->enabled = $product->ProductEnabled()->value();
 
         $model->update();
     }
-    
+
     public function delete($id): void
     {
         $model = ProductEloquentModel::find($id);
-        
+
         if (null === $model) {
             throw new ProductNotExist($id);
         }
-        
+
         $model->delete();
     }
 }

@@ -48,7 +48,7 @@ class StockMovementStoreController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => "Producto dado de alta correctamente",
+                'message' => "Movimiento de stock registrado correctamente",
                 'code' => 200
             ], 200);
         } catch (ValidationException $e) {

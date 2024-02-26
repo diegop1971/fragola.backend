@@ -18,12 +18,11 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('description_short')->nullable();
             $table->double('price', 10, 2);
-            $table->integer('minimum_quantity')->unsigned()->default(1)->nullable(false);
             $table->integer('low_stock_threshold')->unsigned()->nullable()->default(null);
             $table->boolean('low_stock_alert')->default(false)->nullable(false);
+            $table->boolean('out_of_stock')->default(false)->nullable(false);
             $table->boolean('enabled')->default(true);
             $table->timestamps();
-
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('restrict');
         });
     }

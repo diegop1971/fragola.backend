@@ -12,6 +12,8 @@ interface ProductRepository
 
     public function search($id): ?array;
 
+    public function getProductDetailsWithCategory($id): ?array;
+
     public function save(Product $product): void;
 
     public function update(Product $product): void;

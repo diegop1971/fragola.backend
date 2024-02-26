@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backoffice\Products;
 
 use Throwable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use Illuminate\Validation\ValidationException;
@@ -26,7 +25,7 @@ class ProductStoreController extends Controller
     public function __invoke(Request $request)
     {
         $data = $request->all();
-Log::info($data);
+
         try {
             $data = request()->validate([
                 'name' => 'required|string',
@@ -35,11 +34,11 @@ Log::info($data);
                 'price' => 'required|numeric|min:1',
                 'category_id' => 'required|string',
                 'low_stock_alert' => 'required|in:0,1',
-                'minimum_quantity' => 'required|numeric|min:1',
                 'low_stock_threshold' => 'required|numeric|min:1',
+                'out_of_stock' => 'required|in:0,1',
                 'enabled' => 'required|in:0,1',
             ]);
-            
+
             $id = RamseyUuid::random();
             $description = $data['description'] ?? '';
             $descriptionShort = $data['description_short'] ?? '';
@@ -52,11 +51,11 @@ Log::info($data);
                 $data['price'],
                 $data['category_id'],
                 $data['low_stock_alert'],
-                $data['minimum_quantity'],
                 $data['low_stock_threshold'],
+                $data['out_of_stock'],
                 $data['enabled'],
             );
-
+            
             $this->commandBus->execute($command);
 
             return response()->json([
@@ -66,7 +65,7 @@ Log::info($data);
             ], 200);
         } catch (ValidationException $e) {
             $errors = $e->validator->errors()->toArray();
-            Log::info($errors);
+
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),

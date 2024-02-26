@@ -50,7 +50,8 @@ class EloquentStockRepository implements StockRepositoryInterface
     {
         $stock = EloquentStockModel::leftJoin('products', 'stock_movements.product_id', '=', 'products.id')
             ->leftJoin('stock_movement_types', 'stock_movements.movement_type_id', '=', 'stock_movement_types.id')
-            ->select('stock_movements.*', 'stock_movement_types.movement_type', 'products.name as product_name')
+            ->select('stock_movements.id', 'stock_movements.product_id', 'stock_movements.movement_type_id', 'stock_movements.quantity', 
+            'stock_movements.date', 'stock_movements.notes', 'stock_movements.created_at','stock_movement_types.movement_type')
             ->where('stock_movements.product_id', $productId)
             ->orderByDesc('created_at')
             ->get();
@@ -65,7 +66,8 @@ class EloquentStockRepository implements StockRepositoryInterface
     {
         $stock = EloquentStockModel::leftJoin('products', 'stock_movements.product_id', '=', 'products.id')
             ->leftJoin('stock_movement_types', 'stock_movements.movement_type_id', '=', 'stock_movement_types.id')
-            ->selectRaw('products.id, products.name as product_name, SUM(stock_movements.quantity) as quantity, COUNT(*) as items, products.enabled')
+            ->selectRaw('products.id, products.name as product_name, SUM(stock_movements.quantity) as quantity, COUNT(*) as items, 
+            low_stock_threshold, low_stock_alert, products.enabled')
             ->groupBy('product_id')
             ->get();
 

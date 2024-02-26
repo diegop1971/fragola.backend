@@ -9,13 +9,11 @@ use src\backoffice\Products\Domain\ValueObjects\ProductId;
 use src\backoffice\Products\Domain\ValueObjects\ProductName;
 use src\backoffice\Products\Domain\ValueObjects\ProductEnabled;
 use src\backoffice\Products\Domain\ValueObjects\ProductUnitPrice;
+use src\backoffice\Products\Domain\ValueObjects\ProductOutOfStock;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescription;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockAlert;
-use src\backoffice\Products\Domain\ValueObjects\ProductMinimumQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescriptionShort;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockThreshold;
-
-
 
 final class Product
 {
@@ -27,8 +25,8 @@ final class Product
         private ProductUnitPrice $productUnitPrice,
         private CategoryId $categoryId,
         private ProductLowStockAlert $lowStockAlert,
-        private ProductMinimumQuantity $minimumQuantity,
         private ProductLowStockThreshold $lowStockThreshold,
+        private ProductOutOfStock $productOutOfStock,
         private ProductEnabled $productEnabled
     ) {
     }
@@ -41,8 +39,8 @@ final class Product
         ProductUnitPrice $productUnitPrice,
         CategoryId $categoryId,
         ProductLowStockAlert $lowStockAlert,
-        ProductMinimumQuantity $minimumQuantity,
         ProductLowStockThreshold $lowStockThreshold,
+        ProductOutOfStock $productOutOfStock,
         ProductEnabled $productEnabled
     ): self {
         $product = new self(
@@ -53,8 +51,8 @@ final class Product
             $productUnitPrice,
             $categoryId,
             $lowStockAlert,
-            $minimumQuantity,
             $lowStockThreshold,
+            $productOutOfStock,
             $productEnabled
         );
 
@@ -69,8 +67,8 @@ final class Product
         ProductUnitPrice $productUnitPrice,
         CategoryId $categoryId,
         ProductLowStockAlert $lowStockAlert,
-        ProductMinimumQuantity $minimumQuantity,
         ProductLowStockThreshold $lowStockThreshold,
+        ProductOutOfStock $productOutOfStock,
         ProductEnabled $productEnabled
     ): self {
         $product = new self(
@@ -81,8 +79,8 @@ final class Product
             $productUnitPrice,
             $categoryId,
             $lowStockAlert,
-            $minimumQuantity,
             $lowStockThreshold,
+            $productOutOfStock,
             $productEnabled
         );
 
@@ -129,9 +127,9 @@ final class Product
         return $this->lowStockAlert;
     }
 
-    public function productMinimumQuantity(): ProductMinimumQuantity
+    public function productOutOfStock(): ProductOutOfStock
     {
-        return $this->minimumQuantity;
+        return $this->productOutOfStock;
     }
 
     public function productLowStockThreshold(): ProductLowStockThreshold

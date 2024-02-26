@@ -24,9 +24,9 @@ class ProductEloquentModel extends Model
         'price',
         'category_id',
         'product_price_uuid',
-        'minimum_quantity',
         'low_stock_threshold',
         'low_stock_alert',
+        'out_of_stock',
         'enabled',
     ];
 

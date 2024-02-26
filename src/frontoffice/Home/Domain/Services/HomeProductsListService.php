@@ -34,8 +34,8 @@ class HomeProductsListService
                     break;
                 }
             }
-
-            return $totalQuantity >= $product['minimum_quantity'];
+            // revisar esta regla que la modifiqué para que funcione pero no sirve?
+            return $totalQuantity > 0;
         });
 
         $filteredProducts = array_map(function ($product) use ($stockList) {

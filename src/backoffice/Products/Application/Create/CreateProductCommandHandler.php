@@ -15,9 +15,9 @@ use src\backoffice\Products\Domain\ValueObjects\ProductEnabled;
 use src\backoffice\Products\Domain\ValueObjects\ProductUnitPrice;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescription;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockAlert;
-use src\backoffice\Products\Domain\ValueObjects\ProductMinimumQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescriptionShort;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockThreshold;
+use src\backoffice\Products\Domain\ValueObjects\ProductOutOfStock;
 
 final class CreateProductCommandHandler implements CommandHandler
 {
@@ -28,8 +28,8 @@ final class CreateProductCommandHandler implements CommandHandler
     private $unitPrice;
     private $categoryId;
     private $lowStockAlert;
-    private $minimumQuantity;
     private $lowStockThreshold;
+    private $outOfStock;
     private $enabled;
 
     public function __construct(private ProductCreator $creator)
@@ -46,8 +46,8 @@ final class CreateProductCommandHandler implements CommandHandler
         $this->unitPrice = new ProductUnitPrice($command->productUnitPrice());
         $this->categoryId = new CategoryId($command->categoryId());
         $this->lowStockAlert = new ProductLowStockAlert($command->productLowStockAlert());
-        $this->minimumQuantity = new ProductMinimumQuantity($command->productMinimumQuantity());
         $this->lowStockThreshold = new ProductLowStockThreshold($command->productLowStockThreshold());
+        $this->outOfStock = new ProductOutOfStock($command->productOutOfStock());
         $this->enabled = new ProductEnabled($command->enabled());
 
         $this->creator->__invoke(
@@ -58,8 +58,8 @@ final class CreateProductCommandHandler implements CommandHandler
             $this->unitPrice,
             $this->categoryId,
             $this->lowStockAlert,
-            $this->minimumQuantity,
             $this->lowStockThreshold,
+            $this->outOfStock,
             $this->enabled
         );
     }

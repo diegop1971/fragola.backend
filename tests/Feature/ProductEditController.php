@@ -30,7 +30,6 @@ class ProductEditControllerTest extends TestCase
                     'Descripcion del producto ficticio', // description
                     'Descripcion short del producto ficticio', // description_short
                     '5000', // price
-                    '30', // minimum_quantity
                     'true', // low_stock_alert
                     '50', // low_stock_threshold
                     '2', // category_id

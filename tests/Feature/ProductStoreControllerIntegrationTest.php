@@ -19,7 +19,6 @@ class ProductStoreControllerIntegrationTest extends TestCase
             'price' => 10.99,
             'category_id' => 1,
             'low_stock_alert' => 1,
-            'minimum_quantity' => 5,
             'low_stock_threshold' => 6,
             'enabled' => 1,
         ];

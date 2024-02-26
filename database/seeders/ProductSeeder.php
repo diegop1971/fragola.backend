@@ -22,10 +22,9 @@ class ProductSeeder extends Seeder
                 Tecnologia Crosslite en una única pieza que conforma la suela y la plantilla.',
                 'description_short' => 'Crocs Originales Crocband Unisex Hombre Mujer ',
                 'price' => 14990, 
-                'tipo' => 'Calzado', 
-                'minimum_quantity' => 5, 
+                'tipo' => 'Calzado',  
                 'low_stock_threshold' => 2,
-                'low_stock_alert' => 2, 
+                'low_stock_alert' => 1, 
             ],
             [
                 'id' => '3cc2e924-d334-4d86-9f45-d5707223dc70',
@@ -48,9 +47,8 @@ class ProductSeeder extends Seeder
                 'description_short' => '',
                 'price' => 6999, 
                 'tipo' => 'Ropa', 
-                'minimum_quantity' => 1, 
                 'low_stock_threshold' => 3,
-                'low_stock_alert' => 4, 
+                'low_stock_alert' => 1, 
             ],
             [
                 'id' => '19a911dc-71f8-4e26-a64b-4efc5e4b83dd', 
@@ -59,9 +57,8 @@ class ProductSeeder extends Seeder
                 'description_short' => '',
                 'price' => 14990, 
                 'tipo' => 'Ropa', 
-                'minimum_quantity' => 1, 
                 'low_stock_threshold' => 3,
-                'low_stock_alert' => 4, 
+                'low_stock_alert' => 1, 
             ],
             [
                 'id' => 'f1a7cd0b-b3a5-4d02-9c27-85b3b0ca5f32', 
@@ -70,9 +67,8 @@ class ProductSeeder extends Seeder
                 'description_short' => 'Zapatos deportivos para correr con tecnología de última generación.',
                 'price' => 1299.50,
                 'tipo' => 'Calzado',
-                'minimum_quantity' => 1,
                 'low_stock_threshold' => 5,
-                'low_stock_alert' => 2,
+                'low_stock_alert' => 1,
             ],
             [
                 'id' => '04e0d91f-3f69-45cd-bcc0-3dca811723d9',
@@ -81,9 +77,8 @@ class ProductSeeder extends Seeder
                 'description_short' => 'Gafas de sol de estilo retro para un look sofisticado.',
                 'price' => 599.99,
                 'tipo' => 'Accesorios',
-                'minimum_quantity' => 1,
                 'low_stock_threshold' => 3,
-                'low_stock_alert' => 2,
+                'low_stock_alert' => 1,
             ],
             [
                 'id' => 'df047f2e-83f6-4a3e-bb6d-1b1cf42aa6f5',
@@ -92,9 +87,8 @@ class ProductSeeder extends Seeder
                 'description_short' => 'Set de brochas de maquillaje de alta calidad para aplicar bases, sombras de ojos, rubor y más. Perfecto para lograr un maquillaje impecable.',
                 'price' => 499.99,
                 'tipo' => 'Belleza y Cuidado Personal',
-                'minimum_quantity' => 1,
                 'low_stock_threshold' => 3,
-                'low_stock_alert' => 2,
+                'low_stock_alert' => 1,
             ],
             [
                 'id' => '7a6171b5-b0b8-4b22-a267-21a33029c23a',
@@ -103,9 +97,8 @@ class ProductSeeder extends Seeder
                 'description_short' => 'Chaqueta de cuero con forro de lana para un estilo elegante y cálido.',
                 'price' => 799.99,
                 'tipo' => 'Ropa',
-                'minimum_quantity' => 1,
                 'low_stock_threshold' => 5,
-                'low_stock_alert' => 2,
+                'low_stock_alert' => 1,
             ],
             [
                 'id' => 'a1f8b052-9e0c-4f64-9b9b-0c11eaf660a4',
@@ -114,9 +107,8 @@ class ProductSeeder extends Seeder
                 'description_short' => 'Botines de cuero con tacón alto para un look sofisticado.',
                 'price' => 899.50,
                 'tipo' => 'Calzado',
-                'minimum_quantity' => 1,
                 'low_stock_threshold' => 5,
-                'low_stock_alert' => 2,
+                'low_stock_alert' => 1,
             ],
             [
                 'id' => 'a9c2e84a-7cd9-4f3d-ae0d-7e64a9f3d731',
@@ -125,9 +117,8 @@ class ProductSeeder extends Seeder
                 'description_short' => 'Reloj de pulsera con correa de acero inoxidable para un look refinado.',
                 'price' => 1299.99,
                 'tipo' => 'Accesorios',
-                'minimum_quantity' => 1,
                 'low_stock_threshold' => 3,
-                'low_stock_alert' => 2,
+                'low_stock_alert' => 1,
             ],
             [
                 'id' => '87f82b16-493c-462d-b84b-10f22193230f',
@@ -136,9 +127,8 @@ class ProductSeeder extends Seeder
                 'description_short' => 'Set de cuidado de la piel con productos orgánicos de alta calidad.',
                 'price' => 699.75,
                 'tipo' => 'Belleza y Cuidado Personal',
-                'minimum_quantity' => 1,
                 'low_stock_threshold' => 3,
-                'low_stock_alert' => 2,
+                'low_stock_alert' => 1,
             ],
             [
                 'id' => 'fce19c5f-4e4b-4e3d-bfb8-d6e4dd22c65b',
@@ -147,9 +137,8 @@ class ProductSeeder extends Seeder
                 'description_short' => 'Pantalones de yoga de alta elasticidad para un confort inigualable.',
                 'price' => 599.99,
                 'tipo' => 'Ropa',
-                'minimum_quantity' => 1,
                 'low_stock_threshold' => 5,
-                'low_stock_alert' => 2,
+                'low_stock_alert' => 1,
             ],
             [
                 'id' => '76b234f3-44bc-4b4a-82e4-88dab82ce754',
@@ -158,9 +147,8 @@ class ProductSeeder extends Seeder
                 'description_short' => 'Sandalias de playa con estilo bohemio para un look relajado.',
                 'price' => 199.50,
                 'tipo' => 'Calzado',
-                'minimum_quantity' => 1,
                 'low_stock_threshold' => 5,
-                'low_stock_alert' => 2,
+                'low_stock_alert' => 1,
             ],
             [
                 'id' => 'b24adef7-7e34-4e6d-80e3-9c8a390ed57d',
@@ -169,9 +157,8 @@ class ProductSeeder extends Seeder
                 'description_short' => 'Collar de plata con piedra preciosa para un toque elegante.',
                 'price' => 449.99,
                 'tipo' => 'Accesorios',
-                'minimum_quantity' => 1,
                 'low_stock_threshold' => 3,
-                'low_stock_alert' => 2,
+                'low_stock_alert' => 1,
             ],
             [
                 'id' => 'b1450d9f-6e6c-496c-96d1-c8c8de6a9f81',
@@ -180,9 +167,8 @@ class ProductSeeder extends Seeder
                 'description_short' => 'Set de maquillaje de lujo para looks glamorosos.',
                 'price' => 1499.75,
                 'tipo' => 'Belleza y Cuidado Personal',
-                'minimum_quantity' => 1,
                 'low_stock_threshold' => 3,
-                'low_stock_alert' => 2,
+                'low_stock_alert' => 1,
             ],            
             [
                 'id' => '3f70c254-576b-4fb0-9eb0-794287cf93c2',
@@ -191,9 +177,8 @@ class ProductSeeder extends Seeder
                 'description_short' => 'Chaqueta de invierno resistente al agua para protegerte del frío y la lluvia.',
                 'price' => 899.99,
                 'tipo' => 'Ropa',
-                'minimum_quantity' => 1,
                 'low_stock_threshold' => 5,
-                'low_stock_alert' => 2,
+                'low_stock_alert' => 1,
             ],
         ];
 
@@ -208,10 +193,11 @@ class ProductSeeder extends Seeder
                     'description_short' => $product['description_short'],
                     'price' => $product['price'],
                     'category_id' => $randomCategory->id,
-                    'minimum_quantity' => $product['minimum_quantity'],
                     'low_stock_threshold' => $product['low_stock_threshold'],
                     'low_stock_alert' => $product['low_stock_alert'],
-                    'enabled' => true,
+                    'out_of_stock' => 0,
+                    'enabled' => 1,
+                    
                 ]);
             }
         }

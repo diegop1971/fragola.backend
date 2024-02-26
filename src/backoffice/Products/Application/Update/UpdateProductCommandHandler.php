@@ -14,9 +14,9 @@ use src\backoffice\Products\Domain\ValueObjects\ProductUnitPrice;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescription;
 use src\backoffice\Products\Application\Update\UpdateProductCommand;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockAlert;
-use src\backoffice\Products\Domain\ValueObjects\ProductMinimumQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescriptionShort;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockThreshold;
+use src\backoffice\Products\Domain\ValueObjects\ProductOutOfStock;
 
 final class UpdateProductCommandHandler implements CommandHandler
 {
@@ -27,8 +27,8 @@ final class UpdateProductCommandHandler implements CommandHandler
     private ProductUnitPrice $unitPrice;
     private CategoryId $categoryId;
     private ProductLowStockAlert $lowStockAlert;
-    private ProductMinimumQuantity $minimumQuantity;
     private ProductLowStockThreshold $lowStockThreshold;
+    private ProductOutOfStock $outOfStock;
     private ProductEnabled $enabled;
 
     public function __construct(private ProductUpdater $updater)
@@ -45,8 +45,8 @@ final class UpdateProductCommandHandler implements CommandHandler
         $this->unitPrice = new ProductUnitPrice($command->productUnitPrice());
         $this->categoryId = new CategoryId($command->categoryId());
         $this->lowStockAlert = new ProductLowStockAlert($command->productLowStockAlert());
-        $this->minimumQuantity = new ProductMinimumQuantity($command->productMinimumQuantity());
         $this->lowStockThreshold = new ProductLowStockThreshold($command->productLowStockThreshold());
+        $this->outOfStock = new ProductOutOfStock($command->productOutOfStock());
         $this->enabled = new ProductEnabled($command->enabled());
 
         $this->updater->__invoke(
@@ -57,8 +57,8 @@ final class UpdateProductCommandHandler implements CommandHandler
             $this->unitPrice,
             $this->categoryId,
             $this->lowStockAlert,
-            $this->minimumQuantity,
             $this->lowStockThreshold,
+            $this->outOfStock,
             $this->enabled
         );
     }

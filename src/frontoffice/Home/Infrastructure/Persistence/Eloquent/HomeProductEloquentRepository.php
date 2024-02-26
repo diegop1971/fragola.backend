@@ -15,7 +15,7 @@ class HomeProductEloquentRepository implements HomeProductsRepositoryInterface
             ->whereHas('category', function ($query) {
                 $query->where('enabled', true);
             })
-            ->get(['id', 'name', 'description', 'price', 'minimum_quantity', 'category_id']);
+            ->get(['id', 'name', 'description', 'price', 'category_id']);
 
         if ($products->isEmpty()) {
             return [];

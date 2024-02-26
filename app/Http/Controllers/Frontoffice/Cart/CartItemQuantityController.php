@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Frontoffice\Cart;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\frontoffice\Cart\Domain\ICartSessionManager;
 use src\frontoffice\Home\Application\Find\HomeProductFinder;

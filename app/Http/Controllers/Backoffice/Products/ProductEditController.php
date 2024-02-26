@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers\Backoffice\Products;
 
+use Throwable;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use src\backoffice\Products\Domain\ProductNotExist;
-use src\backoffice\Products\Application\Find\ProductFinder;
 use src\backoffice\Categories\Application\Find\CategoriesGet;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
-use Throwable;
+use src\backoffice\Products\Application\Find\ProductFinderWithCategory;
 
 class ProductEditController extends Controller
 {
-    private $productFinder;
+    private $productFinderWithCategory;
     private $productList;
     private $categoriesList;
     private $errorMappingService;
 
-    public function __construct(ProductFinder $productFinder, IErrorMappingService $errorMappingService)
+    public function __construct(ProductFinderWithCategory $productFinderWithCategory, IErrorMappingService $errorMappingService)
     {
-        $this->productFinder = $productFinder;
+        $this->productFinderWithCategory = $productFinderWithCategory;
         $this->errorMappingService = $errorMappingService;
     }
 
@@ -29,7 +29,7 @@ class ProductEditController extends Controller
         $title = 'Editar producto';
 
         try {
-            $this->productList = $this->productFinder->__invoke($id);
+            $this->productList = $this->productFinderWithCategory->__invoke($id);
 
             $this->categoriesList = $categoriesGet->__invoke();
 

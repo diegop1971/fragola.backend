@@ -16,8 +16,8 @@ final class CreateProductCommand implements Command
         private float $unitPrice,
         private string $categoryId,
         private bool $lowStockAlert,
-        private int $minimumQuantity,
         private int $lowStockThreshold,
+        private bool $outOfStock,
         private bool $enabled
     ) {
     }
@@ -52,9 +52,9 @@ final class CreateProductCommand implements Command
         return $this->categoryId;
     }
 
-    public function productMinimumQuantity(): int
+    public function productLowStockAlert(): bool
     {
-        return intval($this->minimumQuantity);
+        return boolval($this->lowStockAlert);
     }
 
     public function productLowStockThreshold(): int
@@ -62,9 +62,9 @@ final class CreateProductCommand implements Command
         return intval($this->lowStockThreshold);
     }
 
-    public function productLowStockAlert(): bool
+    public function productOutOfStock(): bool
     {
-        return boolval($this->lowStockAlert);
+        return boolval($this->outOfStock);
     }
 
     public function enabled(): bool
