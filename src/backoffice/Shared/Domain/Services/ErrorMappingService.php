@@ -2,14 +2,12 @@
 
 namespace src\backoffice\Shared\Domain\Services;
 
-use Illuminate\Support\Facades\Log;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
 
 class ErrorMappingService implements IErrorMappingService
 {
     public function mapToHttpCode($errorCode, ?string $message = null): array
     {
-        Log::info($errorCode);
         switch ($errorCode) {    
             case 422:
                 return [
