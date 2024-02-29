@@ -7,10 +7,10 @@ namespace src\backoffice\Stock\Infrastructure\Persistence\Eloquent;
 use Illuminate\Support\Facades\DB;
 use src\backoffice\Stock\Domain\Stock;
 use src\backoffice\Stock\Domain\StockNotExist;
-use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
+use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
 use src\backoffice\Stock\Infrastructure\Persistence\Eloquent\EloquentStockModel;
 
-class EloquentStockRepository implements StockRepositoryInterface
+class EloquentStockRepository implements IStockRepository
 {
 
     public function __construct()
@@ -64,9 +64,9 @@ class EloquentStockRepository implements StockRepositoryInterface
 
     public function getStockGroupedByProductId(): ?array
     {
-        $stock = EloquentStockModel::leftJoin('products', 'stock_movements.product_id', '=', 'products.id')
-            ->leftJoin('stock_movement_types', 'stock_movements.movement_type_id', '=', 'stock_movement_types.id')
-            ->selectRaw('products.id, products.name as product_name, SUM(stock_movements.quantity) as quantity, COUNT(*) as items, 
+        $stock = EloquentStockModel::leftJoin('products', 'stock.product_id', '=', 'products.id')
+            ->selectRaw('products.id, products.name as product_name, 
+            SUM(stock.physical_quantity) as physical_quantity, SUM(stock.usable_quantity) as usable_quantity, 
             low_stock_threshold, low_stock_alert, products.enabled')
             ->groupBy('product_id')
             ->get();
@@ -84,12 +84,8 @@ class EloquentStockRepository implements StockRepositoryInterface
 
         $model->id = $stock->stockId()->value();
         $model->product_id = $stock->stockProductId()->value();
-        $model->movement_type_id = $stock->stockMovementTypeId()->value();
-        $model->quantity = $stock->stockQuantity()->value();
-        $model->date = $stock->stockDate()->value();
-        $model->notes = $stock->stockNotes()->value();
-        $model->enabled = $stock->stockEnabled()->value();
-
+        $model->physical_quantity = $stock->stockPhysicalQuantity()->value();
+        $model->usable_quantity = $stock->stockUsableQuantity()->value();
         $model->save();
     }
 
@@ -99,11 +95,8 @@ class EloquentStockRepository implements StockRepositoryInterface
 
         $model->id = $stock->stockId()->value();
         $model->product_id = $stock->stockProductId()->value();
-        $model->movement_type_id = $stock->stockMovementTypeId()->value();
-        $model->quantity = $stock->stockQuantity()->value();
-        $model->date = $stock->stockDate()->value();
-        $model->notes = $stock->stockNotes()->value();
-        $model->enabled = $stock->stockEnabled()->value();
+        $model->physical_quantity = $stock->stockPhysicalQuantity()->value();
+        $model->usable_quantity = $stock->stockUsableQuantity()->value();
 
         $model->update();
     }

@@ -5,80 +5,48 @@ declare(strict_types=1);
 namespace src\backoffice\Stock\Domain;
 
 use src\backoffice\Stock\Domain\ValueObjects\StockId;
-use src\backoffice\Stock\Domain\ValueObjects\StockDate;
-use src\backoffice\Stock\Domain\ValueObjects\StockNotes;
-use src\backoffice\Stock\Domain\ValueObjects\StockEnabled;
-use src\backoffice\Stock\Domain\ValueObjects\StockQuantity;
 use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
-use src\backoffice\Stock\Domain\ValueObjects\StockMovementTypeId;
-use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
-use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
+use src\backoffice\Stock\Domain\ValueObjects\StockUsableQuantity;
+use src\backoffice\Stock\Domain\ValueObjects\StockPhysicalQuantity;
 
 final class Stock
 {
     public function __construct(
-                                private StockId $stockId, 
-                                private StockProductId $stockProductId,
-                                private StockMovementTypeId $stockMovementTypeId,
-                                private StockQuantity $stockQuantity,
-                                private StockDate $stockDate,
-                                private StockNotes $stockNotes,
-                                private StockEnabled $stockEnabled,
-                                private StockRepositoryInterface $stockRepository,
-                                private StockMovementTypeRepository $stockMovementTypeRepository,
-                            ) {
+        private StockId $stockId,
+        private StockProductId $stockProductId,
+        private StockPhysicalQuantity $stockPhysicalQuantity,
+        private StockUsableQuantity $stockUsableQuantity,
+    ) {
     }
 
     public static function create(
-                                StockId $stockId, 
-                                StockProductId $stockProductId, 
-                                StockMovementTypeId $stockMovementTypeId, 
-                                StockQuantity $stockQuantity, 
-                                StockDate $stockDate, 
-                                StockNotes $stockNotes, 
-                                StockEnabled $StockEnabled,
-                                StockRepositoryInterface $stockRepository,
-                                StockMovementTypeRepository $stockMovementTypeRepository,
-                            ): self
-    {                               
+        StockId $stockId,
+        StockProductId $stockProductId,
+        StockPhysicalQuantity $stockPhysicalQuantity,
+        StockUsableQuantity $stockUsableQuantity,
+    ): self {
         $stock = new self(
-                        $stockId, 
-                        $stockProductId, 
-                        $stockMovementTypeId, 
-                        $stockQuantity, 
-                        $stockDate, 
-                        $stockNotes,  
-                        $StockEnabled,
-                        $stockRepository,
-                        $stockMovementTypeRepository
-                    );
+            $stockId,
+            $stockProductId,
+            $stockPhysicalQuantity,
+            $stockUsableQuantity,
+        );
 
         return $stock;
     }
 
     public static function update(
-                                StockId $stockId, 
-                                StockProductId $stockProductId, 
-                                StockMovementTypeId $stockMovementTypeId, 
-                                StockQuantity $stockQuantity, 
-                                StockDate $stockDate, 
-                                StockNotes $stockNotes, 
-                                StockEnabled $StockEnabled,
-                                StockRepositoryInterface $stockRepository,
-                                StockMovementTypeRepository $stockMovementTypeRepository,
-                            ): self
-    {
+        StockId $stockId,
+        StockProductId $stockProductId,
+        StockPhysicalQuantity $stockPhysicalQuantity,
+        StockUsableQuantity $stockUsableQuantity,
+    ): self {
         $stock = new self(
-                        $stockId, 
-                        $stockProductId, 
-                        $stockMovementTypeId, 
-                        $stockQuantity, 
-                        $stockDate, 
-                        $stockNotes, 
-                        $StockEnabled,
-                        $stockRepository,
-                        $stockMovementTypeRepository
-                    );
+            $stockId,
+            $stockProductId,
+            $stockPhysicalQuantity,
+            $stockUsableQuantity,
+        );
 
         return $stock;
     }
@@ -93,33 +61,23 @@ final class Stock
         return $this->stockProductId;
     }
 
-    public function stockMovementTypeId(): StockMovementTypeId
+    public function stockPhysicalQuantity(): StockPhysicalQuantity
     {
-        return $this->stockMovementTypeId;
+        return $this->stockPhysicalQuantity;
     }
 
-    public function stockQuantity(): StockQuantity
+    public function stockUsableQuantity(): StockUsableQuantity
     {
-        return $this->stockQuantity;
+        return $this->stockUsableQuantity;
     }
 
-    public function stockQuantityAbsolute(): int
+    public function stockPhysicalQuantityAbsolute(): int
     {
-        return abs($this->stockQuantity->value());
+        return abs($this->stockPhysicalQuantity->value());
     }
 
-    public function stockDate(): StockDate
+    public function stockUsableQuantityAbsolute(): int
     {
-        return $this->stockDate;
-    }
-
-    public function stockNotes(): StockNotes
-    {
-        return $this->stockNotes;
-    }
-
-    public function stockEnabled(): StockEnabled
-    {
-        return $this->stockEnabled;
+        return abs($this->stockUsableQuantity->value());
     }
 }

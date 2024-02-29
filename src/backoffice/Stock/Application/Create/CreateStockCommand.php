@@ -10,14 +10,11 @@ final class CreateStockCommand implements Command
 {
 
     public function __construct(
-        private string $stockId, 
-        private string $stockProductId, 
-        private string $stockMovementTypeId, 
-        private int $stockQuantity, 
-        private string $stockDate, 
-        private string $stockNotes,
-        private bool $stockEnabled,
-        )   {
+        private string $stockId,
+        private string $stockProductId,
+        private int $stockPhysicalQuantity,
+        private int $stockUsableQuantity,
+    ) {
     }
 
     public function stockId(): string
@@ -30,28 +27,13 @@ final class CreateStockCommand implements Command
         return $this->stockProductId;
     }
 
-    public function stockMovementTypeId(): string
+    public function stockPhysicalQuantity(): int
     {
-        return $this->stockMovementTypeId;
+        return $this->stockPhysicalQuantity;
     }
 
-    public function stockQuantity(): int
+    public function stockUsableQuantity(): int
     {
-        return intval($this->stockQuantity);
-    }
-
-    public function stockDate(): string
-    {
-        return $this->stockDate;
-    }
-
-    public function stockNotes(): string
-    {
-        return $this->stockNotes;
-    }
-
-    public function stockEnabled(): bool
-    {
-        return boolval($this->stockEnabled);
+        return $this->stockUsableQuantity;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace src\backoffice\Stock\Domain\Interfaces;
+namespace src\backoffice\StockMovements\Domain\Interfaces;
 
 use src\backoffice\Stock\Domain\Stock;
 

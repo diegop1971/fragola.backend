@@ -39,12 +39,16 @@ class ProductStoreController extends Controller
                 'enabled' => 'required|in:0,1',
             ]);
 
-            $id = RamseyUuid::random();
+            $productId = RamseyUuid::random();
             $description = $data['description'] ?? '';
             $descriptionShort = $data['description_short'] ?? '';
-            
+
+            $stockId = RamseyUuid::random();
+            $physicalQuantity = 0;
+            $usableQuantity = 0;
+
             $command = new CreateProductCommand(
-                $id,
+                $productId,
                 $data['name'],
                 $description,
                 $descriptionShort,
@@ -54,10 +58,14 @@ class ProductStoreController extends Controller
                 $data['low_stock_threshold'],
                 $data['out_of_stock'],
                 $data['enabled'],
-            );
-            
-            $this->commandBus->execute($command);
+                $stockId,
+                $physicalQuantity,
+                $usableQuantity,
 
+            );
+
+            $this->commandBus->execute($command);
+            
             return response()->json([
                 'success' => true,
                 'message' => "Producto dado de alta correctamente",
@@ -76,7 +84,8 @@ class ProductStoreController extends Controller
             $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => $mappedError['message'],
+                //'message' => $mappedError['message'],
+                'message' => $e->getMessage(),
                 'detail' => null,
                 'code' => $mappedError['http_code'],
             ], $mappedError['http_code']);

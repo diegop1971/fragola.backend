@@ -6,24 +6,18 @@ namespace src\backoffice\Stock\Application\Create;
 
 use src\Shared\Domain\Bus\Command\CommandHandler;
 use src\backoffice\Stock\Domain\ValueObjects\StockId;
-use src\backoffice\Stock\Domain\ValueObjects\StockDate;
-use src\backoffice\Stock\Domain\ValueObjects\StockNotes;
-use src\backoffice\Stock\Application\Create\StockCreator;
-use src\backoffice\Stock\Domain\ValueObjects\StockEnabled;
-use src\backoffice\Stock\Domain\ValueObjects\StockQuantity;
 use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
+use src\backoffice\Stock\Application\Create\StockCreator;
 use src\backoffice\Stock\Application\Create\CreateStockCommand;
-use src\backoffice\Stock\Domain\ValueObjects\StockMovementTypeId;
+use src\backoffice\Stock\Domain\ValueObjects\StockPhysicalQuantity;
+use src\backoffice\Stock\Domain\ValueObjects\StockUsableQuantity;
 
 final class CreateStockCommandHandler implements CommandHandler
 {
-    private $stockId; 
-    private $stockProductId; 
-    private $stockMovementTypeId; 
-    private $stockQuantity; 
-    private $stockDate; 
-    private $stockNotes; 
-    private $stockEnabled;
+    private $stockId;
+    private $stockProductId;
+    private $stockPhysicalQuantity;
+    private $stockUsableQuantity;
 
     public function __construct(private StockCreator $creator)
     {
@@ -34,20 +28,14 @@ final class CreateStockCommandHandler implements CommandHandler
     {
         $this->stockId = new StockId($command->stockId());
         $this->stockProductId = new StockProductId($command->stockProductId());
-        $this->stockMovementTypeId = new StockMovementTypeId($command->stockMovementTypeId());
-        $this->stockQuantity = new StockQuantity($command->stockQuantity());
-        $this->stockDate = new StockDate($command->stockDate());
-        $this->stockNotes = new StockNotes($command->stockNotes());
-        $this->stockEnabled = new StockEnabled($command->stockEnabled());
+        $this->stockPhysicalQuantity = new StockPhysicalQuantity($command->stockPhysicalQuantity());
+        $this->stockUsableQuantity = new StockUsableQuantity($command->stockUsableQuantity());
 
         $this->creator->__invoke(
-                                $this->stockId,
-                                $this->stockProductId,
-                                $this->stockMovementTypeId,
-                                $this->stockQuantity,
-                                $this->stockDate,
-                                $this->stockNotes,
-                                $this->stockEnabled,
-                            );
+            $this->stockId,
+            $this->stockProductId,
+            $this->stockPhysicalQuantity,
+            $this->stockUsableQuantity,
+        );
     }
 }

@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stock_available', function (Blueprint $table) {
+        Schema::create('stock', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('product_id');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
             $table->unique('product_id');
-            $table->integer('quantity')->unsigned();
-            $table->boolean('out_of_stock')->default(false);
+            $table->integer('physical_quantity')->unsigned();
+            $table->integer('usable_quantity')->unsigned();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stock_available');
+        Schema::dropIfExists('stock');
     }
 };

@@ -6,10 +6,10 @@ namespace src\backoffice\Products\Infrastructure\Persistence\Eloquent;
 
 use src\backoffice\Products\Domain\Product;
 use src\backoffice\Products\Domain\ProductNotExist;
-use src\backoffice\Products\Domain\ProductRepository;
+use src\backoffice\Products\Domain\IProductRepository;
 use src\backoffice\Products\Infrastructure\Persistence\Eloquent\ProductEloquentModel;
 
-class EloquentProductRepository implements ProductRepository
+class EloquentProductRepository implements IProductRepository
 {
     public function searchAll(): ?array
     {

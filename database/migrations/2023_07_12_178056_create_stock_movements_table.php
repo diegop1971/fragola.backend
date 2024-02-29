@@ -20,7 +20,6 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->boolean('enabled')->default(true);
             $table->timestamps();
-
             $table->foreign('movement_type_id')->references('id')->on('stock_movement_types')->onDelete('restrict');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
         });

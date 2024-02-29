@@ -4,28 +4,38 @@ declare(strict_types=1);
 
 namespace src\backoffice\Products\Application\Create;
 
+use Illuminate\Support\Facades\DB;
+use src\backoffice\Stock\Domain\Stock;
 use src\backoffice\Products\Domain\Product;
 use src\backoffice\Categories\Domain\CategoryId;
-use src\backoffice\Products\Domain\ProductRepository;
+use src\backoffice\Stock\Domain\ValueObjects\StockId;
+use src\backoffice\Products\Domain\IProductRepository;
 use src\backoffice\Products\Domain\ValueObjects\ProductId;
 use src\backoffice\Products\Domain\ValueObjects\ProductName;
+use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
+use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
 use src\backoffice\Products\Domain\ValueObjects\ProductEnabled;
 use src\backoffice\Products\Domain\ValueObjects\ProductUnitPrice;
+use src\backoffice\Stock\Domain\ValueObjects\StockUsableQuantity;
+use src\backoffice\Products\Domain\ValueObjects\ProductOutOfStock;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescription;
+use src\backoffice\Stock\Domain\ValueObjects\StockPhysicalQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockAlert;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescriptionShort;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockThreshold;
 use src\backoffice\Products\Domain\Interfaces\IValidateLowStockThresholdQuantity;
-use src\backoffice\Products\Domain\ValueObjects\ProductOutOfStock;
 
 final class ProductCreator
 {
     public function __construct(
-        private ProductRepository $repository,
+        private IProductRepository $productRepository,
+        private IStockRepository $stockRepository,
         private IValidateLowStockThresholdQuantity $validateLowStockThresholdQuantityService,
     ) {
-        $this->repository = $repository;
+        $this->productRepository = $productRepository;
+        $this->stockRepository = $stockRepository;
     }
+
     public function __invoke(
         ProductId $productId,
         ProductName $productName,
@@ -36,9 +46,15 @@ final class ProductCreator
         ProductLowStockAlert $lowStockAlert,
         ProductLowStockThreshold $lowStockThreshold,
         ProductOutOfStock $outOfStock,
-        ProductEnabled $enabled
+        ProductEnabled $enabled,
+        StockId $stockId,
+        StockProductId $stockProductId,
+        StockPhysicalQuantity $stockPhysicalQuantity,
+        StockUsableQuantity $stockUsableQuantity,
     ) {
         $this->validateOperation($lowStockThreshold);
+        
+        DB::beginTransaction();
         
         $product = Product::create(
             $productId,
@@ -50,10 +66,21 @@ final class ProductCreator
             $lowStockAlert,
             $lowStockThreshold,
             $outOfStock,
-            $enabled
+            $enabled,
         );
 
-        $this->repository->save($product);
+        $this->productRepository->save($product);
+
+        $stock = Stock::create(
+            $stockId,
+            $stockProductId,
+            $stockPhysicalQuantity,
+            $stockUsableQuantity,
+        );
+
+        $this->stockRepository->save($stock);
+
+        DB::commit();
     }
 
     private function validateOperation($lowStockThreshold): void

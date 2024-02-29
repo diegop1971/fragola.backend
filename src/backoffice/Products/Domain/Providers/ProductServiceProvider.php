@@ -7,7 +7,7 @@ use src\Shared\Domain\Bus\Command\Container;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use src\Shared\Infrastructure\LaravelContainer;
 use src\Shared\Infrastructure\RamseyUuidGenerator;
-use src\backoffice\Products\Domain\ProductRepository;
+use src\backoffice\Products\Domain\IProductRepository;
 use src\backoffice\Products\Domain\IProductFinderCommand;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
 use src\backoffice\Products\Application\Find\ProductFinderCommand;
@@ -40,7 +40,7 @@ class ProductServiceProvider extends ServiceProvider
       );
 
       $this->app->bind(
-        ProductRepository::class, 
+        IProductRepository::class, 
         EloquentProductRepository::class
       );
 

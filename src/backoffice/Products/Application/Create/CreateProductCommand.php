@@ -9,7 +9,7 @@ use src\Shared\Domain\Bus\Command\Command;
 final class CreateProductCommand implements Command
 {
     public function __construct(
-        private string $id,
+        private string $productId,
         private string $name,
         private string $description,
         private string $descriptionShort,
@@ -18,13 +18,16 @@ final class CreateProductCommand implements Command
         private bool $lowStockAlert,
         private int $lowStockThreshold,
         private bool $outOfStock,
-        private bool $enabled
+        private bool $enabled,
+        private string $stockId,
+        private int $stockPhysicalQuantity,
+        private int $stockUsableQuantity,
     ) {
     }
 
     public function productId(): string
     {
-        return $this->id;
+        return $this->productId;
     }
 
     public function productName(): string
@@ -70,5 +73,20 @@ final class CreateProductCommand implements Command
     public function enabled(): bool
     {
         return boolval($this->enabled);
+    }
+
+    public function stockId(): string
+    {
+        return $this->stockId;
+    }
+
+    public function stockPhysicalQuantity(): int
+    {
+        return intval($this->stockPhysicalQuantity);
+    }
+
+    public function stockUsableQuantity(): int
+    {
+        return intval($this->stockUsableQuantity);
     }
 }

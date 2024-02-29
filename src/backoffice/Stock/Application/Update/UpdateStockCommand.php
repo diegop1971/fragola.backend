@@ -9,56 +9,34 @@ use src\Shared\Domain\Bus\Command\Command;
 final class UpdateStockCommand implements Command
 {
     public function __construct(
-                                private string $id, 
-                                private string $product_id, 
-                                private int $movement_type_id, 
-                                private int $quantity, 
-                                private string $date, 
-                                private string $notes, 
-                                private bool $enabled
-                            )
-    {
-        $this->id = $id;
-        $this->product_id = $product_id;
-        $this->movement_type_id = $movement_type_id;
-        $this->quantity = $quantity;
-        $this->date = $date;
-        $this->notes = $notes;
-        $this->enabled = $enabled;
+        private string $stockId,
+        private string $stockProductId,
+        private int $stockPhysicalQuantity,
+        private int $stockUsableQuantity,
+    ) {
+        $this->stockId = $stockId;
+        $this->stockProductId = $stockProductId;
+        $this->stockPhysicalQuantity = $stockPhysicalQuantity;
+        $this->stockUsableQuantity = $stockUsableQuantity;
     }
 
     public function stockId(): string
     {
-        return $this->id;
+        return $this->stockId;
     }
 
     public function stockProductId(): string
     {
-        return $this->product_id;
+        return $this->stockProductId;
     }
 
-    public function stockMovementTypeId(): int
+    public function stockPhysicalQuantity(): int
     {
-        return $this->movement_type_id;
+        return $this->stockPhysicalQuantity;
     }
 
-    public function stockQuantity(): int
+    public function stockUsableQuantity(): int
     {
-        return intval($this->quantity);
-    }
-
-    public function stockDate(): string
-    {
-        return $this->date;
-    }
-
-    public function stockNotes(): string
-    {
-        return $this->notes;
-    }
-
-    public function stockEnabled(): bool
-    {
-        return boolval($this->enabled);
+        return $this->stockUsableQuantity;
     }
 }

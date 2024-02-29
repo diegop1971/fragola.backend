@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace src\backoffice\Stock\Domain\ValueObjects;
+namespace src\backoffice\StockMovements\Domain\ValueObjects;
 
 use src\Shared\Domain\ValueObject\StringValueObject;
 

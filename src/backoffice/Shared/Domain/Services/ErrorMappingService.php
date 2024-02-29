@@ -22,7 +22,7 @@ class ErrorMappingService implements IErrorMappingService
                 case 23000:
                     return [
                         'http_code' => 500,
-                        'message' => 'Database error: El registro que intenta eliminar tiene una dependencia.'
+                        'message' => 'Database error: Integridad referencial!!.'
                     ];
             default:
                 return [

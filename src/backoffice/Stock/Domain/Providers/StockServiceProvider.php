@@ -8,10 +8,9 @@ use src\Shared\Domain\Bus\Command\Container;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use src\Shared\Infrastructure\LaravelContainer;
 use src\Shared\Infrastructure\RamseyUuidGenerator;
-use src\Shared\Infrastructure\CviebrockEloquentSluggable;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
 use src\backoffice\Stock\Domain\Services\StockAvailabilityService;
-use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
+use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 use src\backoffice\Stock\Domain\Services\StockMovementTypeCheckerService;
 use src\backoffice\Stock\Domain\Services\StockQuantitySignHandlerService;
@@ -48,14 +47,8 @@ class StockServiceProvider extends ServiceProvider
       );
 
       $this->app->bind(
-        SlugGenerator::class,
-        CviebrockEloquentSluggable::class
-      );
-
-      $this->app->bind(
-        StockRepositoryInterface::class, 
+        IStockRepository::class, 
         EloquentStockRepository::class
-        //RawSqlStockRepository::class
       );
 
       $this->app->bind(

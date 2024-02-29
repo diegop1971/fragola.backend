@@ -4,7 +4,7 @@ namespace src\backoffice\Products\Domain;
 
 use src\backoffice\Products\Domain\Product;
 
-interface ProductRepository
+interface IProductRepository
 {
     public function searchAll(): ?array;
 
