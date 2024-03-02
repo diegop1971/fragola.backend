@@ -6,7 +6,7 @@ namespace src\backoffice\StockMovements\Application\Create;
 
 use src\Shared\Domain\Bus\Command\Command;
 
-final class CreateStockCommand implements Command
+final class CreateStockMovementCommand implements Command
 {
 
     public function __construct(

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace src\backoffice\StockMovements\Infrastructure\Persistence\Eloquent;
 
 use Illuminate\Support\Facades\DB;
-use src\backoffice\Stock\Domain\Stock;
-use src\backoffice\Stock\Domain\StockNotExist;
-use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
-use src\backoffice\Stock\Infrastructure\Persistence\Eloquent\EloquentStockModel;
+use src\backoffice\StockMovements\Domain\StockNotExist;
+use src\backoffice\StockMovements\Domain\StockMovements;
+use src\backoffice\StockMovements\Domain\Interfaces\IStockRepository;
+use src\backoffice\StockMovements\Infrastructure\Persistence\Eloquent\EloquentStockModel;
 
-class EloquentStockRepository implements StockRepositoryInterface
+class EloquentStockRepository implements IStockRepository
 {
 
     public function __construct()
@@ -78,7 +78,7 @@ class EloquentStockRepository implements StockRepositoryInterface
         return $stock->toArray();
     }
 
-    public function save(Stock $stock): void
+    public function save(StockMovements $stock): void
     {
         $model = new EloquentStockModel();
 
@@ -93,7 +93,7 @@ class EloquentStockRepository implements StockRepositoryInterface
         $model->save();
     }
 
-    public function update(Stock $stock): void
+    public function update(StockMovements $stock): void
     {
         $model = EloquentStockModel::find($stock->stockId()->value());
 

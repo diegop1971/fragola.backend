@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace src\backoffice\StockMovements\Domain;
 
-use src\backoffice\Stock\Domain\ValueObjects\StockId;
-use src\backoffice\Stock\Domain\ValueObjects\StockDate;
-use src\backoffice\Stock\Domain\ValueObjects\StockNotes;
-use src\backoffice\Stock\Domain\ValueObjects\StockEnabled;
-use src\backoffice\Stock\Domain\ValueObjects\StockQuantity;
-use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
-use src\backoffice\Stock\Domain\ValueObjects\StockMovementTypeId;
-use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
-use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockId;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockDate;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockNotes;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockEnabled;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockProductId;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementTypeId;
 
-final class Stock
+final class StockMovements
 {
     public function __construct(
                                 private StockId $stockId, 
@@ -24,8 +22,6 @@ final class Stock
                                 private StockDate $stockDate,
                                 private StockNotes $stockNotes,
                                 private StockEnabled $stockEnabled,
-                                private StockRepositoryInterface $stockRepository,
-                                private StockMovementTypeRepository $stockMovementTypeRepository,
                             ) {
     }
 
@@ -37,8 +33,6 @@ final class Stock
                                 StockDate $stockDate, 
                                 StockNotes $stockNotes, 
                                 StockEnabled $StockEnabled,
-                                StockRepositoryInterface $stockRepository,
-                                StockMovementTypeRepository $stockMovementTypeRepository,
                             ): self
     {                               
         $stock = new self(
@@ -49,8 +43,6 @@ final class Stock
                         $stockDate, 
                         $stockNotes,  
                         $StockEnabled,
-                        $stockRepository,
-                        $stockMovementTypeRepository
                     );
 
         return $stock;
@@ -64,8 +56,6 @@ final class Stock
                                 StockDate $stockDate, 
                                 StockNotes $stockNotes, 
                                 StockEnabled $StockEnabled,
-                                StockRepositoryInterface $stockRepository,
-                                StockMovementTypeRepository $stockMovementTypeRepository,
                             ): self
     {
         $stock = new self(
@@ -76,8 +66,6 @@ final class Stock
                         $stockDate, 
                         $stockNotes, 
                         $StockEnabled,
-                        $stockRepository,
-                        $stockMovementTypeRepository
                     );
 
         return $stock;

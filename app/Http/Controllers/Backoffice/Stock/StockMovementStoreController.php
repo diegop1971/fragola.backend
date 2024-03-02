@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Backoffice\Stock;
 
 use Throwable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use Illuminate\Validation\ValidationException;
 use src\Shared\Domain\ValueObject\Uuid as RamseyUuid;
-use src\backoffice\Stock\Application\Create\CreateStockCommand;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\StockMovements\Application\Create\CreateStockMovementCommand;
 
 class StockMovementStoreController extends Controller
 {
@@ -26,7 +25,7 @@ class StockMovementStoreController extends Controller
     public function __invoke(Request $request)
     {
         $data = $request->all();
-        
+
         try {
             $data = request()->validate([
                 'product_id' => 'required|uuid',
@@ -36,15 +35,8 @@ class StockMovementStoreController extends Controller
                 'notes' => 'nullable|string',
                 'enabled' => 'required|in:0,1',
             ]);
-            Log::info($data);
-            $command = new CreateStockCommand(
-                RamseyUuid::random(),
-                $data['product_id'],
-                $data['quantity'],
-                $data['quantity'],
-            );
-            /*
-            $command = new CreateStockCommand(
+
+            $command = new CreateStockMovementCommand(
                 RamseyUuid::random(),
                 $data['product_id'],
                 $data['movement_type_id'],
@@ -53,7 +45,6 @@ class StockMovementStoreController extends Controller
                 $data['notes'] ? $data['notes'] : '',
                 $data['enabled']
             );
-            */
 
             $this->commandBus->execute($command);
 

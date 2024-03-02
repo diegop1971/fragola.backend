@@ -2,9 +2,9 @@
 
 namespace src\backoffice\StockMovements\Domain\Interfaces;
 
-use src\backoffice\Stock\Domain\Stock;
+use src\backoffice\StockMovements\Domain\StockMovements;
 
-interface StockRepositoryInterface
+interface IStockRepository
 {
     public function searchAll(): ?array;
 
@@ -14,9 +14,9 @@ interface StockRepositoryInterface
 
     public function getStockGroupedByProductId(): ?array;
 
-    public function save(Stock $stock): void;
+    public function save(StockMovements $stock): void;
 
-    public function update(Stock $stock): void;
+    public function update(StockMovements $stock): void;
     
     public function delete(string $id): void;
 

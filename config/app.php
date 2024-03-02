@@ -182,6 +182,7 @@ return [
         src\backoffice\Products\Domain\Providers\ProductServiceProvider::class,
         src\backoffice\Categories\Domain\Providers\CategoryServiceProvider::class,
         src\backoffice\Stock\Domain\Providers\StockServiceProvider::class,
+        src\backoffice\StockMovements\Domain\Providers\StockMovementsServiceProvider::class,
         src\backoffice\StockMovementType\Domain\Providers\StockMovementTypeServiceProvider::class,
         BackofficeSharedServiceProvider::class,
     

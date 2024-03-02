@@ -10,15 +10,15 @@ use src\backoffice\Stock\Domain\ValueObjects\StockDate;
 use src\backoffice\Stock\Domain\ValueObjects\StockNotes;
 use src\backoffice\Stock\Domain\ValueObjects\StockEnabled;
 use src\backoffice\Stock\Domain\ValueObjects\StockQuantity;
+use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
 use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
 use src\backoffice\Stock\Domain\ValueObjects\StockMovementTypeId;
-use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 
 final class StockUpdater
 {
     public function __construct( 
-                                private StockRepositoryInterface $stockRepository, 
+                                private IStockRepository $stockRepository, 
                                 private StockMovementTypeRepository $stockMovementTypeRepository
                             ) {
     }

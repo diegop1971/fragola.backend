@@ -3,8 +3,8 @@
 namespace src\backoffice\StockMovements\Domain\Services;
 
 use Illuminate\Validation\ValidationException;
-use src\backoffice\Stock\Domain\Interfaces\StockValidateQuantityGreaterThanZeroServiceInterface;
-use src\backoffice\Stock\Domain\ValueObjects\StockQuantity;
+use src\backoffice\StockMovements\Domain\Interfaces\StockValidateQuantityGreaterThanZeroServiceInterface;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
 
 class StockValidateQuantityGreaterThanZeroService implements StockValidateQuantityGreaterThanZeroServiceInterface
 {

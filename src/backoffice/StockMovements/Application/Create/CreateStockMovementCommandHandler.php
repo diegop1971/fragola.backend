@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace src\backoffice\StockMovements\Application\Create;
 
 use src\Shared\Domain\Bus\Command\CommandHandler;
-use src\backoffice\Stock\Domain\ValueObjects\StockId;
-use src\backoffice\Stock\Domain\ValueObjects\StockDate;
-use src\backoffice\Stock\Domain\ValueObjects\StockNotes;
-use src\backoffice\Stock\Application\Create\StockCreator;
-use src\backoffice\Stock\Domain\ValueObjects\StockEnabled;
-use src\backoffice\Stock\Domain\ValueObjects\StockQuantity;
-use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
-use src\backoffice\Stock\Application\Create\CreateStockCommand;
-use src\backoffice\Stock\Domain\ValueObjects\StockMovementTypeId;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockId;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockDate;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockNotes;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockEnabled;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockProductId;
+use src\backoffice\StockMovements\Application\Create\StockMovementCreator;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementTypeId;
+use src\backoffice\StockMovements\Application\Create\CreateStockMovementCommand;
 
-final class CreateStockCommandHandler implements CommandHandler
+final class CreateStockMovementCommandHandler implements CommandHandler
 {
     private $stockId; 
     private $stockProductId; 
@@ -25,12 +25,12 @@ final class CreateStockCommandHandler implements CommandHandler
     private $stockNotes; 
     private $stockEnabled;
 
-    public function __construct(private StockCreator $creator)
+    public function __construct(private StockMovementCreator $creator)
     {
         $this->creator = $creator;
     }
 
-    public function __invoke(CreateStockCommand $command)
+    public function __invoke(CreateStockMovementCommand $command)
     {
         $this->stockId = new StockId($command->stockId());
         $this->stockProductId = new StockProductId($command->stockProductId());

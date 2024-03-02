@@ -2,9 +2,9 @@
 
 namespace src\backoffice\StockMovements\Domain\Interfaces;
 
-use src\backoffice\Stock\Domain\ValueObjects\StockQuantity;
-use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
-use src\backoffice\Stock\Domain\ValueObjects\StockMovementTypeId;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockProductId;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementTypeId;
 
 interface StockAvailabilityServiceInterface
 {

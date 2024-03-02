@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace src\backoffice\Products\Application\Delete;
 
-use src\backoffice\Products\Domain\ProductRepository;
+use src\backoffice\Products\Domain\IProductRepository;
 
 final class ProductDeleter
 {
 
-    public function __construct(private ProductRepository $repository)
+    public function __construct(private IProductRepository $repository)
     {
         $this->repository = $repository;
     }

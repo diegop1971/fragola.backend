@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace src\backoffice\Products\Application\Find;
 
 use src\backoffice\Products\Domain\ProductNotExist;
-use src\backoffice\Products\Domain\ProductRepository;
+use src\backoffice\Products\Domain\IProductRepository;
 
 class ProductFinderWithCategory
 {
     private $repository;
 
-    public function __construct(ProductRepository $repository,)
+    public function __construct(IProductRepository $repository,)
     {
         $this->repository = $repository;
     }

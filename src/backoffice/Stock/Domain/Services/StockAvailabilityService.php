@@ -4,9 +4,9 @@ namespace src\backoffice\Stock\Domain\Services;
 
 use Illuminate\Validation\ValidationException;
 use src\backoffice\Stock\Domain\ValueObjects\StockQuantity;
+use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
 use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
 use src\backoffice\Stock\Domain\ValueObjects\StockMovementTypeId;
-use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 use src\backoffice\Stock\Domain\Interfaces\StockAvailabilityServiceInterface;
 
@@ -14,7 +14,7 @@ class StockAvailabilityService implements StockAvailabilityServiceInterface
 {
     public function __construct(
                                 private StockMovementTypeRepository $stockMovementTypeRepository,
-                                private StockRepositoryInterface $stockRepository
+                                private IStockRepository $stockRepository
                             )
     {
         $this->stockRepository = $stockRepository;

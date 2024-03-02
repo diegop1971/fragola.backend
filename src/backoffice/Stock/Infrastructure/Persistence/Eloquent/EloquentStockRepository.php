@@ -67,7 +67,7 @@ class EloquentStockRepository implements IStockRepository
         $stock = EloquentStockModel::leftJoin('products', 'stock.product_id', '=', 'products.id')
             ->selectRaw('products.id, products.name as product_name, 
             SUM(stock.physical_quantity) as physical_quantity, SUM(stock.usable_quantity) as usable_quantity, 
-            low_stock_threshold, low_stock_alert, products.enabled')
+            low_stock_threshold, low_stock_alert, products.out_of_stock, products.enabled')
             ->groupBy('product_id')
             ->get();
 

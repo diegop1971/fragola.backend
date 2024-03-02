@@ -2,9 +2,10 @@
 
 namespace src\backoffice\StockMovements\Domain\Services;
 
-use src\backoffice\Stock\Domain\ValueObjects\StockMovementTypeId;
+use Illuminate\Validation\ValidationException;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementTypeId;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
-use src\backoffice\Stock\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
+use src\backoffice\StockMovements\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
 
 class StockMovementTypeCheckerService implements StockMovementTypeCheckerServiceInterface
 {
@@ -13,8 +14,10 @@ class StockMovementTypeCheckerService implements StockMovementTypeCheckerService
         $movementType = $stockMovementTypeRepository->search($stockMovementTypeId->value());
 
         if (!$movementType) {
-            throw new \Exception("El tipo de movimiento de stock no existe.");
-        }     
+            throw ValidationException::withMessages([
+                'movement_type_id' => "El tipo de movimiento de stock no existe."
+            ]);
+        }
 
         return $movementType['is_positive'];
     }

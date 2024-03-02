@@ -27,7 +27,7 @@ class ProductUpdateController extends Controller
     {
         try {
             $data = $request->all();
-            Log::info($data);
+
             $data = request()->validate([
                 'id' => 'required|uuid',
                 'name' => 'required|string',

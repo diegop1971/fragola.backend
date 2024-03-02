@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace src\backoffice\StockMovements\Application\Find;
 
-use src\backoffice\Stock\Domain\StockNotExist;
-use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
+use src\backoffice\StockMovements\Domain\StockNotExist;
+use src\backoffice\StockMovements\Domain\Interfaces\IStockRepository;
 
 final class GetStockListByProductId
 {
     private $repository;
 
-    public function __construct(StockRepositoryInterface $repository)
+    public function __construct(IStockRepository $repository)
     {
         $this->repository = $repository;
     }

@@ -6,16 +6,16 @@ namespace src\backoffice\Stock\Application\Update;
 
 use src\backoffice\Stock\Domain\Stock;
 use src\backoffice\Stock\Domain\ValueObjects\StockId;
+use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
 use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
 use src\backoffice\Stock\Domain\ValueObjects\StockUsableQuantity;
 use src\backoffice\Stock\Domain\ValueObjects\StockPhysicalQuantity;
-use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 
 final class StockUpdater
 {
     public function __construct(
-        private StockRepositoryInterface $stockRepository,
+        private IStockRepository $stockRepository,
         private StockMovementTypeRepository $stockMovementTypeRepository
     ) {
     }

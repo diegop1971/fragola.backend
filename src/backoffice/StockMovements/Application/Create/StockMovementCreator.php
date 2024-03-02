@@ -4,25 +4,26 @@ declare(strict_types=1);
 
 namespace src\backoffice\StockMovements\Application\Create;
 
-use src\backoffice\Stock\Domain\Stock;
-use src\backoffice\Stock\Domain\ValueObjects\StockId;
-use src\backoffice\Stock\Domain\ValueObjects\StockDate;
-use src\backoffice\Stock\Domain\ValueObjects\StockNotes;
-use src\backoffice\Stock\Domain\ValueObjects\StockEnabled;
-use src\backoffice\Stock\Domain\ValueObjects\StockQuantity;
-use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
-use src\backoffice\Stock\Domain\ValueObjects\StockMovementTypeId;
-use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
+use src\backoffice\StockMovements\Domain\StockMovements;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockId;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockDate;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockNotes;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockEnabled;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
+use src\backoffice\StockMovements\Domain\Interfaces\IStockRepository;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockProductId;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
-use src\backoffice\Stock\Domain\Interfaces\StockAvailabilityServiceInterface;
-use src\backoffice\Stock\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
-use src\backoffice\Stock\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
-use src\backoffice\Stock\Domain\Interfaces\StockValidateQuantityGreaterThanZeroServiceInterface;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementTypeId;
+use src\backoffice\StockMovements\Domain\Interfaces\StockAvailabilityServiceInterface;
 
-final class StockCreator
+use src\backoffice\StockMovements\Domain\Interfaces\StockValidateQuantityGreaterThanZeroServiceInterface;
+use src\backoffice\StockMovements\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
+use src\backoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
+
+final class StockMovementCreator
 {
     public function __construct(
-                                private StockRepositoryInterface $stockRepository, 
+                                private IStockRepository $stockRepository, 
                                 private StockMovementTypeRepository $stockMovementTypeRepository,
                                 private StockQuantitySignHandlerServiceInterface $stockQuantitySignHandlerService,
                                 private StockValidateQuantityGreaterThanZeroServiceInterface $stockValidateQuantityGreaterThanZeroService,
@@ -43,7 +44,7 @@ final class StockCreator
     {
         $stockQuantity = $this->validateOperation($stockQuantity, $stockMovementTypeId, $stockProductId);
 
-        $stock = Stock::create(
+        $stock = StockMovements::create(
                                 $stockId, 
                                 $stockProductId, 
                                 $stockMovementTypeId, 

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Backoffice\Stock;
 
-use App\Http\Controllers\Controller;
-use src\backoffice\Stock\Application\Find\StockGet;
-use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
 use Throwable;
+use App\Http\Controllers\Controller;
+use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\Stock\Application\Find\GetStockGroupedByProductId;
 
-class GetStockMovementsController extends Controller
+class GetStockGroupedByProductIdController extends Controller
 {
     private $errorMappingService;
 
@@ -17,7 +17,7 @@ class GetStockMovementsController extends Controller
         $this->errorMappingService = $errorMappingService;
     }
 
-    public function __invoke(StockGet $stockGet)
+    public function __invoke(GetStockGroupedByProductId $stockGet)
     {
         try {
             $pageTitle = 'Stock list';

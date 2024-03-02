@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace src\backoffice\StockMovements\Application\Delete;
 
-use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
+use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
 
 final class StockDeleter
 {
 
-    public function __construct(private StockRepositoryInterface $repository)
+    public function __construct(private IStockRepository $repository)
     {
         $this->repository = $repository;
     }

@@ -1,29 +1,27 @@
 <?php
 namespace src\backoffice\StockMovements\Domain\Providers;
 
-use src\Shared\Domain\SlugGenerator;
 use src\Shared\Domain\UuidGenerator;
 use Illuminate\Support\ServiceProvider;
 use src\Shared\Domain\Bus\Command\Container;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use src\Shared\Infrastructure\LaravelContainer;
 use src\Shared\Infrastructure\RamseyUuidGenerator;
-use src\Shared\Infrastructure\CviebrockEloquentSluggable;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
-use src\backoffice\Stock\Domain\Services\StockAvailabilityService;
-use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
+use src\backoffice\StockMovements\Domain\Interfaces\IStockRepository;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
-use src\backoffice\Stock\Domain\Services\StockMovementTypeCheckerService;
-use src\backoffice\Stock\Domain\Services\StockQuantitySignHandlerService;
-use src\backoffice\Stock\Domain\Interfaces\StockAvailabilityServiceInterface;
-use src\backoffice\Stock\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
-use src\backoffice\Stock\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
-use src\backoffice\Stock\Domain\Services\StockValidateQuantityGreaterThanZeroService;
-use src\backoffice\Stock\Infrastructure\Persistence\Eloquent\EloquentStockRepository;
-use src\backoffice\Stock\Domain\Interfaces\StockValidateQuantityGreaterThanZeroServiceInterface;
+use src\backoffice\StockMovements\Domain\Services\StockAvailabilityService;
+use src\backoffice\StockMovements\Domain\Services\StockMovementTypeCheckerService;
+use src\backoffice\StockMovements\Domain\Services\StockQuantitySignHandlerService;
+use src\backoffice\StockMovements\Domain\Interfaces\StockAvailabilityServiceInterface;
+use src\backoffice\StockMovements\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
+use src\backoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
+use src\backoffice\StockMovements\Domain\Services\StockValidateQuantityGreaterThanZeroService;
+use src\backoffice\StockMovements\Infrastructure\Persistence\Eloquent\EloquentStockRepository;
+use src\backoffice\StockMovements\Domain\Interfaces\StockValidateQuantityGreaterThanZeroServiceInterface;
 use src\backoffice\StockMovementType\Infrastructure\Persistence\Eloquent\EloquentStockMovementTypeRepository;
 
-class StockServiceProvider extends ServiceProvider
+class StockMovementsServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -48,14 +46,8 @@ class StockServiceProvider extends ServiceProvider
       );
 
       $this->app->bind(
-        SlugGenerator::class,
-        CviebrockEloquentSluggable::class
-      );
-
-      $this->app->bind(
-        StockRepositoryInterface::class, 
+        IStockRepository::class, 
         EloquentStockRepository::class
-        //RawSqlStockRepository::class
       );
 
       $this->app->bind(

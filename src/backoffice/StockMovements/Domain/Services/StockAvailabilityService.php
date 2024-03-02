@@ -3,18 +3,18 @@
 namespace src\backoffice\StockMovements\Domain\Services;
 
 use Illuminate\Validation\ValidationException;
-use src\backoffice\Stock\Domain\ValueObjects\StockQuantity;
-use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
-use src\backoffice\Stock\Domain\ValueObjects\StockMovementTypeId;
-use src\backoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockProductId;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementTypeId;
+use src\backoffice\StockMovements\Domain\Interfaces\IStockRepository;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
-use src\backoffice\Stock\Domain\Interfaces\StockAvailabilityServiceInterface;
+use src\backoffice\StockMovements\Domain\Interfaces\StockAvailabilityServiceInterface;
 
 class StockAvailabilityService implements StockAvailabilityServiceInterface
 {
     public function __construct(
                                 private StockMovementTypeRepository $stockMovementTypeRepository,
-                                private StockRepositoryInterface $stockRepository
+                                private IStockRepository $stockRepository
                             )
     {
         $this->stockRepository = $stockRepository;
@@ -28,14 +28,14 @@ class StockAvailabilityService implements StockAvailabilityServiceInterface
             $countStockByProductId = $this->stockRepository->sumStockQuantityByProductId($stockProductId->value());
 
             if ($countStockByProductId === null) {
-                throw new ValidationException("El producto no tiene stock registrado.");
+                throw new ValidationException("The product has no stock registered.");
             }
 
             $quantity = abs($stockQuantity->value());
 
             if ($quantity > $countStockByProductId) {
                 throw ValidationException::withMessages([
-                    'quantity' => "No se puede hacer la salida de stock. Cantidad insuficiente en existencia. Cantidad en existencia: $countStockByProductId, Cantidad que pretende sacar: $quantity",
+                    'quantity' => "Stock output cannot be performed. Insufficient quantity in stock. Quantity in stock: $countStockByProductId, Quantity intending to be withdrawn: $quantity",
                 ]);
             }
         }

@@ -12,7 +12,7 @@ class StockValidateQuantityGreaterThanZeroService implements StockValidateQuanti
     {       
         if ($stockQuantity->value() <= 0) {
             throw ValidationException::withMessages([
-                'quantity' => "La cantidad debe ser mayor a cero.",
+                'quantity' => "La cantidad debe ser mayor a cero000.",
             ]);
         }
         return true;
