@@ -50,8 +50,16 @@ class EloquentStockRepository implements IStockRepository
     {
         $stock = EloquentStockModel::leftJoin('products', 'stock_movements.product_id', '=', 'products.id')
             ->leftJoin('stock_movement_types', 'stock_movements.movement_type_id', '=', 'stock_movement_types.id')
-            ->select('stock_movements.id', 'stock_movements.product_id', 'stock_movements.movement_type_id', 'stock_movements.quantity', 
-            'stock_movements.date', 'stock_movements.notes', 'stock_movements.created_at','stock_movement_types.movement_type')
+            ->select(
+                'stock_movements.id',
+                'stock_movements.product_id',
+                'stock_movements.movement_type_id',
+                'stock_movements.quantity',
+                'stock_movements.date',
+                'stock_movements.notes',
+                'stock_movements.created_at',
+                'stock_movement_types.movement_type'
+            )
             ->where('stock_movements.product_id', $productId)
             ->orderByDesc('created_at')
             ->get();
@@ -95,6 +103,20 @@ class EloquentStockRepository implements IStockRepository
 
         $model->id = $stock->stockId()->value();
         $model->product_id = $stock->stockProductId()->value();
+        $model->physical_quantity = $stock->stockPhysicalQuantity()->value();
+        $model->usable_quantity = $stock->stockUsableQuantity()->value();
+
+        $model->update();
+    }
+
+    public function updateQuantities(Stock $stock): void
+    {
+        $model = EloquentStockModel::where('product_id', $stock->stockProductId()->value())->first();
+
+        if (!$model) {
+            //throw new StockNotExist($id);
+        }
+
         $model->physical_quantity = $stock->stockPhysicalQuantity()->value();
         $model->usable_quantity = $stock->stockUsableQuantity()->value();
 

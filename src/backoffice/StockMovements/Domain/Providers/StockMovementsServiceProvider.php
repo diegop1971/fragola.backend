@@ -9,8 +9,10 @@ use src\Shared\Infrastructure\LaravelContainer;
 use src\Shared\Infrastructure\RamseyUuidGenerator;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
 use src\backoffice\StockMovements\Domain\Interfaces\IStockRepository;
+use src\backoffice\StockMovements\Domain\Services\StockUpdaterService;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 use src\backoffice\StockMovements\Domain\Services\StockAvailabilityService;
+use src\backoffice\StockMovements\Domain\Interfaces\StockUpdaterServiceInterface;
 use src\backoffice\StockMovements\Domain\Services\StockMovementTypeCheckerService;
 use src\backoffice\StockMovements\Domain\Services\StockQuantitySignHandlerService;
 use src\backoffice\StockMovements\Domain\Interfaces\StockAvailabilityServiceInterface;
@@ -73,6 +75,11 @@ class StockMovementsServiceProvider extends ServiceProvider
       $this->app->bind(
         StockAvailabilityServiceInterface::class, 
         StockAvailabilityService::class
+      );
+
+      $this->app->bind(
+        StockUpdaterServiceInterface::class, 
+        StockUpdaterService::class
       );
       
     }

@@ -17,6 +17,8 @@ interface IStockRepository
     public function save(Stock $stock): void;
 
     public function update(Stock $stock): void;
+
+    public function updateQuantities(Stock $stock): void;
     
     public function delete(string $id): void;
 

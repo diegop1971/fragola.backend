@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backoffice\Stock;
+namespace App\Http\Controllers\Backoffice\StockMovements;
 
 use Throwable;
 use Illuminate\Http\Request;
@@ -65,7 +65,8 @@ class StockMovementStoreController extends Controller
             $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => $mappedError['message'],
+                //'message' => $mappedError['message'],
+                'message' => $e->getMessage(),
                 'detail' => null,
                 'code' => $mappedError['http_code'],
             ], $mappedError['http_code']);

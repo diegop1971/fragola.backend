@@ -2,26 +2,27 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Frontoffice\Cart\AddToCartController;
-use App\Http\Controllers\Frontoffice\Cart\AsyncShowCartController;
 use App\Http\Controllers\Backoffice\Products\ProductEditController;
 use App\Http\Controllers\Backoffice\Products\ProductsGetController;
-use App\Http\Controllers\Frontoffice\Cart\CartItemDeleteController;
 use App\Http\Controllers\Backoffice\Products\ProductStoreController;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\Backoffice\Products\ProductDeleteController;
 use App\Http\Controllers\Backoffice\Products\ProductUpdateController;
 use App\Http\Controllers\Backoffice\Stock\GetStockMovementController;
-use App\Http\Controllers\Frontoffice\Cart\CartItemQuantityController;
 use App\Http\Controllers\Backoffice\Categories\CategoriesGetController;
-use App\Http\Controllers\Backoffice\Stock\StockMovementStoreController;
 use App\Http\Controllers\Backoffice\Products\StockProductsGetController;
 use App\Http\Controllers\Backoffice\Stock\CreateStockMovementController;
-use App\Http\Controllers\Frontoffice\Home\GetProductsCardListController;
 use App\Http\Controllers\Backoffice\Stock\GetStockListByProductIdController;
 use App\Http\Controllers\Backoffice\Stock\GetStockGroupedByProductIdController;
+use App\Http\Controllers\Backoffice\StockMovements\StockMovementStoreController;
 use App\Http\Controllers\Backoffice\StockMovementTypes\StockMovementTypesGetController;
 use App\Http\Controllers\Backoffice\StockMovementTypes\StockMovementTypesLimitedFieldsGetController;
+use App\Http\Controllers\Frontoffice\Cart\AddToCartController;
+use App\Http\Controllers\Frontoffice\Cart\AsyncShowCartController;
+use App\Http\Controllers\Frontoffice\Cart\CartItemDeleteController;
+use App\Http\Controllers\Frontoffice\Cart\CartItemQuantityController;
+use App\Http\Controllers\Frontoffice\Home\GetProductsCardListController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -99,16 +100,14 @@ Route::prefix('products')->group(function () {
 
 Route::prefix('stock')->group(function () {
         Route::get('/', GetStockGroupedByProductIdController::class)->name('backoffice.stock.index');
+});
+
+Route::prefix('stock-movement')->group(function () {
+        Route::post('/store', StockMovementStoreController::class)->name('backoffice.stock.store');
 
         Route::get('stocklistByProductId/{id}', GetStockListByProductIdController::class)
                 ->where('id', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}')
                 ->name('backoffice.stock.showStockListByProductId');
-
-        Route::get('/{id}', GetStockMovementController::class)
-                ->where('id', '[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}')
-                ->name('backoffice.stock.show');
-        Route::get('/create', CreateStockMovementController::class)->name('backoffice.stock.create');
-        Route::post('/store', StockMovementStoreController::class)->name('backoffice.stock.store');
 });
 
 Route::prefix('stock-movement-types')->group(function () {

@@ -38,7 +38,6 @@ class ProductDeleteController extends Controller
             ], 404);
         } catch (Throwable $e) {
             $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
-            //Log::info($mappedError);
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],

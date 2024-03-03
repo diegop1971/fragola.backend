@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace src\backoffice\Products\Application\Create;
 
+use Throwable;
 use Illuminate\Support\Facades\DB;
 use src\backoffice\Stock\Domain\Stock;
 use src\backoffice\Products\Domain\Product;
@@ -53,34 +54,39 @@ final class ProductCreator
         StockUsableQuantity $stockUsableQuantity,
     ) {
         $this->validateOperation($lowStockThreshold);
-        
-        DB::beginTransaction();
-        
-        $product = Product::create(
-            $productId,
-            $productName,
-            $productDescription,
-            $productDescriptionShort,
-            $productUnitPrice,
-            $categoryId,
-            $lowStockAlert,
-            $lowStockThreshold,
-            $outOfStock,
-            $enabled,
-        );
 
-        $this->productRepository->save($product);
+        try {
+            DB::beginTransaction();
 
-        $stock = Stock::create(
-            $stockId,
-            $stockProductId,
-            $stockPhysicalQuantity,
-            $stockUsableQuantity,
-        );
+            $product = Product::create(
+                $productId,
+                $productName,
+                $productDescription,
+                $productDescriptionShort,
+                $productUnitPrice,
+                $categoryId,
+                $lowStockAlert,
+                $lowStockThreshold,
+                $outOfStock,
+                $enabled,
+            );
 
-        $this->stockRepository->save($stock);
+            $this->productRepository->save($product);
 
-        DB::commit();
+            $stock = Stock::create(
+                $stockId,
+                $stockProductId,
+                $stockPhysicalQuantity,
+                $stockUsableQuantity,
+            );
+
+            $this->stockRepository->save($stock);
+
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 
     private function validateOperation($lowStockThreshold): void
