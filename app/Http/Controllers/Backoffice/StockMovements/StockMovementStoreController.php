@@ -65,8 +65,8 @@ class StockMovementStoreController extends Controller
             $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
-                //'message' => $mappedError['message'],
-                'message' => $e->getMessage(),
+                'message' => $mappedError['message'],
+                //'message' => $e->getMessage(),
                 'detail' => null,
                 'code' => $mappedError['http_code'],
             ], $mappedError['http_code']);

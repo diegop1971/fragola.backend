@@ -114,7 +114,7 @@ class EloquentStockRepository implements IStockRepository
         $model = EloquentStockModel::where('product_id', $stock->stockProductId()->value())->first();
 
         if (!$model) {
-            //throw new StockNotExist($id);
+            throw new StockNotExist($stock->stockProductId()->value());
         }
 
         $model->physical_quantity = $stock->stockPhysicalQuantity()->value();

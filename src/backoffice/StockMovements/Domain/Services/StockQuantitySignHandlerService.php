@@ -2,7 +2,6 @@
 
 namespace src\backoffice\StockMovements\Domain\Services;
 
-use Illuminate\Support\Facades\Log;
 use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
 use src\backoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
 

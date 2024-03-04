@@ -2,7 +2,6 @@
 
 namespace src\backoffice\StockMovements\Domain\Services;
 
-use Illuminate\Support\Facades\Log;
 use src\backoffice\Stock\Domain\Stock;
 use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
 use src\backoffice\StockMovements\Domain\Interfaces\StockUpdaterServiceInterface;
@@ -38,6 +37,7 @@ class StockUpdaterService implements StockUpdaterServiceInterface
             $this->stockPhysicalQuantity = new StockPhysicalQuantity($physicalQuantity),
             $this->stockUsableQuantity = new StockUsableQuantity($usableQuantity),
         );
+        
         $this->stockRepository->updateQuantities($stock);
     }
 }

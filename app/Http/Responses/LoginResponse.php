@@ -3,7 +3,6 @@
 namespace App\Http\Responses;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
 use Laravel\Fortify\Contracts\LoginResponse as FortifyLoginResponse;
 
 class LoginResponse implements FortifyLoginResponse

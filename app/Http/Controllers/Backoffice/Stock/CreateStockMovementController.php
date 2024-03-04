@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backoffice\Stock;
 
 use Throwable;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\backoffice\Stock\Domain\StockNotExist;
 use src\backoffice\Categories\Application\Find\CategoriesGet;

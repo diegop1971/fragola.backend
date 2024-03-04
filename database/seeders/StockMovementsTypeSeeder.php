@@ -73,7 +73,6 @@ class StockMovementsTypeSeeder extends Seeder
         foreach ($stockMovementsType as $stockMovementType) {
             $uuid = RamseyUuid::random();
 
-            // Comprueba si la categoría ya existe
             if (!EloquentStockMovementTypeModel::where('id', $uuid)->exists()) {
                 EloquentStockMovementTypeModel::create([
                     'id' => $uuid,

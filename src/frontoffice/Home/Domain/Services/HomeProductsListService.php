@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace src\frontoffice\Home\Domain\Services;
 
-
-use Illuminate\Support\Facades\Log;
 use src\frontoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
 use src\frontoffice\Home\Domain\Interfaces\HomeProductsRepositoryInterface;
 

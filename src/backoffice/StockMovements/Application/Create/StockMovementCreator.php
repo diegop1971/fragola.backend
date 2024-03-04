@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace src\backoffice\StockMovements\Application\Create;
 
-use Illuminate\Support\Facades\Log;
 use Throwable;
 use Illuminate\Support\Facades\DB;
 use src\backoffice\StockMovements\Domain\StockMovements;

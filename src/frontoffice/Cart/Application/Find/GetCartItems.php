@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace src\frontoffice\Cart\Application\Find;
 
-use Illuminate\Support\Facades\Log;
 use src\frontoffice\Cart\Domain\Interfaces\ICartRepository;
 
 final class GetCartItems

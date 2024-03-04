@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backoffice\Categories;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\backoffice\Categories\Application\Find\CategoriesGet;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;

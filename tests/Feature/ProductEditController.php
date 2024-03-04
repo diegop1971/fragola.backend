@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Mockery\MockInterface;
-use Illuminate\Support\Facades\Log;
 
 use src\backoffice\Products\Domain\Product;
 use Illuminate\Foundation\Testing\WithFaker;

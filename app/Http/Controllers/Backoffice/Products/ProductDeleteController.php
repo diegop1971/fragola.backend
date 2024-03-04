@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backoffice\Products;
 
 use Throwable;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;

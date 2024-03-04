@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backoffice\Products;
 use Throwable;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;

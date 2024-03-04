@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace src\frontoffice\Cart\Application\Update;
 
-use Illuminate\Support\Facades\Log;
 use src\frontoffice\Cart\Domain\ProductId;
 use src\frontoffice\Cart\Domain\ProductQty;
 use src\Shared\Domain\Bus\Command\CommandHandler;

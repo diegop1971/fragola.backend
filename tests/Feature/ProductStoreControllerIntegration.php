@@ -4,7 +4,6 @@ namespace Tests\Feature\Backoffice\Products;
 
 use Tests\TestCase;
 use Mockery\MockInterface;
-use Illuminate\Support\Facades\Log;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use src\backoffice\Products\Application\Create\CreateProductCommand;

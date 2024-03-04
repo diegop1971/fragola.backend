@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace src\frontoffice\Home\Infrastructure\Persistence\Eloquent;
 
+use Illuminate\Support\Facades\Log;
 use src\frontoffice\Home\Domain\Interfaces\HomeProductsRepositoryInterface;
 use src\frontoffice\Home\Infrastructure\Persistence\Eloquent\HomeProductEloquentModel;
 
@@ -17,7 +18,7 @@ class HomeProductEloquentRepository implements HomeProductsRepositoryInterface
             })
             ->get(['id', 'name', 'description', 'price', 'category_id']);
 
-        if ($products->isEmpty()) {
+            if ($products->isEmpty()) {
             return [];
         }
 
