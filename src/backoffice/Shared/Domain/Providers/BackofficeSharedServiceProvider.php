@@ -3,10 +3,10 @@
 namespace src\backoffice\Shared\Domain\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use src\backoffice\Shared\Domain\Services\ErrorMappingService;
-use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\Shared\Domain\Services\BackOfficeErrorMappingService;
+use src\backoffice\Shared\Domain\Interfaces\IBackOfficeErrorMappingService;
 
-class BackofficeSharedServiceProvider extends ServiceProvider
+class BackOfficeSharedServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -16,8 +16,8 @@ class BackofficeSharedServiceProvider extends ServiceProvider
     public function register()
     {
       $this->app->bind(
-        IErrorMappingService::class,
-        ErrorMappingService::class
+        IBackOfficeErrorMappingService::class,
+        BackOfficeErrorMappingService::class
       );
     }
 

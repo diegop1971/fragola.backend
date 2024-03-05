@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Backoffice\Stock;
 
 use Throwable;
 use App\Http\Controllers\Controller;
-use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\Shared\Domain\Interfaces\IBackOfficeErrorMappingService;
 use src\backoffice\Stock\Application\Find\GetStockGroupedByProductId;
 
 class GetStockGroupedByProductIdController extends Controller
 {
-    private $errorMappingService;
+    private $backOfficeErrorMappingService;
 
-    public function __construct(IErrorMappingService $errorMappingService)
+    public function __construct(IBackOfficeErrorMappingService $backOfficeErrorMappingService)
     {
         //$this->middleware('auth');
-        $this->errorMappingService = $errorMappingService;
+        $this->backOfficeErrorMappingService = $backOfficeErrorMappingService;
     }
 
     public function __invoke(GetStockGroupedByProductId $stockGet)
@@ -28,7 +28,7 @@ class GetStockGroupedByProductIdController extends Controller
                 'stockItem' => $stockItem,
             ]);
         } catch (Throwable $e) {
-            $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+            $mappedError = $this->backOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],

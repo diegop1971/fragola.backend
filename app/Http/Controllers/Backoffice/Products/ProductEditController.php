@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Categories\Application\Find\CategoriesGet;
-use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\Shared\Domain\Interfaces\IBackOfficeErrorMappingService;
 use src\backoffice\Products\Application\Find\ProductFinderWithCategory;
 
 class ProductEditController extends Controller
@@ -16,12 +16,12 @@ class ProductEditController extends Controller
     private $productFinderWithCategory;
     private $productList;
     private $categoriesList;
-    private $errorMappingService;
+    private $backOfficeErrorMappingService;
 
-    public function __construct(ProductFinderWithCategory $productFinderWithCategory, IErrorMappingService $errorMappingService)
+    public function __construct(ProductFinderWithCategory $productFinderWithCategory, IBackOfficeErrorMappingService $backOfficeErrorMappingService)
     {
         $this->productFinderWithCategory = $productFinderWithCategory;
-        $this->errorMappingService = $errorMappingService;
+        $this->backOfficeErrorMappingService = $backOfficeErrorMappingService;
     }
 
     public function __invoke($id, CategoriesGet $categoriesGet): JsonResponse
@@ -45,7 +45,7 @@ class ProductEditController extends Controller
                 'code' => 404,
             ], 404);
         } catch (Throwable $e) {
-            $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+            $mappedError = $this->backOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],

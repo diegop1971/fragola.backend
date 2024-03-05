@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Application\Find\ProductFinder;
 use src\backoffice\Products\Infrastructure\Persistence\Eloquent\EloquentProductRepository;
-use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\Shared\Domain\Interfaces\IBackofficeErrorMappingService;
 use src\frontoffice\Products\Infrastructure\Persistence\Eloquent\ProductEloquentModel;
 
 class ProductEditControllerTest extends TestCase

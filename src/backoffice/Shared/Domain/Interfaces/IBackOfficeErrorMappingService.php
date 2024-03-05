@@ -2,7 +2,7 @@
 
 namespace src\backoffice\Shared\Domain\Interfaces;
 
-interface IErrorMappingService 
+interface IBackOfficeErrorMappingService 
 {
     public function mapToHttpCode(int $errorCode): array;
 }

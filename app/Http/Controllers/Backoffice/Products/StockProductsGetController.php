@@ -6,16 +6,16 @@ use Throwable;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use src\backoffice\Products\Application\Find\StockProductsGet;
-use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\Shared\Domain\Interfaces\IBackOfficeErrorMappingService;
 
 class StockProductsGetController extends Controller
 {
-    private $errorMappingService;
+    private $backOfficeErrorMappingService;
 
-    public function __construct(IErrorMappingService $errorMappingService)
+    public function __construct(IBackOfficeErrorMappingService $backOfficeErrorMappingService)
     {
         //$this->middleware('auth');
-        $this->errorMappingService = $errorMappingService;
+        $this->backOfficeErrorMappingService = $backOfficeErrorMappingService;
     }
 
     public function __invoke(StockProductsGet $productsGet): JsonResponse
@@ -27,7 +27,7 @@ class StockProductsGetController extends Controller
                 'products' => $productList,
             ]);
         } catch (Throwable $e) {
-            $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+            $mappedError = $this->backOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],

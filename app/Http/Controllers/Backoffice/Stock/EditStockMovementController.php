@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backoffice\Stock;
 
 use Exception;
-//use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
 use src\backoffice\Stock\Application\Find\StockFinder;
 use src\backoffice\Products\Application\Find\ProductsGet;

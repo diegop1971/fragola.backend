@@ -5,16 +5,16 @@ namespace App\Http\Controllers\Backoffice\Categories;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use src\backoffice\Categories\Application\Find\CategoriesGet;
-use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\Shared\Domain\Interfaces\IBackOfficeErrorMappingService;
 
 class CategoriesGetController extends Controller
 {
-    private $errorMappingService;
+    private $backOfficeErrorMappingService;
 
-    public function __construct(IErrorMappingService $errorMappingService)
+    public function __construct(IBackOfficeErrorMappingService $backOfficeErrorMappingService)
     {
         //$this->middleware('auth');
-        $this->errorMappingService = $errorMappingService;
+        $this->backOfficeErrorMappingService = $backOfficeErrorMappingService;
     }
 
     public function __invoke(CategoriesGet $categoriesGet): JsonResponse
@@ -30,7 +30,7 @@ class CategoriesGetController extends Controller
             ];
             return response()->json($responseData);
         } catch (\Exception $e) {
-            $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+            $mappedError = $this->backOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],

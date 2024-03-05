@@ -7,19 +7,19 @@ use Throwable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
-use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\Shared\Domain\Interfaces\IBackOfficeErrorMappingService;
 use src\backoffice\Products\Application\Update\UpdateProductCommand;
 use src\backoffice\Products\Application\Update\UpdateProductCommandHandler;
 
 class ProductUpdateController extends Controller
 {
     private $updateProductCommandHandler;
-    private $errorMappingService;
+    private $backOfficeErrorMappingService;
 
-    public function __construct(UpdateProductCommandHandler $updateProductCommandHandler, IErrorMappingService $errorMappingService)
+    public function __construct(UpdateProductCommandHandler $updateProductCommandHandler, IBackOfficeErrorMappingService $backOfficeErrorMappingService)
     {
         $this->updateProductCommandHandler = $updateProductCommandHandler;
-        $this->errorMappingService = $errorMappingService;
+        $this->backOfficeErrorMappingService = $backOfficeErrorMappingService;
     }
 
     public function __invoke(Request $request)
@@ -66,7 +66,7 @@ class ProductUpdateController extends Controller
                 'code' => 422
             ], 422);
         } catch (Throwable $e) {
-            $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+            $mappedError = $this->backOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],

@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Backoffice\StockMovementTypes;
 
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\Shared\Domain\Interfaces\IBackOfficeErrorMappingService;
 use src\backoffice\StockMovementType\Application\Find\StockMovementTypesGet;
 
 class StockMovementTypesGetController extends Controller
 {
-    private $errorMappingService;
+    private $backOfficeErrorMappingService;
 
-    public function __construct(IErrorMappingService $errorMappingService)
+    public function __construct(IBackOfficeErrorMappingService $backOfficeErrorMappingService)
     {
         //$this->middleware('auth');
-        $this->errorMappingService = $errorMappingService;
+        $this->backOfficeErrorMappingService = $backOfficeErrorMappingService;
     }
 
     public function __invoke(StockMovementTypesGet $movementTypesGet): JsonResponse
@@ -30,7 +30,7 @@ class StockMovementTypesGetController extends Controller
             ];
             return response()->json($responseData);
         } catch (\Exception $e) {
-            $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+            $mappedError = $this->backOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],

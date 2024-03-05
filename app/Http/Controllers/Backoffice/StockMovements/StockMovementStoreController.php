@@ -8,18 +8,18 @@ use App\Http\Controllers\Controller;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use Illuminate\Validation\ValidationException;
 use src\Shared\Domain\ValueObject\Uuid as RamseyUuid;
-use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\Shared\Domain\Interfaces\IBackOfficeErrorMappingService;
 use src\backoffice\StockMovements\Application\Create\CreateStockMovementCommand;
 
 class StockMovementStoreController extends Controller
 {
     private $commandBus;
-    private $errorMappingService;
+    private $backOfficeErrorMappingService;
 
-    public function __construct(CommandBus $commandBus, IErrorMappingService $errorMappingService)
+    public function __construct(CommandBus $commandBus, IBackOfficeErrorMappingService $backOfficeErrorMappingService)
     {
         $this->commandBus = $commandBus;
-        $this->errorMappingService = $errorMappingService;
+        $this->backOfficeErrorMappingService = $backOfficeErrorMappingService;
     }
 
     public function __invoke(Request $request)
@@ -62,7 +62,7 @@ class StockMovementStoreController extends Controller
                 'code' => 422
             ], 422);
         } catch (Throwable $e) {
-            $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+            $mappedError = $this->backOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],

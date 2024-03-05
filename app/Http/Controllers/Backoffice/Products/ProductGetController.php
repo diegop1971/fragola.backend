@@ -6,17 +6,17 @@ use Throwable;
 use App\Http\Controllers\Controller;
 use src\backoffice\Products\Domain\ProductNotExist;
 use src\backoffice\Products\Application\Find\ProductFinder;
-use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\Shared\Domain\Interfaces\IBackOfficeErrorMappingService;
 
 class ProductGetController extends Controller
 {
     private $productFinder;
-    private $errorMappingService;
+    private $backOfficeErrorMappingService;
 
-    public function __construct(ProductFinder $productFinder, IErrorMappingService $errorMappingService)
+    public function __construct(ProductFinder $productFinder, IBackOfficeErrorMappingService $backOfficeErrorMappingService)
     {
         $this->productFinder = $productFinder;
-        $this->errorMappingService = $errorMappingService;
+        $this->backOfficeErrorMappingService = $backOfficeErrorMappingService;
     }
 
     public function __invoke($id)
@@ -37,7 +37,7 @@ class ProductGetController extends Controller
                 'code' => 404,
             ], 404);
         } catch (Throwable $e) {
-            $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+            $mappedError = $this->backOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],

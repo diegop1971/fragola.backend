@@ -5,18 +5,18 @@ namespace App\Http\Controllers\Backoffice\Stock;
 use Throwable;
 use App\Http\Controllers\Controller;
 use src\backoffice\Stock\Application\Find\StockFinder;
-use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\Shared\Domain\Interfaces\IBackOfficeErrorMappingService;
 
 class GetStockMovementController extends Controller
 {
     private $stockFinder;
-    private $errorMappingService;
+    private $backOfficeErrorMappingService;
 
-    public function __construct(StockFinder $stockFinder, IErrorMappingService $errorMappingService)
+    public function __construct(StockFinder $stockFinder, IBackOfficeErrorMappingService $backOfficeErrorMappingService)
     {
         //$this->middleware('auth');
         $this->stockFinder = $stockFinder;
-        $this->errorMappingService = $errorMappingService;
+        $this->backOfficeErrorMappingService = $backOfficeErrorMappingService;
     }
 
     public function __invoke($id)
@@ -30,7 +30,7 @@ class GetStockMovementController extends Controller
                 'stockItem' => $stockItem,
             ]);
         } catch (Throwable $e) {
-            $mappedError = $this->errorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+            $mappedError = $this->backOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],

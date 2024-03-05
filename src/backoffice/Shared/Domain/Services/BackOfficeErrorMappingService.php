@@ -2,9 +2,9 @@
 
 namespace src\backoffice\Shared\Domain\Services;
 
-use src\backoffice\Shared\Domain\Interfaces\IErrorMappingService;
+use src\backoffice\Shared\Domain\Interfaces\IBackOfficeErrorMappingService;
 
-class ErrorMappingService implements IErrorMappingService
+class BackOfficeErrorMappingService implements IBackOfficeErrorMappingService
 {
     public function mapToHttpCode($errorCode, ?string $message = null): array
     {

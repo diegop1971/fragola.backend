@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
-use src\backoffice\Shared\Domain\Providers\BackofficeSharedServiceProvider;
 
 return [
 
@@ -184,11 +183,12 @@ return [
         src\backoffice\Stock\Domain\Providers\StockServiceProvider::class,
         src\backoffice\StockMovements\Domain\Providers\StockMovementsServiceProvider::class,
         src\backoffice\StockMovementType\Domain\Providers\StockMovementTypeServiceProvider::class,
-        BackofficeSharedServiceProvider::class,
+        src\backoffice\Shared\Domain\Providers\BackOfficeSharedServiceProvider::class,
     
         /* Frontoffice
         |--------------------------------------------------------------------------
         */
+        src\frontoffice\Shared\Domain\Providers\FrontofficeSharedServiceProvider::class,
         src\frontoffice\Home\Domain\Providers\HomeProductServiceProvider::class,
         src\frontoffice\Categories\Domain\Providers\CategoryServiceProvider::class,
         src\frontoffice\Cart\Domain\Providers\CartSessionServiceProvider::class,
