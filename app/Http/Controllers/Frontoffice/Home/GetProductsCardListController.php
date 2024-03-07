@@ -6,24 +6,23 @@ use Throwable;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use src\frontoffice\Home\Application\Find\GetHomeProducts;
-use src\backoffice\Shared\Domain\Interfaces\IBackofficeErrorMappingService;
+use src\frontoffice\Shared\Domain\Interfaces\IFrontOfficeErrorMappingService;
 
 class GetProductsCardListController extends Controller
 {
-    private $backofficeErrorMappingService;
+    private $frontOfficeErrorMappingService;
 
-    public function __construct(IBackofficeErrorMappingService $backofficeErrorMappingService)
+    public function __construct(IFrontOfficeErrorMappingService $frontOfficeErrorMappingService)
     {
         //$this->middleware('auth');
-        $this->backofficeErrorMappingService = $backofficeErrorMappingService;
+        $this->frontOfficeErrorMappingService = $frontOfficeErrorMappingService;
     }
 
     public function __invoke(GetHomeProducts $homeProducts):JsonResponse
     {
         try {
-            $homeProductsData = $homeProducts->__invoke();
-
             $title = 'Card List Products';
+            $homeProductsData = $homeProducts->__invoke();
 
             $responseData = [
                 'title' => $title,
@@ -31,10 +30,11 @@ class GetProductsCardListController extends Controller
             ];
             return response()->json($responseData);
         } catch (Throwable $e) {
-            $mappedError = $this->backofficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+            $mappedError = $this->frontOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => $mappedError['message'],
+                //'message' => 'Error occurred at ' . $e->getFile() . ' line ' . $e->getLine() . ': ' . $e->getMessage(),
                 'details' => null,
                 'code' => $mappedError['http_code'],
             ], $mappedError['http_code']);

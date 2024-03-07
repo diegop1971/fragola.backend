@@ -10,7 +10,7 @@ use src\frontoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
 
 class EloquentStockRepository implements StockRepositoryInterface
 {
-    public function groupAndCountStockByProductId(): ?array
+    public function groupAndCountStockByProductId():?array
     {
         $stockList = DB::table('stock_movements')
             ->select(
@@ -21,7 +21,7 @@ class EloquentStockRepository implements StockRepositoryInterface
             ->groupBy('stock_movements.product_id')
             ->get();
 
-        return $stockList->toArray();
+        return $stockList->array();
     }
 
 }

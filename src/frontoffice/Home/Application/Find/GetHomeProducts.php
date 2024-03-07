@@ -4,18 +4,23 @@ declare(strict_types=1);
 
 namespace src\frontoffice\Home\Application\Find;
 
+use Illuminate\Support\Facades\Log;
 use src\frontoffice\Home\Domain\Services\HomeProductsListService;
+use src\frontoffice\Home\Domain\Interfaces\HomeProductsRepositoryInterface;
 
 final class GetHomeProducts
 {
-    public function __construct(private HomeProductsListService $homeProductList) 
+    private $homeProductsRepository;
+
+    public function __construct(HomeProductsRepositoryInterface $homeProductsRepository) 
     {
+        $this->homeProductsRepository = $homeProductsRepository;
     }
 
-    public function __invoke(): array
+    public function __invoke()
     {
-        $homeProducts = $this->homeProductList->getHomeProductsFilteredByStock();
-
+        $homeProducts = $this->homeProductsRepository->getHomeProducts();
+        
         return $homeProducts;
     }
 }

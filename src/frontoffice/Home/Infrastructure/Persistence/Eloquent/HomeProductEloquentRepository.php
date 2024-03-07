@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace src\frontoffice\Home\Infrastructure\Persistence\Eloquent;
 
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use src\frontoffice\Home\Domain\Interfaces\HomeProductsRepositoryInterface;
 use src\frontoffice\Home\Infrastructure\Persistence\Eloquent\HomeProductEloquentModel;
 
 class HomeProductEloquentRepository implements HomeProductsRepositoryInterface
 {
-    public function getHomeProducts(): ?array
+    public function getHomeProducts()
     {
         $products = HomeProductEloquentModel::where('enabled', true)
+            ->where('out_of_stock', 0)
             ->whereHas('category', function ($query) {
                 $query->where('enabled', true);
             })
-            ->get(['id', 'name', 'description', 'price', 'category_id']);
+            ->leftJoin('stock', 'products.id', '=', 'stock.product_id')
+            ->select('products.id', 'products.name', 'products.description', 'products.price', 'products.category_id', DB::raw('COALESCE(SUM(stock.usable_quantity), 0) AS total_quantity'))
+            ->groupBy('products.id')
+            ->get();
 
-            if ($products->isEmpty()) {
-            return [];
-        }
-
-        return $products->toArray();
+        return $products;
     }
 
     public function search($id): ?array
