@@ -27,8 +27,6 @@ class CategorySeeder extends Seeder
 
         foreach ($categories as $categoryData) { 
             $uuid = RamseyUuid::random();
-
-            // Comprueba si la categoría ya existe
             if (!EloquentCategoryModel::where('id', $uuid)->exists()) {
                 EloquentCategoryModel::create([
                     'id' => $uuid,

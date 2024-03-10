@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use src\backoffice\Shared\Domain\Services\BackOfficeErrorMappingService;
 use src\backoffice\Shared\Domain\Interfaces\IBackOfficeErrorMappingService;
 
+
 class BackOfficeSharedServiceProvider extends ServiceProvider
 {
     /**

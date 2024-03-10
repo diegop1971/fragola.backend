@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_status_types', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('status_type_name', 50);
+        Schema::create('payment_methods', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name', 50);
             $table->text('description')->nullable();
             $table->boolean('enabled')->default(true);
             $table->timestamps();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_status_types');
+        Schema::dropIfExists('payment_methods');
     }
 };

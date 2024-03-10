@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('customer_id')->index();
-            $table->integer('status_type_id')->unsigned()->default(1)->nullable(false);
+            $table->uuid('payment_method_id')->index();
+            $table->uuid('order_status_id')->index();
             $table->float('total_paid', 10, 2);
             $table->timestamps();
 
-            $table->foreign('customer_id')->references('id')->on('users')->onDelete('restrict');
-            $table->foreign('status_type_id')->references('id')->on('order_status_types')->onDelete('restrict');
+            $table->foreign('payment_method_id')->references('id')->on('payment_methods')->onDelete('restrict');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('restrict');
+            $table->foreign('order_status_id')->references('id')->on('order_status')->onDelete('restrict');
         });
     }
 
