@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Backoffice\Orders;
+namespace App\Http\Controllers\Frontoffice\CartCheckout;
 
 use Throwable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use Illuminate\Validation\ValidationException;
-use src\Shared\Domain\ValueObject\Uuid as RamseyUuid;
-use src\backoffice\Shared\Domain\Interfaces\IBackOfficeErrorMappingService;
-use src\backoffice\Products\Application\Create\CreateProductCommand;
+use src\frontoffice\Shared\Domain\Interfaces\IFrontOfficeErrorMappingService;
+use src\frontoffice\CartCheckout\Application\Create\CreateCartCheckoutCommand;
 
-class OrderStoreController extends Controller
+class CartCheckoutStoreController extends Controller
 {
     private $commandBus;
-    private $backOfficeErrorMappingService;
+    private $frontOfficeErrorMappingService;
 
-    public function __construct(CommandBus $commandBus, IBackOfficeErrorMappingService $backOfficeErrorMappingService)
+    public function __construct(CommandBus $commandBus, IFrontOfficeErrorMappingService $frontOfficeErrorMappingService)
     {
         $this->commandBus = $commandBus;
-        $this->backOfficeErrorMappingService = $backOfficeErrorMappingService;
+        $this->frontOfficeErrorMappingService = $frontOfficeErrorMappingService;
     }
 
     public function __invoke(Request $request)
@@ -28,24 +27,26 @@ class OrderStoreController extends Controller
 
         try {
             $data = request()->validate([
-                'total_paid' => 'required|numeric|min:1',
+                'paymentMethodName' => 'required|string', 
+                /*'total_paid' => 'required|numeric|min:1',
                 'product_id' => 'required|string',
                 'low_stock_alert' => 'required|in:0,1',
                 'low_stock_threshold' => 'required|numeric|min:1',
                 'out_of_stock' => 'required|in:0,1',
-                'enabled' => 'required|in:0,1',
+                'enabled' => 'required|in:0,1',*/
             ]);
 
-            $productId = RamseyUuid::random();
+            /*$productId = RamseyUuid::random();
             $description = $data['description'] ?? '';
-            $descriptionShort = $data['description_short'] ?? '';
+            $descriptionShort = $data['description_short'] ?? '';*/
 
-            $stockId = RamseyUuid::random();
+            /*$stockId = RamseyUuid::random();
             $physicalQuantity = 0;
-            $usableQuantity = 0;
+            $usableQuantity = 0;*/
 
-            $command = new CreateProductCommand(
-                $productId,
+            $command = new CreateCartCheckoutCommand(
+                $data['paymentMethodName'],
+                /*$productId,
                 $data['name'],
                 $description,
                 $descriptionShort,
@@ -57,15 +58,14 @@ class OrderStoreController extends Controller
                 $data['enabled'],
                 $stockId,
                 $physicalQuantity,
-                $usableQuantity,
-
+                $usableQuantity,*/
             );
 
             $this->commandBus->execute($command);
-            
+
             return response()->json([
                 'success' => true,
-                'message' => "Producto dado de alta correctamente",
+                'message' => "Compra finalizada",
                 'code' => 200
             ], 200);
         } catch (ValidationException $e) {
@@ -78,10 +78,12 @@ class OrderStoreController extends Controller
                 'code' => 422
             ], 422);
         } catch (Throwable $e) {
-            $mappedError = $this->backOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+            $mappedError = $this->frontOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
+
             return response()->json([
                 'success' => false,
-                'message' => $mappedError['message'],
+                //'message' => $mappedError['message'],
+                'message' => $e->getMessage(),
                 'detail' => null,
                 'code' => $mappedError['http_code'],
             ], $mappedError['http_code']);

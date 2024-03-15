@@ -1,5 +1,5 @@
 <?php
-namespace src\frontoffice\Home\Domain\Providers;
+namespace src\frontoffice\CartCheckout\Domain\Providers;
 
 use src\Shared\Domain\UuidGenerator;
 use Illuminate\Support\ServiceProvider;
@@ -8,12 +8,11 @@ use src\Shared\Domain\Bus\Command\CommandBus;
 use src\Shared\Infrastructure\LaravelContainer;
 use src\Shared\Infrastructure\RamseyUuidGenerator;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
-use src\frontoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
-use src\frontoffice\Home\Domain\Interfaces\HomeProductsRepositoryInterface;
-use src\frontoffice\Stock\Infrastructure\Persistence\Eloquent\EloquentStockRepository;
-use src\frontoffice\Home\Infrastructure\Persistence\Eloquent\HomeProductEloquentRepository;
+use src\frontoffice\CartCheckout\Domain\Interfaces\IPaymentGateway;
+use src\frontoffice\CartCheckout\Domain\Services\PaymentMethodsHandlerService;
 
-class HomeProductServiceProvider extends ServiceProvider
+
+class CheckoutServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -37,16 +36,10 @@ class HomeProductServiceProvider extends ServiceProvider
         RamseyUuidGenerator::class
       );
 
-      $this->app->bind(
-        StockRepositoryInterface::class, 
-        EloquentStockRepository::class
-      );
-
-      $this->app->bind(
-        HomeProductsRepositoryInterface::class,
-        HomeProductEloquentRepository::class
-      );
-
+      /*$this->app->bind(
+        IPaymentGateway::class, 
+        PaymentMethodsHandlerService::class
+      );*/
     }
 
     /**

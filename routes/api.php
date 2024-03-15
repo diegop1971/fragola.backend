@@ -2,26 +2,28 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Frontoffice\Cart\AddToCartController;
+use App\Http\Controllers\Frontoffice\Cart\AsyncShowCartController;
 use App\Http\Controllers\Backoffice\Products\ProductEditController;
 use App\Http\Controllers\Backoffice\Products\ProductsGetController;
+use App\Http\Controllers\Frontoffice\Cart\CartItemDeleteController;
 use App\Http\Controllers\Backoffice\Products\ProductStoreController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\Backoffice\Products\ProductDeleteController;
 use App\Http\Controllers\Backoffice\Products\ProductUpdateController;
 use App\Http\Controllers\Backoffice\Stock\GetStockMovementController;
+use App\Http\Controllers\Frontoffice\Cart\CartItemQuantityController;
+use App\Http\Controllers\Frontoffice\Checkout\CheckoutStoreController;
 use App\Http\Controllers\Backoffice\Categories\CategoriesGetController;
 use App\Http\Controllers\Backoffice\Products\StockProductsGetController;
 use App\Http\Controllers\Backoffice\Stock\CreateStockMovementController;
+use App\Http\Controllers\Frontoffice\Home\GetProductsCardListController;
 use App\Http\Controllers\Backoffice\Stock\GetStockListByProductIdController;
+use App\Http\Controllers\Frontoffice\CartCheckout\CartCheckoutStoreController;
 use App\Http\Controllers\Backoffice\Stock\GetStockGroupedByProductIdController;
 use App\Http\Controllers\Backoffice\StockMovements\StockMovementStoreController;
 use App\Http\Controllers\Backoffice\StockMovementTypes\StockMovementTypesGetController;
 use App\Http\Controllers\Backoffice\StockMovementTypes\StockMovementTypesLimitedFieldsGetController;
-use App\Http\Controllers\Frontoffice\Cart\AddToCartController;
-use App\Http\Controllers\Frontoffice\Cart\AsyncShowCartController;
-use App\Http\Controllers\Frontoffice\Cart\CartItemDeleteController;
-use App\Http\Controllers\Frontoffice\Cart\CartItemQuantityController;
-use App\Http\Controllers\Frontoffice\Home\GetProductsCardListController;
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 
 /*
@@ -59,6 +61,10 @@ Route::prefix('cart')->group(function () {
 });
 
 Route::get('/productsCardList', GetProductsCardListController::class);
+
+Route::prefix('checkout-cart')->group(function () {
+        Route::post('/store', CartCheckoutStoreController::class);
+});
 
 /*
 |--------------------------------------------------------------------------

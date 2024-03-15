@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace src\frontoffice\Home\Application\Find;
 
-use Illuminate\Support\Facades\Log;
 use src\frontoffice\Home\Domain\Services\HomeProductsListService;
 use src\frontoffice\Home\Domain\Interfaces\HomeProductsRepositoryInterface;
 

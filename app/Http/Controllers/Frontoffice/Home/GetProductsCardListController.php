@@ -40,4 +40,24 @@ class GetProductsCardListController extends Controller
             ], $mappedError['http_code']);
         }
     }
+
+    private function processPayment() {
+        // Obtener el método de pago seleccionado por el cliente desde el frontend
+        $paymentMethod = 'wallet';
+
+        // Resolver la instancia correcta del contenedor de servicios basada en el método de pago
+        $paymentGateway = app(PaymentGateway::class . ucfirst($paymentMethod));
+
+        // Verificar si la instancia se resolvió correctamente
+        if(!$paymentGateway) {
+            return response()->json(['error' => 'Método de pago no válido'], 400);
+        }
+
+        // Procesar el pago utilizando la instancia de la forma de pago correcta
+        $amount = 100; // Obtener el monto del pago
+        $paymentGateway->processPayment($amount);
+
+        // Retornar una respuesta adecuada al cliente
+        return response()->json(['message' => 'Pago procesado correctamente'], 200);
+    }
 }

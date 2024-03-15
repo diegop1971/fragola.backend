@@ -1,5 +1,5 @@
 <?php
-namespace src\frontoffice\Home\Domain\Providers;
+namespace src\frontoffice\PaymentMethods\Domain\Providers;
 
 use src\Shared\Domain\UuidGenerator;
 use Illuminate\Support\ServiceProvider;
@@ -8,12 +8,11 @@ use src\Shared\Domain\Bus\Command\CommandBus;
 use src\Shared\Infrastructure\LaravelContainer;
 use src\Shared\Infrastructure\RamseyUuidGenerator;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
-use src\frontoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
-use src\frontoffice\Home\Domain\Interfaces\HomeProductsRepositoryInterface;
-use src\frontoffice\Stock\Infrastructure\Persistence\Eloquent\EloquentStockRepository;
-use src\frontoffice\Home\Infrastructure\Persistence\Eloquent\HomeProductEloquentRepository;
+use src\frontoffice\PaymentMethods\Domain\Interfaces\IPaymentMethodsRepository;
+use src\frontoffice\PaymentMethods\Infrastructure\Infrastructure\PaymentMethodsRepository;
 
-class HomeProductServiceProvider extends ServiceProvider
+
+class PaymentMethodServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -38,15 +37,9 @@ class HomeProductServiceProvider extends ServiceProvider
       );
 
       $this->app->bind(
-        StockRepositoryInterface::class, 
-        EloquentStockRepository::class
+        IPaymentMethodsRepository::class, 
+        PaymentMethodsRepository::class
       );
-
-      $this->app->bind(
-        HomeProductsRepositoryInterface::class,
-        HomeProductEloquentRepository::class
-      );
-
     }
 
     /**
