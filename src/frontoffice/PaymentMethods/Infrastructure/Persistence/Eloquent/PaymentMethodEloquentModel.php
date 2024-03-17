@@ -1,6 +1,6 @@
 <?php
 
-namespace src\frontoffice\PaymentMethods\Infrastructure;
+namespace src\frontoffice\PaymentMethods\Infrastructure\Persistence\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;

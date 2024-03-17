@@ -193,7 +193,8 @@ return [
         src\frontoffice\Categories\Domain\Providers\CategoryServiceProvider::class,
         src\frontoffice\Cart\Domain\Providers\CartSessionServiceProvider::class,
         src\frontoffice\Products\Domain\Providers\ProductServiceProvider::class,
-
+        src\frontoffice\OrderStatus\Domain\Providers\OrderStatusServiceProvider::class,
+        src\frontoffice\Orders\Domain\Providers\OrderServiceProvider::class,
     ])->toArray(),
 
     /*

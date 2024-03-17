@@ -9,15 +9,18 @@ use src\frontoffice\CartCheckout\Domain\ValueObjects\CartCheckoutId;
 use src\frontoffice\CartCheckout\Domain\ValueObjects\IdPaymentMethod;
 use src\frontoffice\CartCheckout\Domain\ValueObjects\PaymentMethodName;
 use src\frontoffice\CartCheckout\Application\Create\CheckoutCartCreator;
+use src\frontoffice\OrderStatus\Domain\Interfaces\IOrderStatusRepository;
 use src\frontoffice\CartCheckout\Application\Create\CreateCartCheckoutCommand;
 
 final class CreateCartCheckoutCommandHandler implements CommandHandler
 {
     private $paymentMethodName;
+    private $orderStatusRepository;
 
-    public function __construct(private CheckoutCartCreator $creator)
+    public function __construct(private CheckoutCartCreator $creator, IOrderStatusRepository $orderStatusRepository)
     {
         $this->creator = $creator;
+        $this->orderStatusRepository = $orderStatusRepository;
     }
 
     public function __invoke(CreateCartCheckoutCommand $command)
@@ -29,6 +32,7 @@ final class CreateCartCheckoutCommandHandler implements CommandHandler
         $this->creator->__invoke(
             $cartCheckoutId,
             $this->paymentMethodName,
+            $this->orderStatusRepository,
         );
     }
 }

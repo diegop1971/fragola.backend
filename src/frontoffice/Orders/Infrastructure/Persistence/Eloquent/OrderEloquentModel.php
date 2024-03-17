@@ -1,28 +1,29 @@
 <?php
 
-namespace src\backoffice\OrderStatus\Infrastructure\Persistence\Eloquent;
+namespace src\frontoffice\Orders\Infrastructure\Persistence\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use src\backoffice\OrderManager\Infrastructure\Persistence\Eloquent\OrderEloquentModel;
 
-class OrderStatusEloquentModel extends Model
+class OrderEloquentModel extends Model
 {
     use HasFactory;
+    use HasUuids;
 
     protected $table = 'order_status';
 
     protected $fillable = [
         'id',
-        'name',
-        'short_name',
-        'description',
-        'enabled',
+        'customer_id',
+        'payment_method_id',
+        'order_status_id',
+        'total_paid',
     ];
 
-    public function orders(): HasMany
+    /*public function orders(): HasMany
     {
         return $this->hasMany(OrderEloquentModel::class);
-    }
+    }*/
 }
