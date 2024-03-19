@@ -195,6 +195,8 @@ return [
         src\frontoffice\Products\Domain\Providers\ProductServiceProvider::class,
         src\frontoffice\OrderStatus\Domain\Providers\OrderStatusServiceProvider::class,
         src\frontoffice\Orders\Domain\Providers\OrderServiceProvider::class,
+        src\frontoffice\Customers\Domain\Providers\CustomerServiceProvider::class,
+        src\frontoffice\PaymentMethods\Domain\Providers\PaymentMethodServiceProvider::class,
     ])->toArray(),
 
     /*

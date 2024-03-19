@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use src\backoffice\OrderManager\Infrastructure\Persistence\Eloquent\OrderEloquentModel;
+use src\frontoffice\PaymentMethods\Infrastructure\Persistence\Eloquent\PaymentMethodEloquentModel;
 
 class OrderStatusEloquentModel extends Model
 {
@@ -26,5 +27,10 @@ class OrderStatusEloquentModel extends Model
     public function orders(): HasMany
     {
         return $this->hasMany(OrderEloquentModel::class);
+    }
+
+    public function paymentMethods()
+    {
+        return $this->hasMany(PaymentMethodEloquentModel::class, 'initial_order_status_id');
     }
 }

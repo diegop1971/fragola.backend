@@ -9,7 +9,7 @@ use src\Shared\Infrastructure\LaravelContainer;
 use src\Shared\Infrastructure\RamseyUuidGenerator;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
 use src\frontoffice\PaymentMethods\Domain\Interfaces\IPaymentMethodsRepository;
-use src\frontoffice\PaymentMethods\Infrastructure\Infrastructure\PaymentMethodsRepository;
+use src\frontoffice\PaymentMethods\Infrastructure\Persistence\Eloquent\EloquentPaymentMethodsRepository;
 
 
 class PaymentMethodServiceProvider extends ServiceProvider
@@ -38,7 +38,7 @@ class PaymentMethodServiceProvider extends ServiceProvider
 
       $this->app->bind(
         IPaymentMethodsRepository::class, 
-        PaymentMethodsRepository::class
+        EloquentPaymentMethodsRepository::class
       );
     }
 

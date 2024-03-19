@@ -2,7 +2,6 @@
 
 namespace src\frontoffice\CartCheckout\Domain\Services;
 
-use Illuminate\Support\Facades\Log;
 use src\frontoffice\CartCheckout\Domain\Interfaces\IPaymentGateway;
 use src\frontoffice\OrderStatus\Domain\Interfaces\IOrderStatusRepository;
 
@@ -20,7 +19,7 @@ class CashOnDeliveryPaymentGateway implements IPaymentGateway
         $response = array(
             'success' => true,
             //'paymentMethod' => 'paymentMethodName',
-            'initialOrderStatus' => 'awaiting_bank_wire'
+            'initialOrderStatus' => 'awaiting_cash_payment'
         );
 
         return $response;

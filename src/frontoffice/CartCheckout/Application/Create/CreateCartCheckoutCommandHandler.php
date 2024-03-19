@@ -5,34 +5,39 @@ declare(strict_types=1);
 namespace src\frontoffice\CartCheckout\Application\Create;
 
 use src\Shared\Domain\Bus\Command\CommandHandler;
-use src\frontoffice\CartCheckout\Domain\ValueObjects\CartCheckoutId;
-use src\frontoffice\CartCheckout\Domain\ValueObjects\IdPaymentMethod;
-use src\frontoffice\CartCheckout\Domain\ValueObjects\PaymentMethodName;
+use src\frontoffice\CartCheckout\Domain\ValueObjects\OrderId;
+use src\frontoffice\Customers\Domain\ValueObjects\CustomerId;
+use src\frontoffice\CartCheckout\Domain\ValueObjects\PaymentMethodId;
 use src\frontoffice\CartCheckout\Application\Create\CheckoutCartCreator;
 use src\frontoffice\OrderStatus\Domain\Interfaces\IOrderStatusRepository;
 use src\frontoffice\CartCheckout\Application\Create\CreateCartCheckoutCommand;
+use src\frontoffice\PaymentMethods\Domain\Interfaces\IPaymentMethodsRepository;
 
 final class CreateCartCheckoutCommandHandler implements CommandHandler
 {
-    private $paymentMethodName;
     private $orderStatusRepository;
+    private $paymentMethodsRepository;
 
-    public function __construct(private CheckoutCartCreator $creator, IOrderStatusRepository $orderStatusRepository)
+    public function __construct(private CheckoutCartCreator $creator, IPaymentMethodsRepository $paymentMethodsRepository, IOrderStatusRepository $orderStatusRepository)
     {
         $this->creator = $creator;
+        $this->paymentMethodsRepository = $paymentMethodsRepository;
         $this->orderStatusRepository = $orderStatusRepository;
     }
 
     public function __invoke(CreateCartCheckoutCommand $command)
     {
-        $cartCheckoutId = CartCheckoutId::random();
+        $orderId = OrderId::random();
 
-        $this->paymentMethodName = new PaymentMethodName($command->paymentMethodName());
+        $customerId = new CustomerId($command->CustomerId());
+        $paymentMethodId = new PaymentMethodId($command->paymentMethodId());
 
         $this->creator->__invoke(
-            $cartCheckoutId,
-            $this->paymentMethodName,
+            $orderId,
+            $customerId,
+            $paymentMethodId,
             $this->orderStatusRepository,
+            $this->paymentMethodsRepository,
         );
     }
 }

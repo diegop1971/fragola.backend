@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Frontoffice\CartCheckout;
 
 use Throwable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use Illuminate\Validation\ValidationException;
@@ -29,7 +28,7 @@ class CartCheckoutStoreController extends Controller
         try {
             $data = request()->validate([
                 'customerId' => 'required|string',
-                'paymentMethodId' => 'required|string',
+                'paymentMethodName' => 'required|string', 
                 /*'total_paid' => 'required|numeric|min:1',
                 'product_id' => 'required|string',
                 'low_stock_alert' => 'required|in:0,1',
@@ -48,9 +47,22 @@ class CartCheckoutStoreController extends Controller
 
             $command = new CreateCartCheckoutCommand(
                 $data['customerId'],
-                $data['paymentMethodId'],
+                $data['paymentMethodName'],
+                /*$productId,
+                $data['name'],
+                $description,
+                $descriptionShort,
+                $data['price'],
+                $data['category_id'],
+                $data['low_stock_alert'],
+                $data['low_stock_threshold'],
+                $data['out_of_stock'],
+                $data['enabled'],
+                $stockId,
+                $physicalQuantity,
+                $usableQuantity,*/
             );
-            
+
             $this->commandBus->execute($command);
 
             return response()->json([

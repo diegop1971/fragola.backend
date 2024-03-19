@@ -6,44 +6,56 @@ namespace src\frontoffice\CartCheckout\Application\Create;
 
 use Throwable;
 use Illuminate\Support\Facades\Log;
-use src\frontoffice\CartCheckout\Domain\ValueObjects\CartCheckoutId;
-use src\frontoffice\CartCheckout\Domain\ValueObjects\PaymentMethodName;
+use src\frontoffice\CartCheckout\Domain\ValueObjects\OrderId;
+use src\frontoffice\Customers\Domain\ValueObjects\CustomerId;
+use src\frontoffice\Orders\Domain\Interfaces\IOrderRepository;
+use src\frontoffice\CartCheckout\Domain\ValueObjects\PaymentMethodId;
 use src\frontoffice\OrderStatus\Domain\Interfaces\IOrderStatusRepository;
 use src\frontoffice\CartCheckout\Domain\Services\PaymentGatewayFactoryService;
+use src\frontoffice\PaymentMethods\Domain\Interfaces\IPaymentMethodsRepository;
+use src\frontoffice\PaymentMethods\Infrastructure\Persistence\Eloquent\PaymentMethodEloquentModel;
 
 final class CheckoutCartCreator
 {
+    private $orderRepository;
     private $initialOrderStatus;
     private $paymentGateway;
     private $idInitialOrderStatus;
 
-    public function __construct()
+    public function __construct(IOrderRepository $orderRepository)
     {
+        $this->orderRepository = $orderRepository;
     }
 
     public function __invoke(
-        CartCheckoutId $cartCheckoutId,
-        PaymentMethodName $paymentMethodName,
-        IOrderStatusRepository $orderStatusRepository
+        OrderId $orderId,
+        CustomerId $customerId,
+        PaymentMethodId $paymentMethodId,
+        IOrderStatusRepository $orderStatusRepository,
+        IPaymentMethodsRepository $paymentMethodsRepository,
     ) {
         try {
-            /**
-             * recibe $paymentMethodName
-             * envía $paymentMethodName a PaymentGatewayFactoryService para que lo procese la clase que corresponda según el método de pago
-             * PaymentGatewayFactoryService devuelve $initialOrderStatus que sirve para:
-             * recuperar el id del $initialOrderStatus de su repositorio OrderStatusRepository
-             * una vez que tenemos el id de $initialStatus ver si tenemos todos los datos para guardar la orden mediante el repositorio que corresponda
-             */
+            $paymentMethod = $paymentMethodsRepository->search($paymentMethodId);
+
+            $peperoni = $paymentMethodsRepository->searchWithInitialOrderStatusName($paymentMethodId);
+            Log::info($peperoni);
+            $paymentMethodName = $paymentMethod['short_name'];
+
             $paymentGateway = PaymentGatewayFactoryService::createPaymentGateway($paymentMethodName, $orderStatusRepository);
-
             $paymentGatewayResponse = $paymentGateway->processPayment(100);
+            
+            //$paymentMethod = PaymentMethodEloquentModel::where('short_name', 'bank_wire')->first();
+            //$initialOrderStatus = $paymentMethod->initialOrderStatus;
 
-            $initialOrderStatus = $orderStatusRepository->searchByShortName($paymentGatewayResponse['initialOrderStatus']);
-
-            $idInitialOrderStatus = $initialOrderStatus['id'];
-
-            log::info($idInitialOrderStatus);
-
+            Log::info($paymentMethod['initial_order_status_id']);
+            //$initialOrderStatus = $orderStatusRepository->searchByShortName($paymentGatewayResponse['initialOrderStatus']);
+            //$initialOrderStatusId = $initialOrderStatus['id'];
+            
+           /* $customerId = $customerId;
+            $paymentMethodId = '';
+            $orderStatusId = $initialOrderStatusId;
+            $totalPaid = 250;
+            */
 
             /*
             $cartCheckout = CartCheckout::create(
@@ -53,7 +65,7 @@ final class CheckoutCartCreator
             $this->cartCheckoutRepository->save($cartCheckout);
             */
         } catch (Throwable $e) {
-            Log::info($e->getMessage());
+            throw $e;
         }
     }
 }

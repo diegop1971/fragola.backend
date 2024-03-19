@@ -9,13 +9,18 @@ use src\Shared\Domain\Bus\Command\Command;
 final class CreateCartCheckoutCommand implements Command
 {
     public function __construct(
-        private string $PaymentMethodName,
+        private string $customerId,
+        private string $PaymentMethodId,
     ) {
-        
     }
 
-    public function PaymentMethodName(): string
+    public function CustomerId(): string
     {
-        return $this->PaymentMethodName;
+        return $this->customerId;
+    }
+
+    public function PaymentMethodId(): string
+    {
+        return $this->PaymentMethodId;
     }
 }

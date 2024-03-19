@@ -22,6 +22,7 @@ use App\Http\Controllers\Backoffice\Stock\GetStockListByProductIdController;
 use App\Http\Controllers\Frontoffice\CartCheckout\CartCheckoutStoreController;
 use App\Http\Controllers\Backoffice\Stock\GetStockGroupedByProductIdController;
 use App\Http\Controllers\Backoffice\StockMovements\StockMovementStoreController;
+use App\Http\Controllers\Frontoffice\PaymentMethods\PaymentMethodsGetController;
 use App\Http\Controllers\Backoffice\StockMovementTypes\StockMovementTypesGetController;
 use App\Http\Controllers\Backoffice\StockMovementTypes\StockMovementTypesLimitedFieldsGetController;
 
@@ -61,6 +62,8 @@ Route::prefix('cart')->group(function () {
 });
 
 Route::get('/productsCardList', GetProductsCardListController::class);
+
+Route::get('/payment-methods', PaymentMethodsGetController::class);
 
 Route::prefix('checkout-cart')->group(function () {
         Route::post('/store', CartCheckoutStoreController::class);

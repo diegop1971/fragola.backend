@@ -8,8 +8,10 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\StockSeeder;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\CategorySeeder;
+use Database\Seeders\CustomerSeeder;
 use Illuminate\Support\Facades\Hash;
 use Database\Seeders\OrderStatusSeeder;
+use Database\Seeders\PaymentMethodsSeeder;
 use Database\Seeders\StockMovementsSeeder;
 use Database\Seeders\StockMovementsTypeSeeder;
 
@@ -35,5 +37,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OrderStatusSeeder::class);
         $this->call(StockSeeder::class);
         $this->call(StockMovementsSeeder::class);
+        $this->call(PaymentMethodsSeeder::class);
+        $this->call(CustomerSeeder::class);
     }
 }
