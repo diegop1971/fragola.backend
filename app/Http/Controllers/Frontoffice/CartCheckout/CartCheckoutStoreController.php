@@ -72,8 +72,8 @@ class CartCheckoutStoreController extends Controller
 
             return response()->json([
                 'success' => false,
-                //'message' => $mappedError['message'],
-                'message' => $e->getMessage(),
+                'message' => $mappedError['message'],
+                //'message' => $e->getMessage(),
                 'detail' => null,
                 'code' => $mappedError['http_code'],
             ], $mappedError['http_code']);
