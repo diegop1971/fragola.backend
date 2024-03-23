@@ -25,32 +25,30 @@ class CartCheckoutStoreController extends Controller
     public function __invoke(Request $request)
     {
         $data = $request->all();
+        Log::info($data);
+        // 40cdbdb0-c5f5-4d0e-b72f-18c63cdb439e
+
 
         try {
             $data = request()->validate([
                 'customerId' => 'required|string',
                 'paymentMethodId' => 'required|string',
-                /*'total_paid' => 'required|numeric|min:1',
-                'product_id' => 'required|string',
-                'low_stock_alert' => 'required|in:0,1',
-                'low_stock_threshold' => 'required|numeric|min:1',
-                'out_of_stock' => 'required|in:0,1',
-                'enabled' => 'required|in:0,1',*/
+                'cartData.sessionCartItems.*.productId' => 'required|uuid',
+                'cartData.sessionCartItems.*.productName' => 'required|string',
+                'cartData.sessionCartItems.*.productQty' => 'required|integer|min:1',
+                'cartData.sessionCartItems.*.productUnitPrice' => 'required|numeric|min:0',
+                'cartData.cartTotalItemCount' => 'required|integer|min:1',
+                'cartData.cartTotalAmount' => 'required|numeric|min:0',
             ]);
-
-            /*$productId = RamseyUuid::random();
-            $description = $data['description'] ?? '';
-            $descriptionShort = $data['description_short'] ?? '';*/
-
-            /*$stockId = RamseyUuid::random();
-            $physicalQuantity = 0;
-            $usableQuantity = 0;*/
 
             $command = new CreateCartCheckoutCommand(
                 $data['customerId'],
                 $data['paymentMethodId'],
+                $data['cartData']['cartTotalItemCount'],
+                $data['cartData']['cartTotalAmount'],
+                $data['cartData']['sessionCartItems'],
             );
-            
+
             $this->commandBus->execute($command);
 
             return response()->json([
@@ -72,8 +70,8 @@ class CartCheckoutStoreController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => $mappedError['message'],
-                //'message' => $e->getMessage(),
+                //'message' => $mappedError['message'],
+                'message' => $e->getMessage(),
                 'detail' => null,
                 'code' => $mappedError['http_code'],
             ], $mappedError['http_code']);

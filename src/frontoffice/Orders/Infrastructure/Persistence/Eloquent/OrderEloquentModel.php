@@ -12,13 +12,14 @@ class OrderEloquentModel extends Model
     use HasFactory;
     use HasUuids;
 
-    protected $table = 'order_status';
+    protected $table = 'orders';
 
     protected $fillable = [
         'id',
         'customer_id',
         'payment_method_id',
         'order_status_id',
+        'items_quantity',
         'total_paid',
     ];
 

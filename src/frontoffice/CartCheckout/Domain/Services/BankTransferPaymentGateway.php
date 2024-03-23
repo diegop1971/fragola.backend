@@ -5,7 +5,7 @@ namespace src\frontoffice\CartCheckout\Domain\Services;
 use src\frontoffice\CartCheckout\Domain\Interfaces\IPaymentGateway;
 use src\frontoffice\CartCheckout\Domain\PaymentProcessingException;
 
-class CashOnDeliveryPaymentGateway implements IPaymentGateway
+class BankTransferPaymentGateway implements IPaymentGateway
 {
     public function processPayment($amount)
     {
@@ -19,7 +19,7 @@ class CashOnDeliveryPaymentGateway implements IPaymentGateway
         */
         $response = array(
             'success' => true,
-            'message' => ''
+            'message' => 'BankTransferPaymentGateway'
         );
 
         return $response;

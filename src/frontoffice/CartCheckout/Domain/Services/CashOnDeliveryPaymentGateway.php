@@ -19,7 +19,7 @@ class CashOnDeliveryPaymentGateway implements IPaymentGateway
         */
         $response = array(
             'success' => true,
-            'message' => ''
+            'message' => 'CashOnDeliveryPaymentGateway'
         );
 
         return $response;

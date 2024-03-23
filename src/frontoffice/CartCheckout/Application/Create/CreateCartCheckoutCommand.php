@@ -10,17 +10,35 @@ final class CreateCartCheckoutCommand implements Command
 {
     public function __construct(
         private string $customerId,
-        private string $PaymentMethodId,
+        private string $paymentMethodId,
+        private int $itemsQuantity,
+        private float $totalPaid,
+        private array $orderDetail,
     ) {
     }
 
-    public function CustomerId(): string
+    public function customerId(): string
     {
         return $this->customerId;
     }
 
-    public function PaymentMethodId(): string
+    public function paymentMethodId(): string
     {
-        return $this->PaymentMethodId;
+        return $this->paymentMethodId;
+    }
+
+    public function itemsQuantity(): int
+    {
+        return intval($this->itemsQuantity);
+    }
+
+    public function totalPaid(): float
+    {
+        return floatval($this->totalPaid);
+    }
+
+    public function orderDetail(): array
+    {
+        return $this->orderDetail;
     }
 }

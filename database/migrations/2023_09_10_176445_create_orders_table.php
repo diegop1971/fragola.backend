@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('customer_id')->index();
             $table->uuid('payment_method_id')->index();
             $table->uuid('order_status_id')->index();
+            $table->integer('items_quantity');
             $table->float('total_paid', 10, 2);
             $table->timestamps();
 
