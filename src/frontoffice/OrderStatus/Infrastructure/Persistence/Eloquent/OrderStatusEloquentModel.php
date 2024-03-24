@@ -29,7 +29,7 @@ class OrderStatusEloquentModel extends Model
         return $this->hasMany(OrderEloquentModel::class);
     }
 
-    public function paymentMethods()
+    public function paymentMethods(): HasMany
     {
         return $this->hasMany(PaymentMethodEloquentModel::class, 'initial_order_status_id');
     }

@@ -25,9 +25,6 @@ class CartCheckoutStoreController extends Controller
     public function __invoke(Request $request)
     {
         $data = $request->all();
-        Log::info($data);
-        // 40cdbdb0-c5f5-4d0e-b72f-18c63cdb439e
-
 
         try {
             $data = request()->validate([
