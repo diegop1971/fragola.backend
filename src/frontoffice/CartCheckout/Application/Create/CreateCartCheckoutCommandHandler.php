@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Log;
 
 use src\Shared\Domain\Bus\Command\CommandHandler;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderId;
-use src\frontoffice\Orders\Domain\ValueObjects\OrderCustomerId;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderTotalPaid;
+use src\frontoffice\Orders\Domain\ValueObjects\OrderCustomerId;
+use src\frontoffice\CartCheckout\Domain\ValueObjects\OrderDetail;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderItemsQuantity;
-use src\frontoffice\OrdersDetails\Domain\ValueObjects\OrderDetail;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderPaymentMethodId;
 use src\frontoffice\CartCheckout\Application\Create\CheckoutCartCreator;
 use src\frontoffice\OrderStatus\Domain\Interfaces\IOrderStatusRepository;

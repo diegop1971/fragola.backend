@@ -83,7 +83,7 @@ final class Order
         return $this->orderStatusId;
     }
 
-    public function orderItemsQuantity(): orderItemsQuantity
+    public function orderItemsQuantity(): OrderItemsQuantity
     {
         return $this->orderItemsQuantity;
     }

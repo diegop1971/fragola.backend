@@ -4,44 +4,43 @@ declare(strict_types=1);
 
 namespace src\frontoffice\OrdersDetails\Infrastructure\Persistence\Eloquent;
 
-use src\frontoffice\Orders\Domain\Order;
-use src\frontoffice\Orders\Domain\Interfaces\IOrderRepository;
-use src\frontoffice\Orders\Infrastructure\Persistence\Eloquent\OrderEloquentModel;
+use src\frontoffice\OrdersDetails\Domain\OrderDetailEntity;
+use src\frontoffice\OrdersDetails\Domain\Interfaces\IOrderDetailRepository;
+use src\frontoffice\OrdersDetails\Infrastructure\Persistence\Eloquent\OrderDetailEloquentModel;
 
-class EloquentOrderDetailRepository implements IOrderRepository
+class EloquentOrderDetailRepository implements IOrderDetailRepository
 {
     public function searchAll(): ?array
     {
-        $orders = OrderEloquentModel::paginate(10);
+        $orderDetail = OrderDetailEloquentModel::paginate(10);
 
-        if ($orders->isEmpty()) {
+        if ($orderDetail->isEmpty()) {
             return [];
         }
 
-        return $orders->toArray();
+        return $orderDetail->toArray();
     }
 
     public function search($id): ?array
     {
-        $order = OrderEloquentModel::where('id', '=', $id)->first();
+        $orderDetail = OrderDetailEloquentModel::where('id', '=', $id)->first();
 
-        if (null === $order) {
+        if (null === $orderDetail) {
             return null;
         }
 
-        return $order->toArray();
+        return $orderDetail->toArray();
     }
 
-    public function save(Order $order): void
+    public function insert(OrderDetailEntity $orderDetail): void
     {
-        $model = new OrderEloquentModel();
+        $model = new OrderDetailEloquentModel();
 
-        $model->id = $order->orderId()->value();
-        $model->customer_id = $order->orderCustomerId()->value();
-        $model->payment_method_id = $order->orderPaymentMethodId()->value();
-        $model->order_status_id = $order->orderStatusId()->value();
-        $model->items_quantity = $order->orderItemsQuantity()->value();
-        $model->total_paid = $order->orderTotalPaid()->value();
+        $model->id = $orderDetail->orderDetailId()->value();
+        $model->order_id = $orderDetail->orderOrderId()->value();
+        $model->product_id = $orderDetail->orderDetailProductId()->value();
+        $model->quantity = $orderDetail->orderDetailQuantity()->value();
+        $model->unit_price = $orderDetail->orderDetailUnitPrice()->value();
 
         $model->save();
     }

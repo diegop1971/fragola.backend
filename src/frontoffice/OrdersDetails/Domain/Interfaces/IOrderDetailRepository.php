@@ -2,7 +2,7 @@
 
 namespace src\frontoffice\OrdersDetails\Domain\Interfaces;
 
-use src\frontoffice\Orders\Domain\Order;
+use src\frontoffice\OrdersDetails\Domain\OrderDetailEntity;
 
 interface IOrderDetailRepository
 {
@@ -10,5 +10,5 @@ interface IOrderDetailRepository
 
     public function search($id): ?array;
 
-    public function save(Order $order): void;
+    public function insert(OrderDetailEntity $orderDetailEntity): void;
 }

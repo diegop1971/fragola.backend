@@ -76,17 +76,31 @@ final class CheckoutCartCreator
 
             $this->orderRepository->save($order);
 
-            array_map(function ($detail) use ($orderId) {
-                $orderDetail = OrderDetailEntity::create(
+            /*$orderDetailEntities = array_map(function ($detail) {
+                return OrderDetailEntity::create(
                     OrderDetailId::random(),
-                    $orderId,
+                    $this->orderId,
                     new OrderDetailProductId($detail['productId']),
                     new OrderDetailQuantity($detail['productQty']),
                     new OrderDetailUnitPrice($detail['productUnitPrice']),
                 );
-                $this->orderDetailRepository->insert($orderDetail);
             }, $orderDetails->value());
 
+            log::info($orderDetailEntities[0]->orderId());
+
+            $this->orderDetailRepository->insert($orderDetailEntities);*/
+            
+            $dataToInsert = array_map(function ($detail) use ($orderId) {
+                return [
+                    'id' => OrderDetailId::random()->value(),
+                    'order_id' => $orderId->value(),
+                    'product_id' => $detail['productId'],
+                    'quantity' => $detail['productQty'],
+                    'unit_price' => $detail['productUnitPrice'],
+                ];
+            }, $orderDetails->value());
+
+            $this->orderDetailRepository->insert($dataToInsert);
             DB::commit();
         } catch (Throwable $e) {
             DB::rollback();
