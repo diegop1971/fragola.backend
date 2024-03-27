@@ -16,7 +16,7 @@ final class CreateCartCheckoutCommand implements Command
         private string $paymentMethodId,
         private int $itemsQuantity,
         private float $totalPaid,
-        private array $orderDetail,
+        private array $orderDetail
     ) {
     }
 

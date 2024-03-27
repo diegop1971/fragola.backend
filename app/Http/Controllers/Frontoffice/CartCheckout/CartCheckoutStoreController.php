@@ -25,10 +25,10 @@ class CartCheckoutStoreController extends Controller
     public function __invoke(Request $request)
     {
         $data = $request->all();
-        Log::info($data);
+
         //try {
             $data = request()->validate([
-                'customerId' => 'required|string',
+                'customerId' => 'nullable|uuid',
                 'customerEmail' => 'required|string',
                 'firstName' =>  'required|string',
                 'lastName' =>  'required|string',
@@ -41,6 +41,9 @@ class CartCheckoutStoreController extends Controller
                 'cartData.cartTotalAmount' => 'required|numeric|min:0',
             ]);
 
+            if($data['customerId'] === '') {
+                
+            }
             $command = new CreateCartCheckoutCommand(
                 $data['customerId'],
                 $data['customerEmail'],

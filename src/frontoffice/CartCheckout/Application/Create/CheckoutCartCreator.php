@@ -14,9 +14,13 @@ use src\frontoffice\Orders\Domain\ValueObjects\OrderStatusId;
 use src\frontoffice\Orders\Domain\Interfaces\IOrderRepository;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderTotalPaid;
 use src\frontoffice\orders\Domain\ValueObjects\OrderCustomerId;
+use src\frontoffice\Customers\Domain\ValueObjects\CustomerEmail;
 use src\frontoffice\CartCheckout\Domain\ValueObjects\OrderDetail;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderItemsQuantity;
 use src\frontoffice\CartCheckout\Domain\PaymentProcessingException;
+use src\frontoffice\Customers\Domain\ValueObjects\CustomerLastName;
+use src\frontoffice\Customers\Domain\Interfaces\ICustomerRepository;
+use src\frontoffice\Customers\Domain\ValueObjects\CustomerFirstName;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderPaymentMethodId;
 use src\frontoffice\OrdersDetails\Domain\ValueObjects\OrderDetailId;
 use src\frontoffice\OrderStatus\Domain\Interfaces\IOrderStatusRepository;
@@ -25,9 +29,6 @@ use src\frontoffice\OrdersDetails\Domain\Interfaces\IOrderDetailRepository;
 use src\frontoffice\OrdersDetails\Domain\ValueObjects\OrderDetailProductId;
 use src\frontoffice\OrdersDetails\Domain\ValueObjects\OrderDetailUnitPrice;
 use src\frontoffice\CartCheckout\Domain\Services\PaymentGatewayFactoryService;
-use src\frontoffice\Customers\Domain\ValueObjects\CustomerEmail;
-use src\frontoffice\Customers\Domain\ValueObjects\CustomerFirstName;
-use src\frontoffice\Customers\Domain\ValueObjects\CustomerLastName;
 use src\frontoffice\PaymentMethods\Domain\Interfaces\IPaymentMethodsRepository;
 use src\frontoffice\OrdersDetails\Infrastructure\Persistence\Eloquent\OrderDetailEloquentModel;
 
@@ -35,13 +36,15 @@ final class CheckoutCartCreator
 {
     private $orderRepository;
     private $orderDetailRepository;
+    private $customerRespository;
     private $paymentGateway;
     private $orderId;
 
-    public function __construct(IOrderRepository $orderRepository, IOrderDetailRepository $orderDetailRepository)
+    public function __construct(IOrderRepository $orderRepository, IOrderDetailRepository $orderDetailRepository, ICustomerRepository $customerRespository)
     {
         $this->orderRepository = $orderRepository;
         $this->orderDetailRepository = $orderDetailRepository;
+        $this->customerRespository = $customerRespository;
     }
 
     public function __invoke(
@@ -59,6 +62,15 @@ final class CheckoutCartCreator
     ) {
         try {
             DB::beginTransaction();
+
+            /*$customer = $this->customerRespository->searchByEmail($customerEmail->value());
+
+            if ($customer === null) {
+                // llama a un servicio de dominio que crea un nuevo customer y devuelve el id del nuevo customer
+            }
+
+            $customerId = new OrderCustomerId($customer['id']);*/
+
             $this->orderId = $orderId;
 
             $paymentMethod = $paymentMethodsRepository->searchWithInitialOrderStatusName($paymentMethodId);
@@ -99,3 +111,28 @@ final class CheckoutCartCreator
         }
     }
 }
+/**
+ * el customer está logueado => existe en la db
+ * tenemos customerId
+ * se asigna customerId a la order
+ * la order es de tipo cliente
+ * 
+ * el customer es cliente pero compra como invitado => existe en la db
+ * no tenemos customerId
+ * existe customerEmail
+ * a partir de customerEmail se recupera customerID de la bd
+ * se le asigna customerId a la order
+ * la order es de tipo invitado
+ * 
+ * el customer no es cliente pero ya compró como invitadoy => existe en la db
+ * no tenemos customerId
+ * 
+ * si el customer no es cliente y es su primera compra como invitado => no existe en la db
+ * no tenemos customerId
+ * existe customerEmail que se provee en el checkout
+ * se verifica mediante el customerEmail que la no existencia en la bd
+ * no existe customerId
+ * se da de alta como cliente de tipo invitado
+ * se asigna customerId a la order
+ * la order es de tipo invitado
+ */

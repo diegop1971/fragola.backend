@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace src\frontoffice\CartCheckout\Application\Create;
 
-use Illuminate\Support\Facades\Log;
-
 use src\Shared\Domain\Bus\Command\CommandHandler;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderId;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderTotalPaid;
