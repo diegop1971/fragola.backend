@@ -25,6 +25,9 @@ use src\frontoffice\OrdersDetails\Domain\Interfaces\IOrderDetailRepository;
 use src\frontoffice\OrdersDetails\Domain\ValueObjects\OrderDetailProductId;
 use src\frontoffice\OrdersDetails\Domain\ValueObjects\OrderDetailUnitPrice;
 use src\frontoffice\CartCheckout\Domain\Services\PaymentGatewayFactoryService;
+use src\frontoffice\Customers\Domain\ValueObjects\CustomerEmail;
+use src\frontoffice\Customers\Domain\ValueObjects\CustomerFirstName;
+use src\frontoffice\Customers\Domain\ValueObjects\CustomerLastName;
 use src\frontoffice\PaymentMethods\Domain\Interfaces\IPaymentMethodsRepository;
 use src\frontoffice\OrdersDetails\Infrastructure\Persistence\Eloquent\OrderDetailEloquentModel;
 
@@ -44,6 +47,9 @@ final class CheckoutCartCreator
     public function __invoke(
         OrderId $orderId,
         OrderCustomerId $customerId,
+        CustomerEmail $customerEmail,
+        CustomerFirstName $customerFirstName,
+        CustomerLastName $customerLastName,
         OrderPaymentMethodId $paymentMethodId,
         OrderItemsQuantity $itemsQuantity,
         OrderTotalPaid $totalPaid,
@@ -86,7 +92,6 @@ final class CheckoutCartCreator
                 );
                 $this->orderDetailRepository->insert($orderDetail);
             }, $orderDetails->value());
-
             DB::commit();
         } catch (Throwable $e) {
             DB::rollback();

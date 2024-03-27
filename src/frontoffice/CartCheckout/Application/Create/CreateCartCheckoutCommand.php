@@ -10,6 +10,9 @@ final class CreateCartCheckoutCommand implements Command
 {
     public function __construct(
         private string $customerId,
+        private string $customerEmail,
+        private string $firstName,
+        private string $lastName,
         private string $paymentMethodId,
         private int $itemsQuantity,
         private float $totalPaid,
@@ -20,6 +23,21 @@ final class CreateCartCheckoutCommand implements Command
     public function customerId(): string
     {
         return $this->customerId;
+    }
+
+    public function customerEmail(): string
+    {
+        return $this->customerEmail;
+    }
+
+    public function customerFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    public function customerLastName(): string
+    {
+        return $this->lastName;
     }
 
     public function paymentMethodId(): string
