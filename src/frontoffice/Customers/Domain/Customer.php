@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace src\frontoffice\Orders\Domain;
+namespace src\frontoffice\Customers\Domain;
 
 use src\frontoffice\Customers\Domain\ValueObjects\CustomerId;
 use src\frontoffice\Customers\Domain\ValueObjects\CustomerEmail;
@@ -54,7 +54,7 @@ final class Customer
         CustomerEmail $customerEmail,
         CustomerEmailVerifiedAt $customerEmailVerifiedAt,
         CustomerPassword $customerPassword,
-        CustomerRememberToken $customerRememberToken,
+        CustomerRememberToken $customerRememberToken
     ): self {
         $order = new self(
             $customerId,

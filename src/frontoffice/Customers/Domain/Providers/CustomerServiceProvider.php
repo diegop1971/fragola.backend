@@ -10,6 +10,8 @@ use src\Shared\Infrastructure\LaravelContainer;
 use src\Shared\Infrastructure\RamseyUuidGenerator;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
 use src\frontoffice\Customers\Domain\Interfaces\ICustomerRepository;
+use src\frontoffice\Customers\Domain\Services\CustomerHandlerService;
+use src\frontoffice\Customers\Domain\Interfaces\ICustomerHandlerService;
 use src\frontoffice\Customers\Infrastructure\Persistence\Eloquent\EloquentCustomerRepository;
 
 class CustomerServiceProvider extends ServiceProvider
@@ -39,6 +41,11 @@ class CustomerServiceProvider extends ServiceProvider
     $this->app->bind(
       ICustomerRepository::class,
       EloquentCustomerRepository::class
+    );
+
+    $this->app->bind(
+      ICustomerHandlerService::class,
+      CustomerHandlerService::class
     );
   }
 

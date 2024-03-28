@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace src\frontoffice\Customers\Infrastructure\Persistence\Eloquent;
 
-use Illuminate\Support\Facades\Log;
-use src\frontoffice\Orders\Domain\Customer;
+use src\frontoffice\Customers\Domain\Customer;
 use src\frontoffice\Customers\Domain\Interfaces\ICustomerRepository;
 use src\frontoffice\Customers\Infrastructure\Persistence\Eloquent\CustomerEloquentModel;
 

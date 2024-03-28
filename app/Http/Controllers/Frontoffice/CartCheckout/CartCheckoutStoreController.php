@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use Illuminate\Validation\ValidationException;
+use src\Shared\Domain\ValueObject\PasswordValueObject;
+use src\frontoffice\Customers\Domain\ValueObjects\CustomerPassword;
 use src\frontoffice\Shared\Domain\Interfaces\IFrontOfficeErrorMappingService;
 use src\frontoffice\CartCheckout\Application\Create\CreateCartCheckoutCommand;
 
@@ -41,9 +43,6 @@ class CartCheckoutStoreController extends Controller
                 'cartData.cartTotalAmount' => 'required|numeric|min:0',
             ]);
 
-            if($data['customerId'] === '') {
-                
-            }
             $command = new CreateCartCheckoutCommand(
                 $data['customerId'],
                 $data['customerEmail'],

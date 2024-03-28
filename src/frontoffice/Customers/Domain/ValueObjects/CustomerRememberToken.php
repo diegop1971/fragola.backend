@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace src\frontoffice\Customers\Domain\ValueObjects;
 
-use src\Shared\Domain\ValueObject\StringValueObject;
+use src\Shared\Domain\ValueObject\NullableStringValueObject;
 
-final class CustomerRememberToken extends StringValueObject
+final class CustomerRememberToken extends NullableStringValueObject
 {
 }
