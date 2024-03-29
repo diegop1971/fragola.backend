@@ -28,7 +28,7 @@ class CartCheckoutStoreController extends Controller
     {
         $data = $request->all();
 
-        //try {
+        try {
             $data = request()->validate([
                 'customerId' => 'nullable|uuid',
                 'customerEmail' => 'required|string',
@@ -61,7 +61,7 @@ class CartCheckoutStoreController extends Controller
                 'message' => "Compra finalizada",
                 'code' => 200
             ], 200);
-        /*} catch (ValidationException $e) {
+        } catch (ValidationException $e) {
             $errors = $e->validator->errors()->toArray();
 
             return response()->json([
@@ -80,6 +80,6 @@ class CartCheckoutStoreController extends Controller
                 'detail' => null,
                 'code' => $mappedError['http_code'],
             ], $mappedError['http_code']);
-        }*/
+        }
     }
 }
