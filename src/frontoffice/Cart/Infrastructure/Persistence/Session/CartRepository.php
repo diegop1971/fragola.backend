@@ -2,6 +2,7 @@
 
 namespace src\frontoffice\Cart\Infrastructure\Persistence\Session;
 
+use Illuminate\Support\Facades\Log;
 use src\frontoffice\Cart\Domain\Cart;
 use src\frontoffice\Cart\Domain\ICartSessionManager;
 use src\frontoffice\Cart\Domain\Interfaces\ICartRepository;
@@ -27,7 +28,7 @@ class CartRepository implements ICartRepository
         } else {
             $sessionCartItems = $this->sessionManager->getKeySessionData($keyName);
         }
-
+        Log::info($sessionCartItems);
         return $sessionCartItems;
     }
     
@@ -41,6 +42,7 @@ class CartRepository implements ICartRepository
         $this->item = [
             'productId' => $product['id'],
             'productName' => $product['name'],
+            'productDescription' => $product['description'],
             'productQty' => $productQty,
             'productUnitPrice' => round($product['price'], 2)
         ];
@@ -59,6 +61,7 @@ class CartRepository implements ICartRepository
                     $sessionCartItem = array_replace($sessionCartItem, [
                         'productId' => $product['id'],
                         'productName' => $product['name'],
+                        'productDescription' => $product['description'],
                         'productQty' => $cant,
                         'productUnitPrice' => round($product['price'], 2)
                     ]);
