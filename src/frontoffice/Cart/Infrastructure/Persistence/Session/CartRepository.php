@@ -28,7 +28,7 @@ class CartRepository implements ICartRepository
         } else {
             $sessionCartItems = $this->sessionManager->getKeySessionData($keyName);
         }
-        Log::info($sessionCartItems);
+        
         return $sessionCartItems;
     }
     
