@@ -6,6 +6,7 @@ namespace src\frontoffice\CartCheckout\Application\Create;
 
 use Throwable;
 use Illuminate\Support\Facades\DB;
+use src\frontoffice\CartCheckout\Domain\Interfaces\IDeleteCartService;
 use src\frontoffice\Orders\Domain\Order;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderId;
 use src\frontoffice\OrdersDetails\Domain\OrderDetailEntity;
@@ -39,15 +40,18 @@ final class CheckoutCartCreator
     private $customerHandlerService;
     private $paymentGateway;
     private $orderId;
+    private $deleteCartService;
 
     public function __construct(
         IOrderRepository $orderRepository,
         IOrderDetailRepository $orderDetailRepository,
-        ICustomerHandlerService $customerHandlerService
+        ICustomerHandlerService $customerHandlerService,
+        IDeleteCartService $deleteCartService,
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderDetailRepository = $orderDetailRepository;
         $this->customerHandlerService = $customerHandlerService;
+        $this->deleteCartService = $deleteCartService;
     }
 
     public function __invoke(
@@ -108,6 +112,7 @@ final class CheckoutCartCreator
                 $this->orderDetailRepository->insert($orderDetail);
             }, $orderDetails->value());
             DB::commit();
+            $this->deleteCartService->deleteCart();
         } catch (Throwable $e) {
             DB::rollback();
             throw $e;

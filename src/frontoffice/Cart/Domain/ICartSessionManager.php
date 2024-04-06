@@ -10,5 +10,5 @@ interface ICartSessionManager
 
     public function pushDataInKeySession($KeyName, $data): void;
 
-    public function deleteCart($KeyName): void;
+    public function deleteKey($KeyName): void;
 }

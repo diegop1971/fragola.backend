@@ -28,7 +28,7 @@ class CartSessionCookieManager implements ICartSessionManager
         session()->push($KeyName, $sessionKeyData);
     }
 
-    public function deleteCart($KeyName): void
+    public function deleteKey($KeyName): void
     {
         session()->forget($KeyName);
     }

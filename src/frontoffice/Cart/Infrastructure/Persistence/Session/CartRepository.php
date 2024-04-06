@@ -47,7 +47,7 @@ class CartRepository implements ICartRepository
             'productUnitPrice' => round($product['price'], 2)
         ];
         
-        // NOTA IMPORTANTE:  TENER EN CUENTA QUE LA KEY 'CART' PUEDE EXISTIR INCLUSO CON EL CARRITO VACIO, ANALIZAR ESO!!!!
+        // NOTA IMPORTANTE:  TENER EN CUENTA QUE LA KEY 'cart' PUEDE EXISTIR INCLUSO CON EL CARRITO VACIO, ANALIZAR ESO!!!!
         if (!session()->exists('cart')) {
             array_push($this->cartItems, $this->item);
             $this->sessionManager->putDataInKeySession('cart', $this->cartItems);
@@ -75,5 +75,10 @@ class CartRepository implements ICartRepository
 
             $this->sessionManager->putDataInKeySession('cart', $this->cartItems);
         }
+    }
+
+    public function deleteCart($keyName): void
+    {
+        $this->sessionManager->deleteKey($keyName);
     }
 }
