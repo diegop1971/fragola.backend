@@ -6,16 +6,23 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use src\Shared\Domain\ValueObject\Uuid as RamseyUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use src\frontoffice\OrderStatus\Domain\Interfaces\IOrderStatusRepository;
 use src\frontoffice\PaymentMethods\Infrastructure\Persistence\Eloquent\PaymentMethodEloquentModel;
 
 class PaymentMethodsSeeder extends Seeder
 {
     use HasFactory;
     use HasUuids;
+    private $orderStatusRepository;
+
+    public function __construct(IOrderStatusRepository $orderStatusRepository)
+    {
+        $this->orderStatusRepository = $orderStatusRepository;
+    }
 
     public function run(): void
     {
-        $OrderStatusTypes = [
+        $paymentMathodsTypes = [
             [
                 'name' => 'Bank wire payment',
                 'short_name' => 'bank_wire',
@@ -36,15 +43,23 @@ class PaymentMethodsSeeder extends Seeder
             ],
         ];
 
-        foreach ($OrderStatusTypes as $OrderStatusType) {
-            $uuid = RamseyUuid::random();
-            if (!PaymentMethodEloquentModel::where('id', $uuid)->exists()) {
+        $initialOrderStatus = [
+            'bank_wire' => 'awaiting_bank_wire',
+            'cash_on_delivery' => 'awaiting_cash_payment',
+            'wallet' => 'awaiting_wallet',
+        ];
+
+        foreach ($paymentMathodsTypes as $paymentMethodType) {
+            if (isset($initialOrderStatus[$paymentMethodType['short_name']])) {
+                $uuid = RamseyUuid::random();
+                $initialOrderStatusId = $this->orderStatusRepository->searchByShortName($initialOrderStatus[$paymentMethodType['short_name']]);
                 PaymentMethodEloquentModel::create([
                     'id' => $uuid,
-                    'name' => $OrderStatusType['name'],
-                    'short_name' => $OrderStatusType['short_name'],
-                    'description' => $OrderStatusType['description'],
+                    'name' => $paymentMethodType['name'],
+                    'short_name' => $paymentMethodType['short_name'],
+                    'description' => $paymentMethodType['description'],
                     'enabled' => true,
+                    'initial_order_status_id' => $initialOrderStatusId['id'],
                 ]);
             }
         }

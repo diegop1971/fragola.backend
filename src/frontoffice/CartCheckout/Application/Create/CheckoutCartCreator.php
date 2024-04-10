@@ -6,7 +6,7 @@ namespace src\frontoffice\CartCheckout\Application\Create;
 
 use Throwable;
 use Illuminate\Support\Facades\DB;
-use src\frontoffice\CartCheckout\Domain\Interfaces\IDeleteCartService;
+use Illuminate\Support\Facades\Log;
 use src\frontoffice\Orders\Domain\Order;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderId;
 use src\frontoffice\OrdersDetails\Domain\OrderDetailEntity;
@@ -22,6 +22,7 @@ use src\frontoffice\Customers\Domain\ValueObjects\CustomerLastName;
 use src\frontoffice\Customers\Domain\ValueObjects\CustomerFirstName;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderPaymentMethodId;
 use src\frontoffice\OrdersDetails\Domain\ValueObjects\OrderDetailId;
+use src\frontoffice\CartCheckout\Domain\Interfaces\IDeleteCartService;
 use src\frontoffice\Customers\Domain\Interfaces\ICustomerHandlerService;
 use src\frontoffice\Customers\Domain\ValueObjects\CustomerRememberToken;
 use src\frontoffice\OrderStatus\Domain\Interfaces\IOrderStatusRepository;
@@ -87,7 +88,7 @@ final class CheckoutCartCreator
 
             // por ahora las clases encargadas de cada tipo de pago solo devuelven success => true, y el nombre de la clase, luego irá la lógica correspondiente
             $paymentGatewayResponse = $paymentGateway->processPayment(100);
-
+            Log::info($paymentMethod['initial_order_status_id']);
             $orderStatusId = new OrderStatusId($paymentMethod['initial_order_status_id']);
 
             $order = Order::create(
