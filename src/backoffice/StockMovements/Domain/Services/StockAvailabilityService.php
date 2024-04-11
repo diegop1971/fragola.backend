@@ -13,10 +13,9 @@ use src\backoffice\StockMovements\Domain\Interfaces\StockAvailabilityServiceInte
 class StockAvailabilityService implements StockAvailabilityServiceInterface
 {
     public function __construct(
-                                private StockMovementTypeRepository $stockMovementTypeRepository,
-                                private IStockRepository $stockRepository
-                            )
-    {
+        private StockMovementTypeRepository $stockMovementTypeRepository,
+        private IStockRepository $stockRepository
+    ) {
         $this->stockRepository = $stockRepository;
     }
 
@@ -24,7 +23,7 @@ class StockAvailabilityService implements StockAvailabilityServiceInterface
     {
         $movementType = $this->stockMovementTypeRepository->search($stockMovementTypeId->value());
 
-        if(!$movementType['is_positive']) {
+        if (!$movementType['is_positive']) {
             $countStockByProductId = $this->stockRepository->sumStockQuantityByProductId($stockProductId->value());
 
             if ($countStockByProductId === null) {

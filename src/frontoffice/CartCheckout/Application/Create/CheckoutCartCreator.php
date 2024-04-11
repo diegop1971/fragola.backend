@@ -88,7 +88,7 @@ final class CheckoutCartCreator
 
             // por ahora las clases encargadas de cada tipo de pago solo devuelven success => true, y el nombre de la clase, luego irá la lógica correspondiente
             $paymentGatewayResponse = $paymentGateway->processPayment(100);
-            Log::info($paymentMethod['initial_order_status_id']);
+
             $orderStatusId = new OrderStatusId($paymentMethod['initial_order_status_id']);
 
             $order = Order::create(

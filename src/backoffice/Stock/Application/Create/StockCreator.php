@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace src\backoffice\Stock\Application\Create;
 
+use Illuminate\Support\Facades\Log;
 use src\backoffice\Stock\Domain\Stock;
 use src\backoffice\Stock\Domain\ValueObjects\StockId;
 use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
@@ -34,7 +35,6 @@ final class StockCreator
         StockPhysicalQuantity $stockPhysicalQuantity,
         StockUsableQuantity $stockUsableQuantity,
     ) {
-        //$stockQuantity = $this->validateOperation($stockQuantity, $stockMovementTypeId, $stockProductId);
 
         $stock = Stock::create(
             $stockId,
@@ -47,19 +47,4 @@ final class StockCreator
 
         $this->stockRepository->save($stock);
     }
-
-    /*private function validateOperation($stockQuantity, $stockMovementTypeId, $stockProductId): StockQuantity
-    {
-        $this->stockValidateQuantityGreaterThanZeroService->validateQuantityGreaterThanZero($stockQuantity);
-
-        $stockMovementType = $this->stockMovementTypeCheckerService->stockMovementType($this->stockMovementTypeRepository, $stockMovementTypeId);
-
-        if ($stockMovementType == false) {
-            $this->stockAvailabilityService->makeStockOut($stockProductId, $stockQuantity, $stockMovementTypeId);
-        }
-
-        $stockQuantitySign = $this->stockQuantitySignHandlerService->setStockQuantitySign($stockMovementType, $stockQuantity);
-
-        return $stockQuantitySign;
-    }*/
 }

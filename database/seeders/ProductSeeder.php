@@ -14,11 +14,7 @@ class ProductSeeder extends Seeder
             [
                 'id' => '24f32c2d-05f6-4034-a6ed-eada134ebdde',
                 'name' => 'Crocs Originales Crocband', 
-                'description' => 'El modelo más buscado, más usado, más amado por nuestros fans. Quien no tiene una, dos o tres? Con colores clásicos o atrevidos, el zueco y banda son la combinación perfecta.
-                Además podes personalizarlas como mas te guste con los Jibbitz™ de tus personajes favoritos, letras y numeros.
-                Material Croslite™ moldeado
-                Tecnología: Iconic
-                Calce: Relaxed
+                'description' => 'El modelo más buscado, más usado, más amado por nuestros fans.
                 Tecnologia Crosslite en una única pieza que conforma la suela y la plantilla.',
                 'description_short' => 'Crocs Originales Crocband Unisex Hombre Mujer ',
                 'price' => 34.85, 

@@ -16,7 +16,6 @@ use App\Http\Controllers\Frontoffice\Cart\CartItemQuantityController;
 use App\Http\Controllers\Frontoffice\Checkout\CheckoutStoreController;
 use App\Http\Controllers\Backoffice\Categories\CategoriesGetController;
 use App\Http\Controllers\Backoffice\Products\StockProductsGetController;
-use App\Http\Controllers\Backoffice\Stock\CreateStockMovementController;
 use App\Http\Controllers\Frontoffice\Home\GetProductsCardListController;
 use App\Http\Controllers\Backoffice\Stock\GetStockListByProductIdController;
 use App\Http\Controllers\Frontoffice\CartCheckout\CartCheckoutStoreController;

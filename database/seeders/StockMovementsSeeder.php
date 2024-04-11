@@ -4,70 +4,43 @@ namespace Database\Seeders;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
+use src\backoffice\Products\Domain\IProductRepository;
 use src\backoffice\StockMovements\Infrastructure\Persistence\Eloquent\EloquentStockModel;
 use src\backoffice\StockMovementType\Infrastructure\Persistence\Eloquent\EloquentStockMovementTypeModel;
+use Ramsey\Uuid\Uuid;
 
 class StockMovementsSeeder extends Seeder
 {
+    private $productRepository;
+
+    public function __construct(IProductRepository $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
+
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $stock = [
-            [
-                'id' => '19a911dc-71f8-4e26-a64b-4efc5e4b83dd',
-                'product_id' => '24f32c2d-05f6-4034-a6ed-eada134ebdde',
-                'quantity' => 100,
-                'date' => Carbon::now(),
-                'notes' => 'nota generica ...',
-                'enabled' => true,
-            ],
-            [
-                'id' => '291d2ae8-0cdf-4498-8ca8-7f7303b1281d',
-                'product_id' => '24f32c2d-05f6-4034-a6ed-eada134ebdde',
-                'quantity' => 50,
-                'date' => Carbon::now(),
-                'notes' => 'nota generica ...',
-                'enabled' => true,
-            ],
-            [
-                'id' => '3f70c254-576b-4fb0-9eb0-794287cf93c2',
-                'product_id' => 'b24adef7-7e34-4e6d-80e3-9c8a390ed57d',
-                'quantity' => 80,
-                'date' => Carbon::now(),
-                'notes' => 'nota generica ...',
-                'enabled' => true,
-            ],
-            [
-                'id' => '6eb56fbe-e87e-4f8e-b65b-59c150987ef4',
-                'product_id' => 'a9c2e84a-7cd9-4f3d-ae0d-7e64a9f3d731',
-                'quantity' => 25,
-                'date' => Carbon::now(),
-                'notes' => 'nota generica ...',
-                'enabled' => true,
-            ],
-        ];
+        $products = $this->productRepository->searchAll();
 
-        foreach ($stock as $stockItem) {
-            $randomStockMovementType = EloquentStockMovementTypeModel::inRandomOrder()->first();
+        foreach ($products as $product) {
+            $stockId = Uuid::uuid4()->toString();
+            $productId = $product['id'];
+            $quantity = rand(1, 20);
+            $positiveStockMovementTypes = EloquentStockMovementTypeModel::where('is_positive', 1)->get();
+            $randomStockMovementType = $positiveStockMovementTypes->random();
 
-            if ($randomStockMovementType) {
-                EloquentStockModel::create([
-                    'id' => $stockItem['id'],
-                    'product_id' => $stockItem['product_id'],
-                    'movement_type_id' => $randomStockMovementType['id'],
-                    'quantity' => $stockItem['quantity'],
-                    'date' => $stockItem['date'],
-                    'notes' => $stockItem['notes'],
-                    'enabled' => $stockItem['enabled'],
-                ]);
-            }
+            EloquentStockModel::create([
+                'id' => $stockId,
+                'product_id' => $productId,
+                'movement_type_id' => $randomStockMovementType['id'],
+                'quantity' => $quantity,
+                'date' => Carbon::now(),
+                'notes' => 'nota generica ...',
+                'enabled' => true,
+            ]);
         }
     }
 }
-
-/*
-
-
-*/

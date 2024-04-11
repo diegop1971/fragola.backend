@@ -72,7 +72,6 @@ Estructura de la aplicación en su estado actual:
 │  │  │  │  │  ├─ ProductStoreController.php
 │  │  │  │  │  └─ ProductUpdateController.php
 │  │  │  │  └─ Stock
-│  │  │  │     ├─ CreateStockMovementController.php
 │  │  │  │     ├─ DeleteStockMovementController.php
 │  │  │  │     ├─ EditStockMovementController.php
 │  │  │  │     ├─ GetStockMovementController.php
