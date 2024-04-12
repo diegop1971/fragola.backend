@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('stock_movement_types', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('movement_type', 50);
+            $table->string('short_name', 30);
             $table->text('description')->nullable();
             $table->text('stock_impact')->nullable();
             $table->boolean('is_positive')->default(false);

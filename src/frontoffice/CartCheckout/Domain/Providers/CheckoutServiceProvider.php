@@ -11,7 +11,9 @@ use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
 use src\frontoffice\CartCheckout\Domain\Interfaces\IPaymentGateway;
 use src\frontoffice\CartCheckout\Domain\Services\DeleteCartService;
 use src\frontoffice\CartCheckout\Domain\Interfaces\IDeleteCartService;
+use src\frontoffice\CartCheckout\Domain\Services\StockAvailabilityService;
 use src\frontoffice\CartCheckout\Domain\Services\PaymentMethodsHandlerService;
+use src\frontoffice\CartCheckout\Domain\Interfaces\StockAvailabilityServiceInterface;
 
 
 class CheckoutServiceProvider extends ServiceProvider

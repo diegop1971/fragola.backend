@@ -199,7 +199,9 @@ return [
         src\frontoffice\PaymentMethods\Domain\Providers\PaymentMethodServiceProvider::class,
         src\frontoffice\Orders\Domain\Providers\OrderServiceProvider::class,
         src\frontoffice\OrdersDetails\Domain\Providers\OrderDetailServiceProvider::class,
-        src\frontoffice\CartCheckout\Domain\Providers\CheckoutServiceProvider::class
+        src\frontoffice\CartCheckout\Domain\Providers\CheckoutServiceProvider::class,
+        src\frontoffice\StockMovements\Domain\Providers\StockMovementsServiceProvider::class,
+        src\frontoffice\StockMovementType\Domain\Providers\StockMovementTypeServiceProvider::class
     ])->toArray(),
 
     /*

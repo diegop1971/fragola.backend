@@ -18,7 +18,8 @@ class EloquentStockMovementTypeModel extends Model
 
     protected $fillable = [
         'id',
-        'movement_type',                         
+        'movement_type',  
+        'short_name',                       
         'description', 
         'stock_impact',
         'is_positive', 

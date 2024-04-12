@@ -28,7 +28,7 @@ class StockMovementsSeeder extends Seeder
         foreach ($products as $product) {
             $stockId = Uuid::uuid4()->toString();
             $productId = $product['id'];
-            $quantity = rand(1, 20);
+            $quantity = 10;
             $positiveStockMovementTypes = EloquentStockMovementTypeModel::where('is_positive', 1)->get();
             $randomStockMovementType = $positiveStockMovementTypes->random();
 

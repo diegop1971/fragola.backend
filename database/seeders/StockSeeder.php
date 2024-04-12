@@ -16,23 +16,23 @@ class StockSeeder extends Seeder
         $stock = [
             [
                 'product_id' => '24f32c2d-05f6-4034-a6ed-eada134ebdde',
-                'physical_quantity' => 150,
-                'usable_quantity' => 150,
+                'physical_quantity' => 10,
+                'usable_quantity' => 10,
             ],
             [
                 'product_id' => '3cc2e924-d334-4d86-9f45-d5707223dc70',
-                'physical_quantity' => 40,
-                'usable_quantity' => 40,
+                'physical_quantity' => 10,
+                'usable_quantity' => 10,
             ],
             [
                 'product_id' => '19a911dc-71f8-4e26-a64b-4efc5e4b83dd',
-                'physical_quantity' => 50,
-                'usable_quantity' => 50,
+                'physical_quantity' => 10,
+                'usable_quantity' => 10,
             ],
             [
                 'product_id' => 'f1a7cd0b-b3a5-4d02-9c27-85b3b0ca5f32',
-                'physical_quantity' => 180,
-                'usable_quantity' => 180,
+                'physical_quantity' => 10,
+                'usable_quantity' => 10,
             ],
             [
                 'product_id' => '04e0d91f-3f69-45cd-bcc0-3dca811723d9',
@@ -56,8 +56,8 @@ class StockSeeder extends Seeder
             ],
             [
                 'product_id' => 'a9c2e84a-7cd9-4f3d-ae0d-7e64a9f3d731',
-                'physical_quantity' => 25,
-                'usable_quantity' => 25,
+                'physical_quantity' => 10,
+                'usable_quantity' => 10,
             ],
             [
                 'product_id' => '87f82b16-493c-462d-b84b-10f22193230f',
@@ -76,8 +76,8 @@ class StockSeeder extends Seeder
             ],
             [
                 'product_id' => 'b24adef7-7e34-4e6d-80e3-9c8a390ed57d',
-                'physical_quantity' => 80,
-                'usable_quantity' => 80,
+                'physical_quantity' => 10,
+                'usable_quantity' => 10,
             ],
             [
                 'product_id' => 'b1450d9f-6e6c-496c-96d1-c8c8de6a9f81',

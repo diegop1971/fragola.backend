@@ -7,6 +7,7 @@ namespace src\frontoffice\Stock\Infrastructure\Persistence\Eloquent;
 use Illuminate\Support\Facades\DB;
 use src\frontoffice\Stock\Domain\StockNotExist;
 use src\frontoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
+use src\frontoffice\Stock\Infrastructure\Persistence\Eloquent\EloquentStockModel;
 
 class EloquentStockRepository implements StockRepositoryInterface
 {
@@ -24,4 +25,14 @@ class EloquentStockRepository implements StockRepositoryInterface
         return $stockList->array();
     }
 
+    public function sumStockQuantityByProductId(string $productId): int
+    {
+        $sum = EloquentStockModel::where('product_id', $productId)->sum('quantity');
+
+        if (null === $sum) {
+            throw new StockNotExist($productId);
+        }
+
+        return intval($sum);
+    }
 }
