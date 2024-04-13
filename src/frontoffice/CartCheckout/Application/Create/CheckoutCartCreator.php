@@ -147,6 +147,8 @@ final class CheckoutCartCreator
                     StockId::random(),
                     new DomainValueObjectsStockProductId($detail['productId']),
                     new StockMovementTypeId($this->stockMovementTypeId),
+                    
+                    // usar servicio stockQuantitySignHandlerService!!!
                     new ValueObjectsStockQuantity($detail['productQty'] * -1),
                     new StockDate(date('Y-m-d H:i:s')),
                     new StockNotes(''),

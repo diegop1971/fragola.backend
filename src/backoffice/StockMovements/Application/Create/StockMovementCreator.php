@@ -6,6 +6,7 @@ namespace src\backoffice\StockMovements\Application\Create;
 
 use Throwable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use src\backoffice\StockMovements\Domain\StockMovements;
 use src\backoffice\StockMovements\Domain\ValueObjects\StockId;
 use src\backoffice\StockMovements\Domain\ValueObjects\StockDate;
