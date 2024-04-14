@@ -17,12 +17,12 @@ use src\backoffice\StockMovements\Application\Create\CreateStockMovementCommand;
 
 final class CreateStockMovementCommandHandler implements CommandHandler
 {
-    private $stockId; 
-    private $stockProductId; 
-    private $stockMovementTypeId; 
-    private $stockQuantity; 
-    private $stockDate; 
-    private $stockNotes; 
+    private $stockId;
+    private $stockProductId;
+    private $stockMovementTypeId;
+    private $stockQuantity;
+    private $stockDate;
+    private $stockNotes;
     private $stockEnabled;
 
     public function __construct(private StockMovementCreator $creator)
@@ -41,13 +41,13 @@ final class CreateStockMovementCommandHandler implements CommandHandler
         $this->stockEnabled = new StockEnabled($command->stockEnabled());
 
         $this->creator->__invoke(
-                                $this->stockId,
-                                $this->stockProductId,
-                                $this->stockMovementTypeId,
-                                $this->stockQuantity,
-                                $this->stockDate,
-                                $this->stockNotes,
-                                $this->stockEnabled,
-                            );
+            $this->stockId,
+            $this->stockProductId,
+            $this->stockMovementTypeId,
+            $this->stockQuantity,
+            $this->stockDate,
+            $this->stockNotes,
+            $this->stockEnabled,
+        );
     }
 }

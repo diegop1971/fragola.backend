@@ -19,7 +19,8 @@ class EloquentStockMovementTypeModel extends Model
         'short_name',
         'description',
         'stock_impact',
-        'is_positive',
+        'is_positive_system',
+        'is_positive_physical',
         'enabled',
     ];
 }

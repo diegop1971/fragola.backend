@@ -20,8 +20,8 @@ final class CreateProductCommand implements Command
         private bool $outOfStock,
         private bool $enabled,
         private string $stockId,
-        private int $stockPhysicalQuantity,
-        private int $stockUsableQuantity,
+        private int $physicalStockQuantity,
+        private int $systemStockQuantity,
     ) {
     }
 
@@ -80,13 +80,13 @@ final class CreateProductCommand implements Command
         return $this->stockId;
     }
 
-    public function stockPhysicalQuantity(): int
+    public function physicalStockQuantity(): int
     {
-        return intval($this->stockPhysicalQuantity);
+        return intval($this->physicalStockQuantity);
     }
 
-    public function stockUsableQuantity(): int
+    public function systemStockQuantity(): int
     {
-        return intval($this->stockUsableQuantity);
+        return intval($this->systemStockQuantity);
     }
 }

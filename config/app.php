@@ -201,7 +201,8 @@ return [
         src\frontoffice\OrdersDetails\Domain\Providers\OrderDetailServiceProvider::class,
         src\frontoffice\CartCheckout\Domain\Providers\CheckoutServiceProvider::class,
         src\frontoffice\StockMovements\Domain\Providers\StockMovementsServiceProvider::class,
-        src\frontoffice\StockMovementType\Domain\Providers\StockMovementTypeServiceProvider::class
+        src\frontoffice\StockMovementType\Domain\Providers\StockMovementTypeServiceProvider::class,
+        src\frontoffice\Stock\Domain\Providers\StockServiceProvider::class
     ])->toArray(),
 
     /*

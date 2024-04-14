@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace src\backoffice\StockMovements\Application\Find;
 
+use Illuminate\Support\Facades\Log;
 use src\backoffice\StockMovements\Domain\StockNotExist;
 use src\backoffice\StockMovements\Domain\Interfaces\IStockRepository;
 

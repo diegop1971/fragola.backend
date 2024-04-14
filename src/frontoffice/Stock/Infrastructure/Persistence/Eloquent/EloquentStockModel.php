@@ -4,7 +4,6 @@ namespace src\frontoffice\Stock\Infrastructure\Persistence\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EloquentStockModel extends Model
 {
@@ -13,16 +12,13 @@ class EloquentStockModel extends Model
     protected $table = 'stock_movements';
 
     protected $fillable = [
-        
+        'id',
+        'product_id',
+        'movement_type_id',
+        'system_quantity',
+        'physical_quantity',
+        'date',
+        'notes',
+        'enabled',
     ];
-
-    /*public function product(): BelongsTo
-    {
-        return $this->belongsTo(ProductEloquentModel::class, 'product_id');
-    }
-
-    public function stockMovementType(): BelongsTo
-    {
-        return $this->belongsTo(EloquentStockMovementTypeModel::class, 'movement_type_id');
-    }*/
 }

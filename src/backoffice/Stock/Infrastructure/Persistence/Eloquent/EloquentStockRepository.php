@@ -54,7 +54,8 @@ class EloquentStockRepository implements IStockRepository
                 'stock_movements.id',
                 'stock_movements.product_id',
                 'stock_movements.movement_type_id',
-                'stock_movements.quantity',
+                'stock_movements.physical_quantity',
+                'stock_movements.system_quantity',
                 'stock_movements.date',
                 'stock_movements.notes',
                 'stock_movements.created_at',
@@ -74,7 +75,7 @@ class EloquentStockRepository implements IStockRepository
     {
         $stock = EloquentStockModel::leftJoin('products', 'stock.product_id', '=', 'products.id')
             ->selectRaw('products.id, products.name as product_name, 
-            SUM(stock.physical_quantity) as physical_quantity, SUM(stock.usable_quantity) as usable_quantity, 
+            SUM(stock.physical_quantity) as physical_quantity, SUM(stock.system_quantity) as system_quantity, 
             low_stock_threshold, low_stock_alert, products.out_of_stock, products.enabled')
             ->groupBy('product_id')
             ->get();
@@ -92,8 +93,8 @@ class EloquentStockRepository implements IStockRepository
 
         $model->id = $stock->stockId()->value();
         $model->product_id = $stock->stockProductId()->value();
-        $model->physical_quantity = $stock->stockPhysicalQuantity()->value();
-        $model->usable_quantity = $stock->stockUsableQuantity()->value();
+        $model->physical_quantity = $stock->physicalStockQuantity()->value();
+        $model->system_quantity = $stock->systemStockQuantity()->value();
         $model->save();
     }
 
@@ -103,8 +104,8 @@ class EloquentStockRepository implements IStockRepository
 
         $model->id = $stock->stockId()->value();
         $model->product_id = $stock->stockProductId()->value();
-        $model->physical_quantity = $stock->stockPhysicalQuantity()->value();
-        $model->usable_quantity = $stock->stockUsableQuantity()->value();
+        $model->physical_quantity = $stock->physicalStockQuantity()->value();
+        $model->system_quantity = $stock->systemStockQuantity()->value();
 
         $model->update();
     }
@@ -117,8 +118,8 @@ class EloquentStockRepository implements IStockRepository
             throw new StockNotExist($stock->stockProductId()->value());
         }
 
-        $model->physical_quantity = $stock->stockPhysicalQuantity()->value();
-        $model->usable_quantity = $stock->stockUsableQuantity()->value();
+        $model->physical_quantity = $stock->physicalStockQuantity()->value();
+        $model->system_quantity = $stock->systemStockQuantity()->value();
 
         $model->update();
     }
@@ -147,7 +148,7 @@ class EloquentStockRepository implements IStockRepository
 
     public function sumStockQuantityByProductId(string $productId): int
     {
-        $sum = EloquentStockModel::where('product_id', $productId)->sum('quantity');
+        $sum = EloquentStockModel::where('product_id', $productId)->sum('system_quantity');
 
         if (null === $sum) {
             throw new StockNotExist($productId);
@@ -173,7 +174,7 @@ class EloquentStockRepository implements IStockRepository
             ->select(
                 'products.name as product_name',
                 'categories.name as category_name',
-                DB::raw('SUM(stock_movements.quantity) as total_quantity')
+                DB::raw('SUM(stock_movements.system_quantity) as total_system_quantity')
             )
             ->join('products', 'stock_movements.product_id', '=', 'products.id')
             ->join('categories', 'products.category_id', '=', 'categories.id')

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backoffice\StockMovements;
 
 use Throwable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use Illuminate\Validation\ValidationException;
@@ -26,7 +25,7 @@ class StockMovementStoreController extends Controller
     public function __invoke(Request $request)
     {
         $data = $request->all();
-        Log::info('StockMovementStoreController');
+
         try {
             $data = request()->validate([
                 'product_id' => 'required|uuid',
@@ -66,8 +65,8 @@ class StockMovementStoreController extends Controller
             $mappedError = $this->backOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => $mappedError['message'],
-                //'message' => $e->getMessage(),
+                //'message' => $mappedError['message'],
+                'message' => $e->getMessage(),
                 'detail' => null,
                 'code' => $mappedError['http_code'],
             ], $mappedError['http_code']);

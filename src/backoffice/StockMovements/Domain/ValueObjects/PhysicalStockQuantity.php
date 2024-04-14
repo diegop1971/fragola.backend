@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace src\frontoffice\StockMovements\Domain\ValueObjects;
+namespace src\backoffice\StockMovements\Domain\ValueObjects;
 
 use src\Shared\Domain\ValueObject\IntValueObject;
 
-final class StockQuantity extends IntValueObject
+final class PhysicalStockQuantity extends IntValueObject
 {
     /*public function __construct(protected int $value)
     {

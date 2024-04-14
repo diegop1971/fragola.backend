@@ -6,5 +6,5 @@ use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
 
 interface StockQuantitySignHandlerServiceInterface
 {
-    public function setStockQuantitySign(bool $stockMovementType, StockQuantity $quantity): StockQuantity;
+    public function setStockQuantitySign(int $stockMovementType, StockQuantity $quantity): StockQuantity;
 }

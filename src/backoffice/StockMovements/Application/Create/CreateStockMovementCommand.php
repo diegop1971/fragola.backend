@@ -10,14 +10,14 @@ final class CreateStockMovementCommand implements Command
 {
 
     public function __construct(
-        private string $stockId, 
-        private string $stockProductId, 
-        private string $stockMovementTypeId, 
-        private int $stockQuantity, 
-        private string $stockDate, 
+        private string $stockId,
+        private string $stockProductId,
+        private string $stockMovementTypeId,
+        private int $stockQuantity,
+        private string $stockDate,
         private string $stockNotes,
         private bool $stockEnabled,
-        )   {
+    ) {
     }
 
     public function stockId(): string

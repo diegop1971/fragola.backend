@@ -7,5 +7,5 @@ use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 
 interface StockMovementTypeCheckerServiceInterface
 {
-    public function stockMovementType(StockMovementTypeRepository $stockMovementTypeRepository, StockMovementTypeId $stockMovementTypeId): bool;
+    public function stockMovementType(StockMovementTypeRepository $stockMovementTypeRepository, StockMovementTypeId $stockMovementTypeId): int;
 }

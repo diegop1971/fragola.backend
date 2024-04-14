@@ -6,30 +6,30 @@ namespace src\backoffice\Stock\Domain;
 
 use src\backoffice\Stock\Domain\ValueObjects\StockId;
 use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
-use src\backoffice\Stock\Domain\ValueObjects\StockUsableQuantity;
-use src\backoffice\Stock\Domain\ValueObjects\StockPhysicalQuantity;
+use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
+use src\backoffice\Stock\Domain\ValueObjects\PhysicalStockQuantity;
 
 final class Stock
 {
     public function __construct(
         private StockId $stockId,
         private StockProductId $stockProductId,
-        private StockPhysicalQuantity $stockPhysicalQuantity,
-        private StockUsableQuantity $stockUsableQuantity,
+        private PhysicalStockQuantity $physicalStockQuantity,
+        private SystemStockQuantity $systemStockQuantity,
     ) {
     }
 
     public static function create(
         StockId $stockId,
         StockProductId $stockProductId,
-        StockPhysicalQuantity $stockPhysicalQuantity,
-        StockUsableQuantity $stockUsableQuantity,
+        PhysicalStockQuantity $physicalStockQuantity,
+        SystemStockQuantity $systemStockQuantity,
     ): self {
         $stock = new self(
             $stockId,
             $stockProductId,
-            $stockPhysicalQuantity,
-            $stockUsableQuantity,
+            $physicalStockQuantity,
+            $systemStockQuantity,
         );
 
         return $stock;
@@ -38,14 +38,14 @@ final class Stock
     public static function update(
         StockId $stockId,
         StockProductId $stockProductId,
-        StockPhysicalQuantity $stockPhysicalQuantity,
-        StockUsableQuantity $stockUsableQuantity,
+        PhysicalStockQuantity $physicalStockQuantity,
+        SystemStockQuantity $systemStockQuantity,
     ): self {
         $stock = new self(
             $stockId,
             $stockProductId,
-            $stockPhysicalQuantity,
-            $stockUsableQuantity,
+            $physicalStockQuantity,
+            $systemStockQuantity,
         );
 
         return $stock;
@@ -61,23 +61,23 @@ final class Stock
         return $this->stockProductId;
     }
 
-    public function stockPhysicalQuantity(): StockPhysicalQuantity
+    public function physicalStockQuantity(): PhysicalStockQuantity
     {
-        return $this->stockPhysicalQuantity;
+        return $this->physicalStockQuantity;
     }
 
-    public function stockUsableQuantity(): StockUsableQuantity
+    public function systemStockQuantity(): SystemStockQuantity
     {
-        return $this->stockUsableQuantity;
+        return $this->systemStockQuantity;
     }
 
-    public function stockPhysicalQuantityAbsolute(): int
+    public function physicalStockQuantityAbsolute(): int
     {
-        return abs($this->stockPhysicalQuantity->value());
+        return abs($this->physicalStockQuantity->value());
     }
 
-    public function stockUsableQuantityAbsolute(): int
+    public function systemStockQuantityAbsolute(): int
     {
-        return abs($this->stockUsableQuantity->value());
+        return abs($this->systemStockQuantity->value());
     }
 }

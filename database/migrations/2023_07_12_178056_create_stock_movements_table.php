@@ -15,7 +15,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('product_id')->index();
             $table->uuid('movement_type_id')->nullable(false)->constrained('stock_movement_types');
-            $table->integer('quantity');
+            $table->integer('system_quantity');
+            $table->integer('physical_quantity');
             $table->datetime('date');
             $table->text('notes')->nullable();
             $table->boolean('enabled')->default(true);
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
         });
     }
+
 
     /**
      * Reverse the migrations.

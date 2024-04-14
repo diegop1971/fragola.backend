@@ -2,6 +2,7 @@
 
 namespace src\backoffice\StockMovements\Domain\Services;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementTypeId;
@@ -9,7 +10,7 @@ use src\backoffice\StockMovements\Domain\Interfaces\StockMovementTypeCheckerServ
 
 class StockMovementTypeCheckerService implements StockMovementTypeCheckerServiceInterface
 {
-    public function stockMovementType(StockMovementTypeRepository $stockMovementTypeRepository, StockMovementTypeId $stockMovementTypeId): bool
+    public function stockMovementType(StockMovementTypeRepository $stockMovementTypeRepository, StockMovementTypeId $stockMovementTypeId): int
     {
         $movementType = $stockMovementTypeRepository->search($stockMovementTypeId->value());
         if (!$movementType) {
@@ -18,6 +19,6 @@ class StockMovementTypeCheckerService implements StockMovementTypeCheckerService
             ]);
         }
 
-        return $movementType['is_positive'];
+        return $movementType['is_positive_system'];
     }
 }

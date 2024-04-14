@@ -29,14 +29,15 @@ class StockMovementsSeeder extends Seeder
             $stockId = Uuid::uuid4()->toString();
             $productId = $product['id'];
             $quantity = 10;
-            $positiveStockMovementTypes = EloquentStockMovementTypeModel::where('is_positive', 1)->get();
+            $positiveStockMovementTypes = EloquentStockMovementTypeModel::where('is_positive_system', 1)->get();
             $randomStockMovementType = $positiveStockMovementTypes->random();
 
             EloquentStockModel::create([
                 'id' => $stockId,
                 'product_id' => $productId,
                 'movement_type_id' => $randomStockMovementType['id'],
-                'quantity' => $quantity,
+                'system_quantity' => $quantity,
+                'physical_quantity' => $quantity,
                 'date' => Carbon::now(),
                 'notes' => 'nota generica ...',
                 'enabled' => true,

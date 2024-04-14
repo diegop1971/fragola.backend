@@ -18,6 +18,6 @@ class StockMovementTypeCheckerService implements StockMovementTypeCheckerService
             ]);
         }
 
-        return $movementType['is_positive'];
+        return $movementType['is_positive_system'];
     }
 }

@@ -23,7 +23,7 @@ class StockAvailabilityService implements StockAvailabilityServiceInterface
     {
         $movementType = $this->stockMovementTypeRepository->search($stockMovementTypeId->value());
 
-        if (!$movementType['is_positive']) {
+        if (!$movementType['is_positive_system']) {
             $countStockByProductId = $this->stockRepository->sumStockQuantityByProductId($stockProductId->value());
 
             if ($countStockByProductId === null) {

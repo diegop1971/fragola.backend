@@ -2,9 +2,7 @@
 
 namespace src\frontoffice\Stock\Domain\Interfaces;
 
-interface StockRepositoryInterface
+interface IStockRepository
 {
     public function groupAndCountStockByProductId(): ?array;
-
-    public function sumStockQuantityByProductId(string $productId): int;
 }

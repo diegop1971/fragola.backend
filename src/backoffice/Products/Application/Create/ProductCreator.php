@@ -17,10 +17,10 @@ use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
 use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
 use src\backoffice\Products\Domain\ValueObjects\ProductEnabled;
 use src\backoffice\Products\Domain\ValueObjects\ProductUnitPrice;
-use src\backoffice\Stock\Domain\ValueObjects\StockUsableQuantity;
+use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductOutOfStock;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescription;
-use src\backoffice\Stock\Domain\ValueObjects\StockPhysicalQuantity;
+use src\backoffice\Stock\Domain\ValueObjects\PhysicalStockQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockAlert;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescriptionShort;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockThreshold;
@@ -50,8 +50,8 @@ final class ProductCreator
         ProductEnabled $enabled,
         StockId $stockId,
         StockProductId $stockProductId,
-        StockPhysicalQuantity $stockPhysicalQuantity,
-        StockUsableQuantity $stockUsableQuantity,
+        PhysicalStockQuantity $physicalStockQuantity,
+        SystemStockQuantity $systemStockQuantity,
     ) {
         $this->validateOperation($lowStockThreshold);
 
@@ -76,8 +76,8 @@ final class ProductCreator
             $stock = Stock::create(
                 $stockId,
                 $stockProductId,
-                $stockPhysicalQuantity,
-                $stockUsableQuantity,
+                $physicalStockQuantity,
+                $systemStockQuantity,
             );
 
             $this->stockRepository->save($stock);

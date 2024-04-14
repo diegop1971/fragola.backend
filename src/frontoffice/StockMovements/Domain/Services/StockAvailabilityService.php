@@ -3,7 +3,7 @@
 namespace src\frontoffice\StockMovements\Domain\Services;
 
 use Illuminate\Validation\ValidationException;
-use src\frontoffice\StockMovements\Domain\ValueObjects\StockQuantity;
+use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
 use src\frontoffice\StockMovements\Domain\ValueObjects\StockProductId;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 use src\frontoffice\StockMovements\Domain\Interfaces\IStockMovementRepository;
@@ -18,9 +18,9 @@ class StockAvailabilityService implements IStockAvailabilityService
         $this->stockRepository = $stockRepository;
     }
 
-    public function makeStockOut(StockProductId $stockProductId, StockQuantity $stockQuantity): void
+    public function makeStockOut(StockProductId $productId, SystemStockQuantity $stockQuantity): void
     {
-        $countStockByProductId = $this->stockRepository->sumStockQuantityByProductId($stockProductId->value());
+        $countStockByProductId = $this->stockRepository->sumStockQuantityByProductId($productId->value());
 
         if ($countStockByProductId === null) {
             throw new ValidationException("The product has no stock registered.");

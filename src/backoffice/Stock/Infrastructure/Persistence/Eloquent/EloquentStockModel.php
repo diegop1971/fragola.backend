@@ -19,7 +19,7 @@ class EloquentStockModel extends Model
         'id', 
         'product_id',                         
         'physical_quantity', 
-        'usable_quantity',
+        'system_quantity',
     ];
 
     public function product(): BelongsTo

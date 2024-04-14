@@ -17,7 +17,7 @@ class EloquentStockMovementsRepository implements IStockMovementRepository
 
     public function sumStockQuantityByProductId(string $productId): int
     {
-        $sum = EloquentStockMovementModel::where('product_id', $productId)->sum('quantity');
+        $sum = EloquentStockMovementModel::where('product_id', $productId)->sum('system_quantity');
 
         if (null === $sum) {
             throw new StockNotExist($productId);
@@ -33,7 +33,8 @@ class EloquentStockMovementsRepository implements IStockMovementRepository
         $model->id = $stockMovement->stockId()->value();
         $model->product_id = $stockMovement->stockProductId()->value();
         $model->movement_type_id = $stockMovement->stockMovementTypeId()->value();
-        $model->quantity = $stockMovement->stockQuantity()->value();
+        $model->system_quantity = $stockMovement->systemStockQuantity()->value();
+        $model->physical_quantity = $stockMovement->physicalStockQuantity()->value();
         $model->date = $stockMovement->stockDate()->value();
         $model->notes = $stockMovement->stockNotes()->value();
         $model->enabled = $stockMovement->stockEnabled()->value();

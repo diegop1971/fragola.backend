@@ -18,7 +18,7 @@ class HomeProductEloquentRepository implements HomeProductsRepositoryInterface
                 $query->where('enabled', true);
             })
             ->leftJoin('stock', 'products.id', '=', 'stock.product_id')
-            ->select('products.id', 'products.name', 'products.description', 'products.price', 'products.category_id', DB::raw('COALESCE(SUM(stock.usable_quantity), 0) AS total_quantity'))
+            ->select('products.id', 'products.name', 'products.description', 'products.price', 'products.category_id', DB::raw('COALESCE(SUM(stock.system_quantity), 0) AS total_quantity'))
             ->groupBy('products.id')
             ->get();
 

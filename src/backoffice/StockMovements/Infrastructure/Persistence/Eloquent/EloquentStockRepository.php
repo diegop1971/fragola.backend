@@ -50,8 +50,17 @@ class EloquentStockRepository implements IStockRepository
     {
         $stock = EloquentStockModel::leftJoin('products', 'stock_movements.product_id', '=', 'products.id')
             ->leftJoin('stock_movement_types', 'stock_movements.movement_type_id', '=', 'stock_movement_types.id')
-            ->select('stock_movements.id', 'stock_movements.product_id', 'stock_movements.movement_type_id', 'stock_movements.quantity', 
-            'stock_movements.date', 'stock_movements.notes', 'stock_movements.created_at','stock_movement_types.movement_type')
+            ->select(
+                'stock_movements.id',
+                'stock_movements.product_id',
+                'stock_movements.movement_type_id',
+                'stock_movements.system_quantity',
+                'stock_movements.physical_quantity',
+                'stock_movements.date',
+                'stock_movements.notes',
+                'stock_movements.created_at',
+                'stock_movement_types.movement_type'
+            )
             ->where('stock_movements.product_id', $productId)
             ->orderByDesc('created_at')
             ->get();
@@ -66,7 +75,7 @@ class EloquentStockRepository implements IStockRepository
     {
         $stock = EloquentStockModel::leftJoin('products', 'stock_movements.product_id', '=', 'products.id')
             ->leftJoin('stock_movement_types', 'stock_movements.movement_type_id', '=', 'stock_movement_types.id')
-            ->selectRaw('products.id, products.name as product_name, SUM(stock_movements.quantity) as quantity, COUNT(*) as items, 
+            ->selectRaw('products.id, products.name as product_name, SUM(stock_movements.system_quantity) as system_quantity, COUNT(*) as items, 
             low_stock_threshold, low_stock_alert, products.enabled')
             ->groupBy('product_id')
             ->get();
@@ -85,7 +94,8 @@ class EloquentStockRepository implements IStockRepository
         $model->id = $stock->stockId()->value();
         $model->product_id = $stock->stockProductId()->value();
         $model->movement_type_id = $stock->stockMovementTypeId()->value();
-        $model->quantity = $stock->stockQuantity()->value();
+        $model->system_quantity = $stock->systemStockQuantity()->value();
+        $model->physical_quantity = $stock->physicalStockQuantity()->value();
         $model->date = $stock->stockDate()->value();
         $model->notes = $stock->stockNotes()->value();
         $model->enabled = $stock->stockEnabled()->value();
@@ -100,7 +110,8 @@ class EloquentStockRepository implements IStockRepository
         $model->id = $stock->stockId()->value();
         $model->product_id = $stock->stockProductId()->value();
         $model->movement_type_id = $stock->stockMovementTypeId()->value();
-        $model->quantity = $stock->stockQuantity()->value();
+        $model->system_quantity = $stock->systemStockQuantity()->value();
+        $model->physical_quantity = $stock->physicalStockQuantity()->value();
         $model->date = $stock->stockDate()->value();
         $model->notes = $stock->stockNotes()->value();
         $model->enabled = $stock->stockEnabled()->value();
@@ -132,7 +143,7 @@ class EloquentStockRepository implements IStockRepository
 
     public function sumStockQuantityByProductId(string $productId): int
     {
-        $sum = EloquentStockModel::where('product_id', $productId)->sum('quantity');
+        $sum = EloquentStockModel::where('product_id', $productId)->sum('system_quantity');
 
         if (null === $sum) {
             throw new StockNotExist($productId);
@@ -158,7 +169,7 @@ class EloquentStockRepository implements IStockRepository
             ->select(
                 'products.name as product_name',
                 'categories.name as category_name',
-                DB::raw('SUM(stock_movements.quantity) as total_quantity')
+                DB::raw('SUM(stock_movements.system_quantity) as Total systemquantity')
             )
             ->join('products', 'stock_movements.product_id', '=', 'products.id')
             ->join('categories', 'products.category_id', '=', 'categories.id')

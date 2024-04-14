@@ -6,9 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use src\Shared\Domain\Bus\Command\Container;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use src\Shared\Infrastructure\LaravelContainer;
-use src\Shared\Infrastructure\CviebrockEloquentSluggable;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
-use src\frontoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
+use src\frontoffice\Stock\Domain\Interfaces\IStockRepository;
 use src\frontoffice\Stock\Infrastructure\Persistence\Eloquent\EloquentStockRepository;
 
 
@@ -32,12 +31,7 @@ class StockServiceProvider extends ServiceProvider
       );
 
       $this->app->bind(
-        SlugGenerator::class,
-        CviebrockEloquentSluggable::class
-      );
-
-      $this->app->bind(
-        StockRepositoryInterface::class, 
+        IStockRepository::class, 
         EloquentStockRepository::class
       );
     }

@@ -7,20 +7,24 @@ namespace src\frontoffice\CartCheckout\Application\Create;
 use Throwable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use src\backoffice\StockMovements\Domain\ValueObjects\StockProductId as ValueObjectsStockProductId;
-use src\backoffice\StockMovementType\Domain\StockMovementType;
 use src\frontoffice\Orders\Domain\Order;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderId;
 use src\frontoffice\StockMovements\Domain\StockMovement;
 use src\frontoffice\OrdersDetails\Domain\OrderDetailEntity;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderStatusId;
+use src\frontoffice\Stock\Domain\Interfaces\IStockRepository;
+use src\backoffice\StockMovementType\Domain\StockMovementType;
 use src\frontoffice\Orders\Domain\Interfaces\IOrderRepository;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderTotalPaid;
 use src\frontoffice\orders\Domain\ValueObjects\OrderCustomerId;
 use src\frontoffice\StockMovements\Domain\ValueObjects\StockId;
 use src\frontoffice\Customers\Domain\ValueObjects\CustomerEmail;
+use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
 use src\frontoffice\CartCheckout\Domain\ValueObjects\OrderDetail;
+use src\frontoffice\StockMovements\Domain\ValueObjects\StockDate;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderItemsQuantity;
+use src\frontoffice\StockMovements\Domain\ValueObjects\StockNotes;
+use src\backoffice\Stock\Domain\ValueObjects\PhysicalStockQuantity;
 use src\frontoffice\CartCheckout\Domain\PaymentProcessingException;
 use src\frontoffice\CartCheckout\Domain\ValueObjects\StockQuantity;
 use src\frontoffice\Customers\Domain\ValueObjects\CustomerLastName;
@@ -28,26 +32,26 @@ use src\frontoffice\CartCheckout\Domain\ValueObjects\StockProductId;
 use src\frontoffice\Customers\Domain\ValueObjects\CustomerFirstName;
 use src\frontoffice\Orders\Domain\ValueObjects\OrderPaymentMethodId;
 use src\frontoffice\OrdersDetails\Domain\ValueObjects\OrderDetailId;
+use src\frontoffice\StockMovements\Domain\ValueObjects\StockEnabled;
 use src\frontoffice\CartCheckout\Domain\Interfaces\IDeleteCartService;
 use src\frontoffice\Customers\Domain\Interfaces\ICustomerHandlerService;
 use src\frontoffice\Customers\Domain\ValueObjects\CustomerRememberToken;
 use src\frontoffice\OrderStatus\Domain\Interfaces\IOrderStatusRepository;
 use src\frontoffice\Customers\Domain\ValueObjects\CustomerEmailVerifiedAt;
 use src\frontoffice\OrdersDetails\Domain\ValueObjects\OrderDetailQuantity;
+use src\frontoffice\StockMovementType\Domain\IStockMovementTypeRepository;
 use src\frontoffice\OrdersDetails\Domain\Interfaces\IOrderDetailRepository;
 use src\frontoffice\OrdersDetails\Domain\ValueObjects\OrderDetailProductId;
 use src\frontoffice\OrdersDetails\Domain\ValueObjects\OrderDetailUnitPrice;
+use src\frontoffice\StockMovements\Domain\ValueObjects\StockMovementTypeId;
 use src\frontoffice\CartCheckout\Domain\Services\PaymentGatewayFactoryService;
+use src\frontoffice\StockMovements\Domain\Interfaces\IStockMovementRepository;
 use src\frontoffice\PaymentMethods\Domain\Interfaces\IPaymentMethodsRepository;
 use src\frontoffice\StockMovements\Domain\Interfaces\IStockAvailabilityService;
-use src\frontoffice\StockMovements\Domain\Interfaces\IStockMovementRepository;
-use src\frontoffice\StockMovements\Domain\ValueObjects\StockDate;
-use src\frontoffice\StockMovements\Domain\ValueObjects\StockEnabled;
-use src\frontoffice\StockMovements\Domain\ValueObjects\StockMovementTypeId;
-use src\frontoffice\StockMovements\Domain\ValueObjects\StockNotes;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockProductId as ValueObjectsStockProductId;
 use src\frontoffice\StockMovements\Domain\ValueObjects\StockProductId as DomainValueObjectsStockProductId;
-use src\frontoffice\StockMovements\Domain\ValueObjects\StockQuantity as ValueObjectsStockQuantity;
-use src\frontoffice\StockMovementType\Domain\IStockMovementTypeRepository;
+//use src\frontoffice\StockMovements\Domain\ValueObjects\StockRealQuantity as ValueObjectsStockRealQuantity;
+//use src\frontoffice\StockMovements\Domain\ValueObjects\StockVirtualQuantity as ValueObjectsStockVirtualQuantity;
 
 final class CheckoutCartCreator
 {
@@ -61,6 +65,7 @@ final class CheckoutCartCreator
     private $stockAvailabilityService;
     private $stockMovementTypeRepository;
     private $stockMovementTypeId;
+    private $stockRepository;
 
     public function __construct(
         IOrderRepository $orderRepository,
@@ -70,6 +75,7 @@ final class CheckoutCartCreator
         IDeleteCartService $deleteCartService,
         IStockAvailabilityService $stockAvailabilityService,
         IStockMovementTypeRepository $stockMovementTypeRepository,
+        IStockRepository $stockRepository,
 
     ) {
         $this->orderRepository = $orderRepository;
@@ -79,6 +85,7 @@ final class CheckoutCartCreator
         $this->deleteCartService = $deleteCartService;
         $this->stockAvailabilityService = $stockAvailabilityService;
         $this->stockMovementTypeRepository = $stockMovementTypeRepository;
+        $this->stockRepository = $stockRepository;
     }
 
     public function __invoke(
@@ -110,7 +117,7 @@ final class CheckoutCartCreator
             $paymentMethod = $paymentMethodsRepository->searchWithInitialOrderStatusName($paymentMethodId);
             $paymentMethodName = $paymentMethod['short_name'];
 
-            $this->stockMovementTypeId = $this->stockMovementTypeRepository->searchByShortName('exit_by_sale');
+            $this->stockMovementTypeId = $this->stockMovementTypeRepository->searchByShortName('sale');
 
             $paymentGateway = PaymentGatewayFactoryService::createPaymentGateway($paymentMethodName, $orderStatusRepository);
 
@@ -132,7 +139,7 @@ final class CheckoutCartCreator
 
             array_map(function ($detail) use ($orderId) {
 
-                $this->validateOperation(new DomainValueObjectsStockProductId($detail['productId']), new ValueObjectsStockQuantity($detail['productQty']));
+                $this->validateOperation(new DomainValueObjectsStockProductId($detail['productId']), new SystemStockQuantity($detail['productQty']));
                 
                 $orderDetail = OrderDetailEntity::create(
                     OrderDetailId::random(),
@@ -141,22 +148,25 @@ final class CheckoutCartCreator
                     new OrderDetailQuantity($detail['productQty']),
                     new OrderDetailUnitPrice($detail['productUnitPrice']),
                 );
+                
                 $this->orderDetailRepository->insert($orderDetail);
-
                 $stockMovement = StockMovement::create(
                     StockId::random(),
                     new DomainValueObjectsStockProductId($detail['productId']),
                     new StockMovementTypeId($this->stockMovementTypeId),
                     
                     // usar servicio stockQuantitySignHandlerService!!!
-                    new ValueObjectsStockQuantity($detail['productQty'] * -1),
+                    new SystemStockQuantity($detail['productQty'] * -1),
+                    new PhysicalStockQuantity(0),
                     new StockDate(date('Y-m-d H:i:s')),
                     new StockNotes(''),
                     new StockEnabled(true),
                 );
+
                 $this->stockMovementRepository->insert($stockMovement);
             }, $orderDetails->value());
             DB::commit();
+
             $this->deleteCartService->deleteCart();
         } catch (Throwable $e) {
             DB::rollback();

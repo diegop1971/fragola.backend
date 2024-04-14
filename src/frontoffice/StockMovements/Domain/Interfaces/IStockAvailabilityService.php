@@ -2,10 +2,11 @@
 
 namespace src\frontoffice\StockMovements\Domain\Interfaces;
 
-use src\frontoffice\StockMovements\Domain\ValueObjects\StockQuantity;
+use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
 use src\frontoffice\StockMovements\Domain\ValueObjects\StockProductId;
+
 
 interface IStockAvailabilityService
 {
-    public function makeStockOut(StockProductId $productId, StockQuantity $stockQuantity): void;
+    public function makeStockOut(StockProductId $productId, SystemStockQuantity $stockQuantity): void;
 }

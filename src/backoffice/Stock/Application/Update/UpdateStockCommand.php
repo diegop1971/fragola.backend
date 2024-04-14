@@ -11,13 +11,13 @@ final class UpdateStockCommand implements Command
     public function __construct(
         private string $stockId,
         private string $stockProductId,
-        private int $stockPhysicalQuantity,
-        private int $stockUsableQuantity,
+        private int $physicalStockQuantity,
+        private int $systemStockQuantity,
     ) {
         $this->stockId = $stockId;
         $this->stockProductId = $stockProductId;
-        $this->stockPhysicalQuantity = $stockPhysicalQuantity;
-        $this->stockUsableQuantity = $stockUsableQuantity;
+        $this->physicalStockQuantity = $physicalStockQuantity;
+        $this->systemStockQuantity = $systemStockQuantity;
     }
 
     public function stockId(): string
@@ -30,13 +30,13 @@ final class UpdateStockCommand implements Command
         return $this->stockProductId;
     }
 
-    public function stockPhysicalQuantity(): int
+    public function physicalStockQuantity(): int
     {
-        return $this->stockPhysicalQuantity;
+        return $this->physicalStockQuantity;
     }
 
-    public function stockUsableQuantity(): int
+    public function systemStockQuantity(): int
     {
-        return $this->stockUsableQuantity;
+        return $this->systemStockQuantity;
     }
 }

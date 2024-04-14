@@ -10,15 +10,15 @@ use src\backoffice\Stock\Domain\ValueObjects\StockId;
 use src\backoffice\Stock\Application\Update\StockUpdater;
 use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
 use src\backoffice\Stock\Application\Update\UpdateStockCommand;
-use src\backoffice\Stock\Domain\ValueObjects\StockUsableQuantity;
-use src\backoffice\Stock\Domain\ValueObjects\StockPhysicalQuantity;
+use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
+use src\backoffice\Stock\Domain\ValueObjects\PhysicalStockQuantity;
 
 final class UpdateStockCommandHandler implements CommandHandler
 {
     private $stockId;
     private $stockProductId;
-    private $stockPhysicalQuantity;
-    private $stockUsableQuantity;
+    private $physicalStockQuantity;
+    private $systemStockQuantity;
 
     public function __construct(private StockUpdater $stockUpdater)
     {
@@ -29,14 +29,14 @@ final class UpdateStockCommandHandler implements CommandHandler
     {
         $this->stockId = new StockId($command->stockId());
         $this->stockProductId = new StockProductId($command->stockProductId());
-        $this->stockPhysicalQuantity = new StockPhysicalQuantity($command->stockPhysicalQuantity());
-        $this->stockUsableQuantity = new StockUsableQuantity($command->stockUsableQuantity());
+        $this->physicalStockQuantity = new PhysicalStockQuantity($command->physicalStockQuantity());
+        $this->systemStockQuantity = new SystemStockQuantity($command->systemStockQuantity());
         
         $this->stockUpdater->__invoke(
                                     $this->stockId, 
                                     $this->stockProductId, 
-                                    $this->stockPhysicalQuantity, 
-                                    $this->stockUsableQuantity, 
+                                    $this->physicalStockQuantity, 
+                                    $this->systemStockQuantity, 
                                 );
     }
 }

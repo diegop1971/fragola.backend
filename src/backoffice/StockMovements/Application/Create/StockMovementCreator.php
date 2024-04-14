@@ -22,9 +22,14 @@ use src\backoffice\StockMovements\Domain\Interfaces\StockAvailabilityServiceInte
 use src\backoffice\StockMovements\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
 use src\backoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
 use src\backoffice\StockMovements\Domain\Interfaces\StockValidateQuantityGreaterThanZeroServiceInterface;
+use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
+use src\backoffice\Stock\Domain\ValueObjects\PhysicalStockQuantity;
 
 final class StockMovementCreator
 {
+    private SystemStockQuantity $systemStockQuantity;
+    private PhysicalStockQuantity $physicalStockQuantity;
+
     public function __construct(
         private IStockRepository $stockMovementsRepository,
         private StockMovementTypeRepository $stockMovementTypeRepository,
@@ -50,11 +55,15 @@ final class StockMovementCreator
         try {
             DB::beginTransaction();
 
+            $this->systemStockQuantity = new SystemStockQuantity($stockQuantity->value());
+            $this->physicalStockQuantity = new PhysicalStockQuantity($stockQuantity->value());
+
             $stock = StockMovements::create(
                 $id,
                 $stockProductId,
                 $stockMovementTypeId,
-                $stockQuantity,
+                $this->systemStockQuantity,
+                $this->physicalStockQuantity,
                 $stockDate,
                 $stockNotes,
                 $stockEnabled,
@@ -63,7 +72,7 @@ final class StockMovementCreator
             $this->stockMovementsRepository->save($stock);
 
             $stockProductId = $stockProductId->value();
-            $stockQuantity = $stockQuantity->value();
+            $stockQuantity = $this->systemStockQuantity->value();
 
             $this->StockUpdaterService->updateStockFromMovement($stockProductId, $stockQuantity);
 
@@ -79,13 +88,12 @@ final class StockMovementCreator
         $this->stockValidateQuantityGreaterThanZeroService->validateQuantityGreaterThanZero($stockQuantity);
 
         $stockMovementType = $this->stockMovementTypeCheckerService->stockMovementType($this->stockMovementTypeRepository, $stockMovementTypeId);
-
-        if ($stockMovementType == false) {
-            $this->stockAvailabilityService->makeStockOut($stockProductId, $stockQuantity, $stockMovementTypeId);
-        }
-
+        
         $stockQuantitySigned = $this->stockQuantitySignHandlerService->setStockQuantitySign($stockMovementType, $stockQuantity);
 
+        if ($stockMovementType === -1) {
+            $this->stockAvailabilityService->makeStockOut($stockProductId, $stockQuantity, $stockMovementTypeId);
+        }
         return $stockQuantitySigned;
     }
 }
