@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace src\frontoffice\StockMovements\Infrastructure\Persistence\Eloquent;
 
-use src\backoffice\StockMovements\Domain\StockNotExist;
+use src\frontoffice\Shared\Domain\Stock\StockNotExist;
 use src\frontoffice\StockMovements\Domain\StockMovement;
 use src\frontoffice\StockMovements\Domain\Interfaces\IStockMovementRepository;
 use src\frontoffice\StockMovements\Infrastructure\Persistence\Eloquent\EloquentStockMovementModel;
@@ -33,10 +33,10 @@ class EloquentStockMovementsRepository implements IStockMovementRepository
         $model->id = $stockMovement->stockId()->value();
         $model->product_id = $stockMovement->stockProductId()->value();
         $model->movement_type_id = $stockMovement->stockMovementTypeId()->value();
-        $model->system_quantity = $stockMovement->systemStockQuantity()->value();
-        $model->physical_quantity = $stockMovement->physicalStockQuantity()->value();
+        $model->system_quantity = $stockMovement->stockSystemStockQuantity()->value();
+        $model->physical_quantity = $stockMovement->stockPhysicalStockQuantity()->value();
         $model->date = $stockMovement->stockDate()->value();
-        $model->notes = $stockMovement->stockNotes()->value();
+        $model->notes = $stockMovement->StockMovementsNotes()->value();
         $model->enabled = $stockMovement->stockEnabled()->value();
 
         $model->save();

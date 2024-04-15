@@ -2,7 +2,7 @@
 
 namespace src\backoffice\StockMovements\Domain\Services;
 
-use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
+use src\backoffice\Shared\Domain\Stock\StockQuantity;
 use src\backoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
 
 class StockQuantitySignHandlerService implements StockQuantitySignHandlerServiceInterface

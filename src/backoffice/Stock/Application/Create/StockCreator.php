@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace src\backoffice\Stock\Application\Create;
 
 use src\backoffice\Stock\Domain\Stock;
-use src\backoffice\Stock\Domain\ValueObjects\StockId;
+use src\backoffice\Shared\Domain\Stock\StockId;
+use src\backoffice\Shared\Domain\Stock\StockProductId;
 use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
-use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
-use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
-use src\backoffice\Stock\Domain\ValueObjects\PhysicalStockQuantity;
+use src\backoffice\Shared\Domain\Stock\StockSystemStockQuantity;
+use src\backoffice\Shared\Domain\Stock\StockPhysicalStockQuantity;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 use src\backoffice\Stock\Domain\Interfaces\StockAvailabilityServiceInterface;
 use src\backoffice\Stock\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
@@ -31,15 +31,15 @@ final class StockCreator
     public function __invoke(
         StockId $stockId,
         StockProductId $stockProductId,
-        PhysicalStockQuantity $physicalStockQuantity,
-        SystemStockQuantity $systemStockQuantity,
+        StockPhysicalStockQuantity $stockPhysicalStockQuantity,
+        StockSystemStockQuantity $stockSystemStockQuantity,
     ) {
 
         $stock = Stock::create(
             $stockId,
             $stockProductId,
-            $physicalStockQuantity,
-            $systemStockQuantity,
+            $stockPhysicalStockQuantity,
+            $stockSystemStockQuantity,
             $this->stockRepository,
             $this->stockMovementTypeRepository,
         );

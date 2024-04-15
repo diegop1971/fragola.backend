@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace src\frontoffice\Orders\Domain\ValueObjects;
 
 use src\Shared\Domain\ValueObject\IntValueObject;
-use src\backoffice\StockMovements\Domain\ValueObjects;
 
 final class OrderItemsQuantity extends IntValueObject
 {

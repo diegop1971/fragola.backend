@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace src\backoffice\Products\Application\Create;
 
+use src\backoffice\Shared\Domain\Stock\StockId;
 use src\backoffice\Categories\Domain\CategoryId;
 use src\Shared\Domain\Bus\Command\CommandHandler;
-use src\backoffice\Stock\Domain\ValueObjects\StockId;
+use src\backoffice\Shared\Domain\Stock\StockProductId;
 use src\backoffice\Products\Domain\ValueObjects\ProductId;
 use src\backoffice\Products\Domain\ValueObjects\ProductName;
-use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
 use src\backoffice\Products\Application\Create\ProductCreator;
 use src\backoffice\Products\Domain\ValueObjects\ProductEnabled;
+use src\backoffice\Shared\Domain\Stock\StockSystemStockQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductUnitPrice;
-use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductOutOfStock;
+use src\backoffice\Shared\Domain\Stock\StockPhysicalStockQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescription;
-use src\backoffice\Stock\Domain\ValueObjects\PhysicalStockQuantity;
 use src\backoffice\Products\Application\Create\CreateProductCommand;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockAlert;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescriptionShort;
@@ -36,8 +36,8 @@ final class CreateProductCommandHandler implements CommandHandler
     private $enabled;
     private $stockId;
     private $stockProductId;
-    private $physicalStockQuantity;
-    private $systemStockQuantity;
+    private $stockPhysicalStockQuantity;
+    private $stockSystemStockQuantity;
 
     public function __construct(private ProductCreator $creator)
     {
@@ -58,8 +58,8 @@ final class CreateProductCommandHandler implements CommandHandler
         $this->enabled = new ProductEnabled($command->enabled());
         $this->stockId = new StockId($command->stockId());
         $this->stockProductId = new StockProductId($command->productId());
-        $this->physicalStockQuantity = new PhysicalStockQuantity($command->physicalStockQuantity());
-        $this->systemStockQuantity = new SystemStockQuantity($command->systemStockQuantity());
+        $this->stockPhysicalStockQuantity = new StockPhysicalStockQuantity($command->stockPhysicalStockQuantity());
+        $this->stockSystemStockQuantity = new StockSystemStockQuantity($command->stockSystemStockQuantity());
 
         $this->creator->__invoke(
             $this->productId,
@@ -74,8 +74,8 @@ final class CreateProductCommandHandler implements CommandHandler
             $this->enabled,
             $this->stockId,
             $this->stockProductId,
-            $this->physicalStockQuantity,
-            $this->systemStockQuantity,
+            $this->stockPhysicalStockQuantity,
+            $this->stockSystemStockQuantity,
         );
     }
 }

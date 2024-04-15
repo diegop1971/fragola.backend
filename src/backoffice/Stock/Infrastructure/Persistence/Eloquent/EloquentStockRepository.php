@@ -12,7 +12,6 @@ use src\backoffice\Stock\Infrastructure\Persistence\Eloquent\EloquentStockModel;
 
 class EloquentStockRepository implements IStockRepository
 {
-
     public function __construct()
     {
     }
@@ -83,7 +82,6 @@ class EloquentStockRepository implements IStockRepository
         if ($stock->isEmpty()) {
             return [];
         }
-
         return $stock->toArray();
     }
 
@@ -93,8 +91,9 @@ class EloquentStockRepository implements IStockRepository
 
         $model->id = $stock->stockId()->value();
         $model->product_id = $stock->stockProductId()->value();
-        $model->physical_quantity = $stock->physicalStockQuantity()->value();
-        $model->system_quantity = $stock->systemStockQuantity()->value();
+        $model->system_quantity = $stock->stockSystemStockQuantity()->value();
+        $model->physical_quantity = $stock->stockPhysicalStockQuantity()->value();
+        
         $model->save();
     }
 
@@ -104,9 +103,9 @@ class EloquentStockRepository implements IStockRepository
 
         $model->id = $stock->stockId()->value();
         $model->product_id = $stock->stockProductId()->value();
-        $model->physical_quantity = $stock->physicalStockQuantity()->value();
-        $model->system_quantity = $stock->systemStockQuantity()->value();
-
+        $model->system_quantity = $stock->stockSystemStockQuantity()->value();
+        $model->physical_quantity = $stock->stockPhysicalStockQuantity()->value();
+        
         $model->update();
     }
 
@@ -118,9 +117,9 @@ class EloquentStockRepository implements IStockRepository
             throw new StockNotExist($stock->stockProductId()->value());
         }
 
-        $model->physical_quantity = $stock->physicalStockQuantity()->value();
-        $model->system_quantity = $stock->systemStockQuantity()->value();
-
+        $model->system_quantity = $stock->stockSystemStockQuantity()->value();
+        $model->physical_quantity = $stock->stockPhysicalStockQuantity()->value();
+        
         $model->update();
     }
 

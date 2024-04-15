@@ -3,8 +3,8 @@
 namespace src\backoffice\StockMovements\Domain\Services;
 
 use Illuminate\Validation\ValidationException;
+use src\backoffice\Shared\Domain\Stock\StockQuantity;
 use src\backoffice\StockMovements\Domain\Interfaces\StockValidateQuantityGreaterThanZeroServiceInterface;
-use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
 
 class StockValidateQuantityGreaterThanZeroService implements StockValidateQuantityGreaterThanZeroServiceInterface
 {
@@ -12,7 +12,7 @@ class StockValidateQuantityGreaterThanZeroService implements StockValidateQuanti
     {       
         if ($stockQuantity->value() <= 0) {
             throw ValidationException::withMessages([
-                'quantity' => "La cantidad debe ser mayor a cero.",
+                'quantity' => "The quantity must be greater than zero.",
             ]);
         }
         return true;

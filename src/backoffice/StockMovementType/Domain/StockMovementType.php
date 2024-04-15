@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace src\backoffice\StockMovementType\Domain;
 
-use src\backoffice\StockMovementType\Domain\StockMovementTypeId;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeName;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeNotes;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeEnabled;
+use src\backoffice\Shared\Domain\StockMovementType\StockMovementTypeId;
 
 
 final class StockMovementType

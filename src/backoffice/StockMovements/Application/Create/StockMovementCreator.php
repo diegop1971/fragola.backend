@@ -6,32 +6,31 @@ namespace src\backoffice\StockMovements\Application\Create;
 
 use Throwable;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use src\backoffice\Shared\Domain\Stock\StockId;
+use src\backoffice\Shared\Domain\Stock\StockQuantity;
+use src\backoffice\Shared\Domain\Stock\StockProductId;
 use src\backoffice\StockMovements\Domain\StockMovements;
-use src\backoffice\StockMovements\Domain\ValueObjects\StockId;
-use src\backoffice\StockMovements\Domain\ValueObjects\StockDate;
-use src\backoffice\StockMovements\Domain\ValueObjects\StockNotes;
-use src\backoffice\StockMovements\Domain\ValueObjects\StockEnabled;
-use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
-use src\backoffice\StockMovements\Domain\Interfaces\IStockRepository;
-use src\backoffice\StockMovements\Domain\ValueObjects\StockProductId;
+use src\backoffice\Shared\Domain\Stock\StockSystemStockQuantity;
+use src\backoffice\Shared\Domain\Stock\StockPhysicalStockQuantity;
+use src\backoffice\Shared\Domain\StockMovementType\StockMovementTypeId;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
-use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementTypeId;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementsDate;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementsNotes;
+use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementsEnabled;
+use src\backoffice\StockMovements\Domain\Interfaces\IStockMovementsRepository;
 use src\backoffice\StockMovements\Domain\Interfaces\StockUpdaterServiceInterface;
 use src\backoffice\StockMovements\Domain\Interfaces\StockAvailabilityServiceInterface;
 use src\backoffice\StockMovements\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
 use src\backoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
 use src\backoffice\StockMovements\Domain\Interfaces\StockValidateQuantityGreaterThanZeroServiceInterface;
-use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
-use src\backoffice\Stock\Domain\ValueObjects\PhysicalStockQuantity;
 
 final class StockMovementCreator
 {
-    private SystemStockQuantity $systemStockQuantity;
-    private PhysicalStockQuantity $physicalStockQuantity;
+    private StockSystemStockQuantity $stockSystemStockQuantity;
+    private StockPhysicalStockQuantity $stockPhysicalStockQuantity;
 
     public function __construct(
-        private IStockRepository $stockMovementsRepository,
+        private IStockMovementsRepository $stockMovementsRepository,
         private StockMovementTypeRepository $stockMovementTypeRepository,
         private StockQuantitySignHandlerServiceInterface $stockQuantitySignHandlerService,
         private StockValidateQuantityGreaterThanZeroServiceInterface $stockValidateQuantityGreaterThanZeroService,
@@ -46,33 +45,33 @@ final class StockMovementCreator
         StockProductId $stockProductId,
         StockMovementTypeId $stockMovementTypeId,
         StockQuantity $stockQuantity,
-        StockDate $stockDate,
-        StockNotes $stockNotes,
-        StockEnabled $stockEnabled
+        StockMovementsDate $stockMovementsDate,
+        StockMovementsNotes $stockMovementsNotes,
+        StockMovementsEnabled $stockMovementsEnabled
     ) {
         $stockQuantity = $this->validateOperation($stockQuantity, $stockMovementTypeId, $stockProductId);
 
         try {
             DB::beginTransaction();
 
-            $this->systemStockQuantity = new SystemStockQuantity($stockQuantity->value());
-            $this->physicalStockQuantity = new PhysicalStockQuantity($stockQuantity->value());
+            $this->stockSystemStockQuantity = new StockSystemStockQuantity($stockQuantity->value());
+            $this->stockPhysicalStockQuantity = new StockPhysicalStockQuantity($stockQuantity->value());
 
             $stock = StockMovements::create(
                 $id,
                 $stockProductId,
                 $stockMovementTypeId,
-                $this->systemStockQuantity,
-                $this->physicalStockQuantity,
-                $stockDate,
-                $stockNotes,
-                $stockEnabled,
+                $this->stockSystemStockQuantity,
+                $this->stockPhysicalStockQuantity,
+                $stockMovementsDate,
+                $stockMovementsNotes,
+                $stockMovementsEnabled,
             );
 
             $this->stockMovementsRepository->save($stock);
 
             $stockProductId = $stockProductId->value();
-            $stockQuantity = $this->systemStockQuantity->value();
+            $stockQuantity = $this->stockSystemStockQuantity->value();
 
             $this->StockUpdaterService->updateStockFromMovement($stockProductId, $stockQuantity);
 
@@ -83,7 +82,7 @@ final class StockMovementCreator
         }
     }
 
-    private function validateOperation($stockQuantity, $stockMovementTypeId, $stockProductId): StockQuantity
+    private function validateOperation(StockQuantity $stockQuantity, $stockMovementTypeId, $stockProductId): StockQuantity
     {
         $this->stockValidateQuantityGreaterThanZeroService->validateQuantityGreaterThanZero($stockQuantity);
 

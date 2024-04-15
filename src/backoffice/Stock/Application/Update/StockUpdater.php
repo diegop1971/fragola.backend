@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace src\backoffice\Stock\Application\Update;
 
 use src\backoffice\Stock\Domain\Stock;
-use src\backoffice\Stock\Domain\ValueObjects\StockId;
+use src\backoffice\Shared\Domain\Stock\StockId;
+use src\backoffice\Shared\Domain\Stock\StockProductId;
 use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
-use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
-use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
-use src\backoffice\Stock\Domain\ValueObjects\PhysicalStockQuantity;
+use src\backoffice\Shared\Domain\Stock\StockSystemStockQuantity;
+use src\backoffice\Shared\Domain\Stock\StockPhysicalStockQuantity;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 
 final class StockUpdater
@@ -24,14 +24,14 @@ final class StockUpdater
 
         StockId $stockId,
         StockProductId $stockProductId,
-        PhysicalStockQuantity $physicalStockQuantity,
-        SystemStockQuantity $systemStockQuantity,
+        StockPhysicalStockQuantity $stockPhysicalStockQuantity,
+        StockSystemStockQuantity $stockSystemStockQuantity,
     ) {
         $stock = Stock::update(
             $stockId,
             $stockProductId,
-            $physicalStockQuantity,
-            $systemStockQuantity,
+            $stockPhysicalStockQuantity,
+            $stockSystemStockQuantity,
             $this->stockRepository,
             $this->stockMovementTypeRepository,
         );

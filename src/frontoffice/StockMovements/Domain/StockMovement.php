@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace src\frontoffice\StockMovements\Domain;
 
-use src\frontoffice\StockMovements\Domain\ValueObjects\StockId;
-use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
+use src\frontoffice\Shared\Domain\Stock\StockId;
+use src\frontoffice\Shared\Domain\Stock\StockProductId;
+use src\frontoffice\Shared\Domain\Stock\StockSystemStockQuantity;
 use src\frontoffice\StockMovements\Domain\ValueObjects\StockDate;
-use src\frontoffice\StockMovements\Domain\ValueObjects\StockNotes;
-use src\backoffice\Stock\Domain\ValueObjects\PhysicalStockQuantity;
+use src\frontoffice\Shared\Domain\Stock\StockPhysicalStockQuantity;
 use src\frontoffice\StockMovements\Domain\ValueObjects\StockEnabled;
-use src\frontoffice\StockMovements\Domain\ValueObjects\StockProductId;
+use src\frontoffice\StockMovements\Domain\ValueObjects\StockMovementsNotes;
 use src\frontoffice\StockMovements\Domain\ValueObjects\StockMovementTypeId;
-
 
 final class StockMovement
 {
@@ -20,10 +19,10 @@ final class StockMovement
         private StockId $stockId,
         private StockProductId $stockProductId,
         private StockMovementTypeId $stockMovementTypeId,
-        private SystemStockQuantity $systemStockQuantity,
-        private PhysicalStockQuantity $physicalStockQuantity,
+        private StockSystemStockQuantity $stockSystemStockQuantity,
+        private StockPhysicalStockQuantity $stockPhysicalStockQuantity,
         private StockDate $stockDate,
-        private StockNotes $stockNotes,
+        private StockMovementsNotes $stockMovementsNotes,
         private StockEnabled $stockEnabled,
     ) {
     }
@@ -32,21 +31,21 @@ final class StockMovement
         StockId $stockId,
         StockProductId $stockProductId,
         StockMovementTypeId $stockMovementTypeId,
-        SystemStockQuantity $systemStockQuantity,
-        PhysicalStockQuantity $physicalStockQuantity,
+        StockSystemStockQuantity $stockSystemStockQuantity,
+        StockPhysicalStockQuantity $stockPhysicalStockQuantity,
         StockDate $stockDate,
-        StockNotes $stockNotes,
-        StockEnabled $StockEnabled,
+        StockMovementsNotes $stockMovementsNotes,
+        StockEnabled $stockEnabled,
     ): self {
         $stock = new self(
             $stockId,
             $stockProductId,
             $stockMovementTypeId,
-            $systemStockQuantity,
-            $physicalStockQuantity,
+            $stockSystemStockQuantity,
+            $stockPhysicalStockQuantity,
             $stockDate,
-            $stockNotes,
-            $StockEnabled,
+            $stockMovementsNotes,
+            $stockEnabled,
         );
 
         return $stock;
@@ -67,19 +66,19 @@ final class StockMovement
         return $this->stockMovementTypeId;
     }
 
-    public function systemStockQuantity(): SystemStockQuantity
+    public function stockSystemStockQuantity(): StockSystemStockQuantity
     {
-        return $this->systemStockQuantity;
+        return $this->stockSystemStockQuantity;
     }
 
-    public function physicalStockQuantity(): PhysicalStockQuantity
+    public function stockPhysicalStockQuantity(): StockPhysicalStockQuantity
     {
-        return $this->physicalStockQuantity;
+        return $this->stockPhysicalStockQuantity;
     }
 
-    public function systemStockQuantityAbsolute(): int
+    public function stockSystemStockQuantityAbsolute(): int
     {
-        return abs($this->systemStockQuantity->value());
+        return abs($this->stockSystemStockQuantity->value());
     }
 
     public function stockDate(): StockDate
@@ -87,9 +86,9 @@ final class StockMovement
         return $this->stockDate;
     }
 
-    public function stockNotes(): StockNotes
+    public function stockMovementsNotes(): StockMovementsNotes
     {
-        return $this->stockNotes;
+        return $this->stockMovementsNotes;
     }
 
     public function stockEnabled(): StockEnabled

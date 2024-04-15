@@ -8,10 +8,10 @@ use src\Shared\Domain\Bus\Command\CommandBus;
 use src\Shared\Infrastructure\LaravelContainer;
 use src\Shared\Infrastructure\RamseyUuidGenerator;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
-use src\backoffice\StockMovements\Domain\Interfaces\IStockRepository;
 use src\backoffice\StockMovements\Domain\Services\StockUpdaterService;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 use src\backoffice\StockMovements\Domain\Services\StockAvailabilityService;
+use src\backoffice\StockMovements\Domain\Interfaces\IStockMovementsRepository;
 use src\backoffice\StockMovements\Domain\Interfaces\StockUpdaterServiceInterface;
 use src\backoffice\StockMovements\Domain\Services\StockMovementTypeCheckerService;
 use src\backoffice\StockMovements\Domain\Services\StockQuantitySignHandlerService;
@@ -19,7 +19,7 @@ use src\backoffice\StockMovements\Domain\Interfaces\StockAvailabilityServiceInte
 use src\backoffice\StockMovements\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
 use src\backoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
 use src\backoffice\StockMovements\Domain\Services\StockValidateQuantityGreaterThanZeroService;
-use src\backoffice\StockMovements\Infrastructure\Persistence\Eloquent\EloquentStockRepository;
+use src\backoffice\StockMovements\Infrastructure\Persistence\Eloquent\EloquentStockMovementsRepository;
 use src\backoffice\StockMovements\Domain\Interfaces\StockValidateQuantityGreaterThanZeroServiceInterface;
 use src\backoffice\StockMovementType\Infrastructure\Persistence\Eloquent\EloquentStockMovementTypeRepository;
 
@@ -48,8 +48,8 @@ class StockMovementsServiceProvider extends ServiceProvider
       );
 
       $this->app->bind(
-        IStockRepository::class, 
-        EloquentStockRepository::class
+        IStockMovementsRepository::class, 
+        EloquentStockMovementsRepository::class
       );
 
       $this->app->bind(

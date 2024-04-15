@@ -14,9 +14,9 @@ final class CreateStockMovementCommand implements Command
         private string $stockProductId,
         private string $stockMovementTypeId,
         private int $stockQuantity,
-        private string $stockDate,
-        private string $stockNotes,
-        private bool $stockEnabled,
+        private string $stockMovementsDate,
+        private string $stockMovementsNotes,
+        private bool $stockMovementsEnabled,
     ) {
     }
 
@@ -40,18 +40,18 @@ final class CreateStockMovementCommand implements Command
         return intval($this->stockQuantity);
     }
 
-    public function stockDate(): string
+    public function stockMovementsDate(): string
     {
-        return $this->stockDate;
+        return $this->stockMovementsDate;
     }
 
-    public function stockNotes(): string
+    public function stockMovementsNotes(): string
     {
-        return $this->stockNotes;
+        return $this->stockMovementsNotes;
     }
 
-    public function stockEnabled(): bool
+    public function stockMovementsEnabled(): bool
     {
-        return boolval($this->stockEnabled);
+        return boolval($this->stockMovementsEnabled);
     }
 }

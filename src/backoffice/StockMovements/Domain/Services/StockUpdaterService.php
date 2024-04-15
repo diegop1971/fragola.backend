@@ -3,19 +3,19 @@
 namespace src\backoffice\StockMovements\Domain\Services;
 
 use src\backoffice\Stock\Domain\Stock;
+use src\backoffice\Shared\Domain\Stock\StockId;
+use src\backoffice\Shared\Domain\Stock\StockProductId;
 use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
+use src\backoffice\Shared\Domain\Stock\StockSystemStockQuantity;
+use src\backoffice\Shared\Domain\Stock\StockPhysicalStockQuantity;
 use src\backoffice\StockMovements\Domain\Interfaces\StockUpdaterServiceInterface;
-use src\backoffice\Stock\Domain\ValueObjects\StockId;
-use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
-use src\backoffice\Stock\Domain\ValueObjects\PhysicalStockQuantity;
-use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
 
 class StockUpdaterService implements StockUpdaterServiceInterface
 {
     private $stockId;
     private $stockProductId;
-    private $physicalStockQuantity;
-    private $systemStockQuantity;
+    private $stockPhysicalStockQuantity;
+    private $stockSystemStockQuantity;
 
     public function __construct(
         private IStockRepository $stockRepository
@@ -34,8 +34,8 @@ class StockUpdaterService implements StockUpdaterServiceInterface
         $stock = Stock::create(
             $this->stockId = new StockId($stockId),
             $this->stockProductId = new StockProductId($stockProductId),
-            $this->physicalStockQuantity = new PhysicalStockQuantity($physicalQuantity),
-            $this->systemStockQuantity = new SystemStockQuantity($systemQuantity),
+            $this->stockPhysicalStockQuantity = new StockPhysicalStockQuantity($physicalQuantity),
+            $this->stockSystemStockQuantity = new StockSystemStockQuantity($systemQuantity),
         );
         
         $this->stockRepository->updateQuantities($stock);

@@ -2,12 +2,13 @@
 
 namespace src\frontoffice\StockMovements\Domain\Services;
 
-use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
-use src\backoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
+
+use src\frontoffice\Shared\Domain\Stock\StockQuantity;
+use src\frontoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
 
 class StockQuantitySignHandlerService implements StockQuantitySignHandlerServiceInterface
 {
-    public function setStockQuantitySign(bool $stockMovementType, StockQuantity $quantity): StockQuantity
+    public function setStockQuantitySign(int $stockMovementType, StockQuantity $quantity): StockQuantity
     {
         $stockQuantity = $stockMovementType ? $quantity : new StockQuantity($quantity->value() * -1);
         

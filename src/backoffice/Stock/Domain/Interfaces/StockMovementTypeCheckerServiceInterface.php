@@ -2,7 +2,7 @@
 
 namespace src\backoffice\Stock\Domain\Interfaces;
 
-use src\backoffice\Stock\Domain\ValueObjects\StockMovementTypeId;
+use src\backoffice\Shared\Domain\StockMovementType\StockMovementTypeId;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 
 interface StockMovementTypeCheckerServiceInterface

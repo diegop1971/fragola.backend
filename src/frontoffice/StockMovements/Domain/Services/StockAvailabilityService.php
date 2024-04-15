@@ -3,22 +3,20 @@
 namespace src\frontoffice\StockMovements\Domain\Services;
 
 use Illuminate\Validation\ValidationException;
-use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
-use src\frontoffice\StockMovements\Domain\ValueObjects\StockProductId;
-use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
+use src\frontoffice\Shared\Domain\Stock\StockProductId;
+use src\frontoffice\Shared\Domain\Stock\StockSystemStockQuantity;
 use src\frontoffice\StockMovements\Domain\Interfaces\IStockMovementRepository;
 use src\frontoffice\StockMovements\Domain\Interfaces\IStockAvailabilityService;
 
 class StockAvailabilityService implements IStockAvailabilityService
 {
     public function __construct(
-        private StockMovementTypeRepository $stockMovementTypeRepository,
         private IStockMovementRepository $stockRepository
     ) {
         $this->stockRepository = $stockRepository;
     }
 
-    public function makeStockOut(StockProductId $productId, SystemStockQuantity $stockQuantity): void
+    public function makeStockOut(StockProductId $productId, StockSystemStockQuantity $stockQuantity): void
     {
         $countStockByProductId = $this->stockRepository->sumStockQuantityByProductId($productId->value());
 

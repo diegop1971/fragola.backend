@@ -8,9 +8,7 @@ use src\Shared\Domain\Bus\Command\CommandBus;
 use src\Shared\Infrastructure\LaravelContainer;
 use src\Shared\Infrastructure\RamseyUuidGenerator;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
-use src\frontoffice\Stock\Domain\Interfaces\StockRepositoryInterface;
 use src\frontoffice\Home\Domain\Interfaces\HomeProductsRepositoryInterface;
-use src\frontoffice\Stock\Infrastructure\Persistence\Eloquent\EloquentStockRepository;
 use src\frontoffice\Home\Infrastructure\Persistence\Eloquent\HomeProductEloquentRepository;
 
 class HomeProductServiceProvider extends ServiceProvider
@@ -35,11 +33,6 @@ class HomeProductServiceProvider extends ServiceProvider
       $this->app->bind(
         UuidGenerator::class,
         RamseyUuidGenerator::class
-      );
-
-      $this->app->bind(
-        StockRepositoryInterface::class, 
-        EloquentStockRepository::class
       );
 
       $this->app->bind(

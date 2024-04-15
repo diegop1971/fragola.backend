@@ -2,7 +2,7 @@
 
 namespace src\backoffice\StockMovements\Domain\Interfaces;
 
-use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
+use src\backoffice\Shared\Domain\Stock\StockQuantity;
 
 interface StockValidateQuantityGreaterThanZeroServiceInterface
 {

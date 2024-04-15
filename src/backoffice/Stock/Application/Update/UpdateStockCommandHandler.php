@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace src\backoffice\Stock\Application\Update;
 
 
+use src\backoffice\Shared\Domain\Stock\StockId;
 use src\Shared\Domain\Bus\Command\CommandHandler;
-use src\backoffice\Stock\Domain\ValueObjects\StockId;
+use src\backoffice\Shared\Domain\Stock\StockProductId;
 use src\backoffice\Stock\Application\Update\StockUpdater;
-use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
 use src\backoffice\Stock\Application\Update\UpdateStockCommand;
-use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
-use src\backoffice\Stock\Domain\ValueObjects\PhysicalStockQuantity;
+use src\backoffice\Shared\Domain\Stock\StockSystemStockQuantity;
+use src\backoffice\Shared\Domain\Stock\StockPhysicalStockQuantity;
 
 final class UpdateStockCommandHandler implements CommandHandler
 {
     private $stockId;
     private $stockProductId;
-    private $physicalStockQuantity;
-    private $systemStockQuantity;
+    private $stockPhysicalStockQuantity;
+    private $stockSystemStockQuantity;
 
     public function __construct(private StockUpdater $stockUpdater)
     {
@@ -29,14 +29,14 @@ final class UpdateStockCommandHandler implements CommandHandler
     {
         $this->stockId = new StockId($command->stockId());
         $this->stockProductId = new StockProductId($command->stockProductId());
-        $this->physicalStockQuantity = new PhysicalStockQuantity($command->physicalStockQuantity());
-        $this->systemStockQuantity = new SystemStockQuantity($command->systemStockQuantity());
-        
+        $this->stockPhysicalStockQuantity = new StockPhysicalStockQuantity($command->stockPhysicalStockQuantity());
+        $this->stockSystemStockQuantity = new StockSystemStockQuantity($command->stockSystemStockQuantity());
+
         $this->stockUpdater->__invoke(
-                                    $this->stockId, 
-                                    $this->stockProductId, 
-                                    $this->physicalStockQuantity, 
-                                    $this->systemStockQuantity, 
-                                );
+            $this->stockId,
+            $this->stockProductId,
+            $this->stockPhysicalStockQuantity,
+            $this->stockSystemStockQuantity,
+        );
     }
 }

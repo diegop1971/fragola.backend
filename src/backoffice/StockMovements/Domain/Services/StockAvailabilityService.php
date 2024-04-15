@@ -3,18 +3,18 @@
 namespace src\backoffice\StockMovements\Domain\Services;
 
 use Illuminate\Validation\ValidationException;
-use src\backoffice\StockMovements\Domain\ValueObjects\StockQuantity;
-use src\backoffice\StockMovements\Domain\ValueObjects\StockProductId;
-use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementTypeId;
-use src\backoffice\StockMovements\Domain\Interfaces\IStockRepository;
+use src\backoffice\Shared\Domain\Stock\StockQuantity;
+use src\backoffice\Shared\Domain\Stock\StockProductId;
+use src\backoffice\Shared\Domain\StockMovementType\StockMovementTypeId;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
+use src\backoffice\StockMovements\Domain\Interfaces\IStockMovementsRepository;
 use src\backoffice\StockMovements\Domain\Interfaces\StockAvailabilityServiceInterface;
 
 class StockAvailabilityService implements StockAvailabilityServiceInterface
 {
     public function __construct(
         private StockMovementTypeRepository $stockMovementTypeRepository,
-        private IStockRepository $stockRepository
+        private IStockMovementsRepository $stockRepository
     ) {
         $this->stockRepository = $stockRepository;
     }

@@ -8,19 +8,19 @@ use Throwable;
 use Illuminate\Support\Facades\DB;
 use src\backoffice\Stock\Domain\Stock;
 use src\backoffice\Products\Domain\Product;
+use src\backoffice\Shared\Domain\Stock\StockId;
 use src\backoffice\Categories\Domain\CategoryId;
-use src\backoffice\Stock\Domain\ValueObjects\StockId;
 use src\backoffice\Products\Domain\IProductRepository;
+use src\backoffice\Shared\Domain\Stock\StockProductId;
 use src\backoffice\Products\Domain\ValueObjects\ProductId;
 use src\backoffice\Products\Domain\ValueObjects\ProductName;
 use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
-use src\backoffice\Stock\Domain\ValueObjects\StockProductId;
 use src\backoffice\Products\Domain\ValueObjects\ProductEnabled;
+use src\backoffice\Shared\Domain\Stock\StockSystemStockQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductUnitPrice;
-use src\backoffice\Stock\Domain\ValueObjects\SystemStockQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductOutOfStock;
+use src\backoffice\Shared\Domain\Stock\StockPhysicalStockQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescription;
-use src\backoffice\Stock\Domain\ValueObjects\PhysicalStockQuantity;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockAlert;
 use src\backoffice\Products\Domain\ValueObjects\ProductDescriptionShort;
 use src\backoffice\Products\Domain\ValueObjects\ProductLowStockThreshold;
@@ -50,8 +50,8 @@ final class ProductCreator
         ProductEnabled $enabled,
         StockId $stockId,
         StockProductId $stockProductId,
-        PhysicalStockQuantity $physicalStockQuantity,
-        SystemStockQuantity $systemStockQuantity,
+        StockPhysicalStockQuantity $stockPhysicalStockQuantity,
+        StockSystemStockQuantity $stockSystemStockQuantity,
     ) {
         $this->validateOperation($lowStockThreshold);
 
@@ -76,8 +76,8 @@ final class ProductCreator
             $stock = Stock::create(
                 $stockId,
                 $stockProductId,
-                $physicalStockQuantity,
-                $systemStockQuantity,
+                $stockPhysicalStockQuantity,
+                $stockSystemStockQuantity,
             );
 
             $this->stockRepository->save($stock);

@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace src\frontoffice\Stock\Infrastructure\Persistence\Eloquent;
 
 use Illuminate\Support\Facades\DB;
-use src\frontoffice\Stock\Domain\StockNotExist;
 use src\frontoffice\Stock\Domain\Interfaces\IStockRepository;
-use src\frontoffice\Stock\Infrastructure\Persistence\Eloquent\EloquentStockModel;
 
 class EloquentStockRepository implements IStockRepository
 {

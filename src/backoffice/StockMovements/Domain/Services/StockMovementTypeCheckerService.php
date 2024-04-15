@@ -4,8 +4,8 @@ namespace src\backoffice\StockMovements\Domain\Services;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use src\backoffice\Shared\Domain\StockMovementType\StockMovementTypeId;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
-use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementTypeId;
 use src\backoffice\StockMovements\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
 
 class StockMovementTypeCheckerService implements StockMovementTypeCheckerServiceInterface

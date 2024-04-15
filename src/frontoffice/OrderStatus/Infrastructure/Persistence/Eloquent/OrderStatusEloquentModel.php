@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use src\backoffice\OrderManager\Infrastructure\Persistence\Eloquent\OrderEloquentModel;
+use src\frontoffice\Orders\Infrastructure\Persistence\Eloquent\OrderEloquentModel;
 use src\frontoffice\PaymentMethods\Infrastructure\Persistence\Eloquent\PaymentMethodEloquentModel;
 
 class OrderStatusEloquentModel extends Model
