@@ -13,43 +13,41 @@ use src\backoffice\Shared\Domain\StockMovementType\StockMovementTypeId;
 final class StockMovementType
 {
     public function __construct(
-        private StockMovementTypeId $stockMovementTypeId, 
-        private StockMovementTypeName $stockMovementTypeName, 
+        private StockMovementTypeId $stockMovementTypeId,
+        private StockMovementTypeName $stockMovementTypeName,
         private StockMovementTypeNotes $stockMovementTypeNotes,
         private StockMovementTypeEnabled $stockMovementTypeEnabled,
     ) {
     }
 
     public static function create(
-                                StockMovementTypeId $stockMovementTypeId, 
-                                StockMovementTypeName $stockMovementTypeName, 
-                                StockMovementTypeNotes $stockMovementTypeNotes,
-                                StockMovementTypeEnabled $stockMovementTypeEnabled,
-                            ): self
-    {
+        StockMovementTypeId $stockMovementTypeId,
+        StockMovementTypeName $stockMovementTypeName,
+        StockMovementTypeNotes $stockMovementTypeNotes,
+        StockMovementTypeEnabled $stockMovementTypeEnabled,
+    ): self {
         $stock = new self(
-                        $stockMovementTypeId, 
-                        $stockMovementTypeName, 
-                        $stockMovementTypeNotes,
-                        $stockMovementTypeEnabled,
-                    );
+            $stockMovementTypeId,
+            $stockMovementTypeName,
+            $stockMovementTypeNotes,
+            $stockMovementTypeEnabled,
+        );
 
         return $stock;
     }
 
     public static function update(
-                                StockMovementTypeId $stockMovementTypeId, 
-                                StockMovementTypeName $stockMovementTypeName, 
-                                StockMovementTypeNotes $stockMovementTypeNotes,
-                                StockMovementTypeEnabled $stockMovementTypeEnabled,
-                            ): self
-    {
+        StockMovementTypeId $stockMovementTypeId,
+        StockMovementTypeName $stockMovementTypeName,
+        StockMovementTypeNotes $stockMovementTypeNotes,
+        StockMovementTypeEnabled $stockMovementTypeEnabled,
+    ): self {
         $stock = new self(
-                        $stockMovementTypeId, 
-                        $stockMovementTypeName, 
-                        $stockMovementTypeNotes,
-                        $stockMovementTypeEnabled,
-                    );
+            $stockMovementTypeId,
+            $stockMovementTypeName,
+            $stockMovementTypeNotes,
+            $stockMovementTypeEnabled,
+        );
 
         return $stock;
     }
@@ -68,7 +66,7 @@ final class StockMovementType
     {
         return $this->stockMovementTypeNotes;
     }
-    
+
     public function stockMovementTypeEnabled(): StockMovementTypeEnabled
     {
         return $this->stockMovementTypeEnabled;

@@ -14,7 +14,9 @@ use src\backoffice\StockMovements\Domain\Services\StockAvailabilityService;
 use src\backoffice\StockMovements\Domain\Interfaces\IStockMovementsRepository;
 use src\backoffice\StockMovements\Domain\Interfaces\StockUpdaterServiceInterface;
 use src\backoffice\StockMovements\Domain\Services\StockMovementTypeCheckerService;
+use src\backoffice\StockMovements\Domain\Services\StockMovementTypeFetcherService;
 use src\backoffice\StockMovements\Domain\Services\StockQuantitySignHandlerService;
+use src\backoffice\StockMovements\Domain\Interfaces\IStockMovementTypeFetcherService;
 use src\backoffice\StockMovements\Domain\Interfaces\StockAvailabilityServiceInterface;
 use src\backoffice\StockMovements\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
 use src\backoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
@@ -68,8 +70,8 @@ class StockMovementsServiceProvider extends ServiceProvider
       );
 
       $this->app->bind(
-        StockMovementTypeCheckerServiceInterface::class, 
-        StockMovementTypeCheckerService::class
+        IStockMovementTypeFetcherService::class, 
+        StockMovementTypeFetcherService::class
       );
 
       $this->app->bind(

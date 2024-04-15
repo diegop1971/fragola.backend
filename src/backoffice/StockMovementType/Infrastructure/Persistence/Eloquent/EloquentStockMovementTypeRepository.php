@@ -6,10 +6,10 @@ namespace src\backoffice\StockMovementType\Infrastructure\Persistence\Eloquent;
 
 use src\backoffice\StockMovementType\Domain\StockMovementType;
 use src\backoffice\StockMovementType\Domain\StockMovementTypeNotExist;
-use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
+use src\backoffice\StockMovementType\Domain\IStockMovementTypeRepository;
 use src\backoffice\StockMovementType\Infrastructure\Persistence\Eloquent\EloquentStockMovementTypeModel;
 
-class EloquentStockMovementTypeRepository implements StockMovementTypeRepository
+class EloquentStockMovementTypeRepository implements IStockMovementTypeRepository
 {
     public function searchAll(): ?array
     {                
@@ -21,6 +21,17 @@ class EloquentStockMovementTypeRepository implements StockMovementTypeRepository
         }
 
         return $stockMovementTypes->toArray();
+    }
+
+    public function search($id): ?array
+    {
+        $model = EloquentStockMovementTypeModel::find($id);
+
+        if (null === $model) {
+            return null;
+        }
+
+        return $model->toArray();
     }
 
     public function getAllEnabledStockMovementTypesNamesAndIDs(): ?array
@@ -35,17 +46,6 @@ class EloquentStockMovementTypeRepository implements StockMovementTypeRepository
         }
 
         return $products->toArray();
-    }
-
-    public function search($id): ?array
-    {
-        $model = EloquentStockMovementTypeModel::find($id);
-
-        if (null === $model) {
-            return null;
-        }
-
-        return $model->toArray();
     }
 
     public function save(StockMovementType $stockMovementType): void

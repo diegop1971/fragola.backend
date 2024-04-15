@@ -6,6 +6,7 @@ namespace src\backoffice\StockMovements\Application\Create;
 
 use Throwable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use src\backoffice\Shared\Domain\Stock\StockId;
 use src\backoffice\Shared\Domain\Stock\StockQuantity;
 use src\backoffice\Shared\Domain\Stock\StockProductId;
@@ -13,14 +14,14 @@ use src\backoffice\StockMovements\Domain\StockMovements;
 use src\backoffice\Shared\Domain\Stock\StockSystemStockQuantity;
 use src\backoffice\Shared\Domain\Stock\StockPhysicalStockQuantity;
 use src\backoffice\Shared\Domain\StockMovementType\StockMovementTypeId;
-use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
 use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementsDate;
+use src\backoffice\StockMovementType\Domain\IStockMovementTypeRepository;
 use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementsNotes;
 use src\backoffice\StockMovements\Domain\ValueObjects\StockMovementsEnabled;
 use src\backoffice\StockMovements\Domain\Interfaces\IStockMovementsRepository;
 use src\backoffice\StockMovements\Domain\Interfaces\StockUpdaterServiceInterface;
+use src\backoffice\StockMovements\Domain\Interfaces\IStockMovementTypeFetcherService;
 use src\backoffice\StockMovements\Domain\Interfaces\StockAvailabilityServiceInterface;
-use src\backoffice\StockMovements\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
 use src\backoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
 use src\backoffice\StockMovements\Domain\Interfaces\StockValidateQuantityGreaterThanZeroServiceInterface;
 
@@ -31,10 +32,10 @@ final class StockMovementCreator
 
     public function __construct(
         private IStockMovementsRepository $stockMovementsRepository,
-        private StockMovementTypeRepository $stockMovementTypeRepository,
+        private IStockMovementTypeRepository $stockMovementTypeRepository,
         private StockQuantitySignHandlerServiceInterface $stockQuantitySignHandlerService,
         private StockValidateQuantityGreaterThanZeroServiceInterface $stockValidateQuantityGreaterThanZeroService,
-        private StockMovementTypeCheckerServiceInterface $stockMovementTypeCheckerService,
+        private IStockMovementTypeFetcherService $StockMovementTypeFetcherService,
         private StockAvailabilityServiceInterface $stockAvailabilityService,
         private StockUpdaterServiceInterface $StockUpdaterService,
     ) {
@@ -68,12 +69,12 @@ final class StockMovementCreator
                 $stockMovementsEnabled,
             );
 
-            $this->stockMovementsRepository->save($stock);
+            //$this->stockMovementsRepository->save($stock);
 
             $stockProductId = $stockProductId->value();
             $stockQuantity = $this->stockSystemStockQuantity->value();
 
-            $this->StockUpdaterService->updateStockFromMovement($stockProductId, $stockQuantity);
+            //$this->StockUpdaterService->updateStockFromMovement($stockProductId, $stockQuantity);
 
             DB::commit();
         } catch (Throwable $e) {
@@ -85,14 +86,27 @@ final class StockMovementCreator
     private function validateOperation(StockQuantity $stockQuantity, $stockMovementTypeId, $stockProductId): StockQuantity
     {
         $this->stockValidateQuantityGreaterThanZeroService->validateQuantityGreaterThanZero($stockQuantity);
-
-        $stockMovementType = $this->stockMovementTypeCheckerService->stockMovementType($this->stockMovementTypeRepository, $stockMovementTypeId);
         
-        $stockQuantitySigned = $this->stockQuantitySignHandlerService->setStockQuantitySign($stockMovementType, $stockQuantity);
+        $stockMovementType = $this->StockMovementTypeFetcherService->stockMovementType($stockMovementTypeId);
 
-        if ($stockMovementType === -1) {
-            $this->stockAvailabilityService->makeStockOut($stockProductId, $stockQuantity, $stockMovementTypeId);
+        $isPositiveSystem = $stockMovementType['is_positive_system'];
+        $isPositivePhysical = $stockMovementType['is_positive_physical'];
+
+        Log::info($this->peperoni($isPositiveSystem, $stockQuantity));
+        Log::info($this->peperoni($isPositivePhysical, $stockQuantity));
+
+        $stockQuantitySigned = $this->stockQuantitySignHandlerService->setStockQuantitySign($isPositiveSystem, $stockQuantity);
+
+        if ($isPositiveSystem === -1) {
+            $this->stockAvailabilityService->makeStockOut($stockProductId, $stockQuantity, $isPositiveSystem);
         }
         return $stockQuantitySigned;
+    }
+
+    private function peperoni($isPositive, $stockQuantity)
+    {
+        $peperonildo = $this->stockQuantitySignHandlerService->setStockQuantitySign($isPositive, $stockQuantity);
+
+        return $peperonildo->value();
     }
 }

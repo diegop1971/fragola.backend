@@ -35,7 +35,6 @@ class StockMovementStoreController extends Controller
                 'notes' => 'nullable|string',
                 'enabled' => 'required|in:0,1',
             ]);
-
             $command = new CreateStockMovementCommand(
                 RamseyUuid::random(),
                 $data['product_id'],
@@ -66,7 +65,7 @@ class StockMovementStoreController extends Controller
             return response()->json([
                 'success' => false,
                 //'message' => $mappedError['message'],
-                'message' => $e->getMessage(),
+                'message' => $e->getFile() . ' - ' . $e->getLine(),  
                 'detail' => null,
                 'code' => $mappedError['http_code'],
             ], $mappedError['http_code']);

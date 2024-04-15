@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace src\backoffice\StockMovementType\Application\Find;
 
-use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
+use src\backoffice\StockMovementType\Domain\IStockMovementTypeRepository;
 
 final class StockMovementTypesLimitedFieldsGet
 {
     private $repository;
 
-    public function __construct(StockMovementTypeRepository $repository)
+    public function __construct(IStockMovementTypeRepository $repository)
     {
         $this->repository = $repository;
     }

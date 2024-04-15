@@ -3,7 +3,7 @@
 namespace src\backoffice\StockMovementType\Domain;
 
 
-interface StockMovementTypeRepository
+interface IStockMovementTypeRepository
 {
     public function searchAll(): ?array;
 

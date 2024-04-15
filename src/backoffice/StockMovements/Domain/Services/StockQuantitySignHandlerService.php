@@ -9,8 +9,6 @@ class StockQuantitySignHandlerService implements StockQuantitySignHandlerService
 {
     public function setStockQuantitySign(int $stockMovementType, StockQuantity $stockQuantity): StockQuantity
     {
-        //$stockQuantity = $stockMovementType ? $quantity : new StockQuantity($quantity->value() * -1);
-
         switch ($stockMovementType) {
             case 1:
                 $stockQuantity = new StockQuantity($stockQuantity->value());

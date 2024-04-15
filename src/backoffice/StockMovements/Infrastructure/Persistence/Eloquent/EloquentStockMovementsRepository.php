@@ -11,10 +11,6 @@ use src\backoffice\StockMovements\Infrastructure\Persistence\Eloquent\EloquentSt
 
 class EloquentStockMovementsRepository implements IStockMovementsRepository
 {
-    public function __construct()
-    {
-    }
-
     public function getStockListByProductId($productId): ?array
     {
         $stock = EloquentStockMovementsModel::leftJoin('products', 'stock_movements.product_id', '=', 'products.id')
