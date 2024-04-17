@@ -22,18 +22,18 @@ use src\backoffice\StockMovements\Domain\Interfaces\IStockMovementsRepository;
 use src\backoffice\StockMovements\Domain\Interfaces\StockUpdaterServiceInterface;
 use src\backoffice\StockMovements\Domain\Interfaces\IStockMovementTypeFetcherService;
 use src\backoffice\StockMovements\Domain\Interfaces\StockAvailabilityServiceInterface;
-use src\backoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
+use src\backoffice\StockMovements\Domain\Interfaces\IStockQuantityImpactHandlerService;
 use src\backoffice\StockMovements\Domain\Interfaces\StockValidateQuantityGreaterThanZeroServiceInterface;
 
 final class StockMovementCreator
 {
-    private StockSystemStockQuantity $stockSystemStockQuantity;
-    private StockPhysicalStockQuantity $stockPhysicalStockQuantity;
+    private StockSystemStockQuantity $systemStockQuantity;
+    private StockPhysicalStockQuantity $physicalStockQuantity;
 
     public function __construct(
         private IStockMovementsRepository $stockMovementsRepository,
         private IStockMovementTypeRepository $stockMovementTypeRepository,
-        private StockQuantitySignHandlerServiceInterface $stockQuantitySignHandlerService,
+        private IStockQuantityImpactHandlerService $stockQuantityImpactHandlerService,
         private StockValidateQuantityGreaterThanZeroServiceInterface $stockValidateQuantityGreaterThanZeroService,
         private IStockMovementTypeFetcherService $StockMovementTypeFetcherService,
         private StockAvailabilityServiceInterface $stockAvailabilityService,
@@ -50,31 +50,28 @@ final class StockMovementCreator
         StockMovementsNotes $stockMovementsNotes,
         StockMovementsEnabled $stockMovementsEnabled
     ) {
-        $stockQuantity = $this->validateOperation($stockQuantity, $stockMovementTypeId, $stockProductId);
-
         try {
             DB::beginTransaction();
 
-            $this->stockSystemStockQuantity = new StockSystemStockQuantity($stockQuantity->value());
-            $this->stockPhysicalStockQuantity = new StockPhysicalStockQuantity($stockQuantity->value());
+            $this->validateOperation($stockQuantity, $stockMovementTypeId, $stockProductId);
 
-            $stock = StockMovements::create(
+            $stockMovement = StockMovements::create(
                 $id,
                 $stockProductId,
                 $stockMovementTypeId,
-                $this->stockSystemStockQuantity,
-                $this->stockPhysicalStockQuantity,
+                $this->systemStockQuantity,
+                $this->physicalStockQuantity,
                 $stockMovementsDate,
                 $stockMovementsNotes,
                 $stockMovementsEnabled,
             );
 
-            //$this->stockMovementsRepository->save($stock);
+            $this->stockMovementsRepository->save($stockMovement);
 
             $stockProductId = $stockProductId->value();
-            $stockQuantity = $this->stockSystemStockQuantity->value();
+            $stockQuantity = $this->systemStockQuantity->value();
 
-            //$this->StockUpdaterService->updateStockFromMovement($stockProductId, $stockQuantity);
+            $this->StockUpdaterService->updateStockFromMovement($stockProductId, $this->systemStockQuantity, $this->physicalStockQuantity);
 
             DB::commit();
         } catch (Throwable $e) {
@@ -83,30 +80,29 @@ final class StockMovementCreator
         }
     }
 
-    private function validateOperation(StockQuantity $stockQuantity, $stockMovementTypeId, $stockProductId): StockQuantity
+    private function validateOperation(StockQuantity $stockQuantity, $stockMovementTypeId, $stockProductId): void  //: StockQuantity
     {
         $this->stockValidateQuantityGreaterThanZeroService->validateQuantityGreaterThanZero($stockQuantity);
-        
-        $stockMovementType = $this->StockMovementTypeFetcherService->stockMovementType($stockMovementTypeId);
 
-        $isPositiveSystem = $stockMovementType['is_positive_system'];
-        $isPositivePhysical = $stockMovementType['is_positive_physical'];
+        $this->systemStockQuantity = new StockSystemStockQuantity($stockQuantity->value());
+            $this->physicalStockQuantity = new StockPhysicalStockQuantity($stockQuantity->value());
+            
+            $stockMovementType = $this->StockMovementTypeFetcherService->stockMovementType($stockMovementTypeId);
+            $isPositiveSystem = $stockMovementType['is_positive_system'];
+            $isPositivePhysical = $stockMovementType['is_positive_physical'];
 
-        Log::info($this->peperoni($isPositiveSystem, $stockQuantity));
-        Log::info($this->peperoni($isPositivePhysical, $stockQuantity));
+            $systemStockQuantity = $this->stockQuantityImpactHandlerService->setStockQuantitySign($isPositiveSystem, $stockQuantity);
+            $physicalStockQuantity = $this->stockQuantityImpactHandlerService->setStockQuantitySign($isPositivePhysical, $stockQuantity);
 
-        $stockQuantitySigned = $this->stockQuantitySignHandlerService->setStockQuantitySign($isPositiveSystem, $stockQuantity);
+            $this->systemStockQuantity = new StockSystemStockQuantity($systemStockQuantity->value());
+            $this->physicalStockQuantity = new StockPhysicalStockQuantity($physicalStockQuantity->value());
 
         if ($isPositiveSystem === -1) {
             $this->stockAvailabilityService->makeStockOut($stockProductId, $stockQuantity, $isPositiveSystem);
         }
-        return $stockQuantitySigned;
-    }
-
-    private function peperoni($isPositive, $stockQuantity)
-    {
-        $peperonildo = $this->stockQuantitySignHandlerService->setStockQuantitySign($isPositive, $stockQuantity);
-
-        return $peperonildo->value();
+        
+        if ($isPositivePhysical === -1) {
+            $this->stockAvailabilityService->makeStockOut($stockProductId, $stockQuantity, $isPositiveSystem);
+        }
     }
 }

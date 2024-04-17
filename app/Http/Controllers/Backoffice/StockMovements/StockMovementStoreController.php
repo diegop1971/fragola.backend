@@ -64,8 +64,8 @@ class StockMovementStoreController extends Controller
             $mappedError = $this->backOfficeErrorMappingService->mapToHttpCode($e->getCode(), $e->getMessage());
             return response()->json([
                 'success' => false,
-                //'message' => $mappedError['message'],
-                'message' => $e->getFile() . ' - ' . $e->getLine(),  
+                'message' => $mappedError['message'],
+                //'message' => $e->getFile() . ' - ' . $e->getLine(),  
                 'detail' => null,
                 'code' => $mappedError['http_code'],
             ], $mappedError['http_code']);

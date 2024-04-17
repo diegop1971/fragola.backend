@@ -9,17 +9,15 @@ use src\Shared\Infrastructure\LaravelContainer;
 use src\Shared\Infrastructure\RamseyUuidGenerator;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
 use src\backoffice\StockMovements\Domain\Services\StockUpdaterService;
-use src\backoffice\StockMovementType\Domain\StockMovementTypeRepository;
+use src\backoffice\StockMovementType\Domain\IStockMovementTypeRepository;
 use src\backoffice\StockMovements\Domain\Services\StockAvailabilityService;
 use src\backoffice\StockMovements\Domain\Interfaces\IStockMovementsRepository;
 use src\backoffice\StockMovements\Domain\Interfaces\StockUpdaterServiceInterface;
-use src\backoffice\StockMovements\Domain\Services\StockMovementTypeCheckerService;
 use src\backoffice\StockMovements\Domain\Services\StockMovementTypeFetcherService;
-use src\backoffice\StockMovements\Domain\Services\StockQuantitySignHandlerService;
+use src\backoffice\StockMovements\Domain\Services\StockQuantityImpactHandlerService;
 use src\backoffice\StockMovements\Domain\Interfaces\IStockMovementTypeFetcherService;
 use src\backoffice\StockMovements\Domain\Interfaces\StockAvailabilityServiceInterface;
-use src\backoffice\StockMovements\Domain\Interfaces\StockMovementTypeCheckerServiceInterface;
-use src\backoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
+use src\backoffice\StockMovements\Domain\Interfaces\IStockQuantityImpactHandlerService;
 use src\backoffice\StockMovements\Domain\Services\StockValidateQuantityGreaterThanZeroService;
 use src\backoffice\StockMovements\Infrastructure\Persistence\Eloquent\EloquentStockMovementsRepository;
 use src\backoffice\StockMovements\Domain\Interfaces\StockValidateQuantityGreaterThanZeroServiceInterface;
@@ -55,13 +53,13 @@ class StockMovementsServiceProvider extends ServiceProvider
       );
 
       $this->app->bind(
-        StockMovementTypeRepository::class, 
+        IStockMovementTypeRepository::class, 
         EloquentStockMovementTypeRepository::class
       );
 
       $this->app->bind(
-        StockQuantitySignHandlerServiceInterface::class, 
-        StockQuantitySignHandlerService::class
+        IStockQuantityImpactHandlerService::class, 
+        StockQuantityImpactHandlerService::class
       );
 
       $this->app->bind(

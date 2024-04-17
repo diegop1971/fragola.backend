@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
+use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
 use src\backoffice\Products\Domain\IProductRepository;
-use src\backoffice\StockMovements\Infrastructure\Persistence\Eloquent\EloquentStockModel;
+use src\backoffice\StockMovements\Infrastructure\Persistence\Eloquent\EloquentStockMovementsModel;
 use src\backoffice\StockMovementType\Infrastructure\Persistence\Eloquent\EloquentStockMovementTypeModel;
-use Ramsey\Uuid\Uuid;
 
 class StockMovementsSeeder extends Seeder
 {
@@ -32,7 +32,7 @@ class StockMovementsSeeder extends Seeder
             $positiveStockMovementTypes = EloquentStockMovementTypeModel::where('is_positive_system', 1)->get();
             $randomStockMovementType = $positiveStockMovementTypes->random();
 
-            EloquentStockModel::create([
+            EloquentStockMovementsModel::create([
                 'id' => $stockId,
                 'product_id' => $productId,
                 'movement_type_id' => $randomStockMovementType['id'],

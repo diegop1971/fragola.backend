@@ -2,6 +2,7 @@
 
 namespace src\backoffice\StockMovements\Domain\Services;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use src\backoffice\Shared\Domain\Stock\StockQuantity;
 use src\backoffice\Shared\Domain\Stock\StockProductId;
@@ -18,7 +19,8 @@ class StockAvailabilityService implements StockAvailabilityServiceInterface
 
     public function makeStockOut(StockProductId $stockProductId, StockQuantity $stockQuantity, int $isPositiveSystem): void
     {
-        if (!$isPositiveSystem) {
+        if ($isPositiveSystem === -1) {
+            
             $countStockByProductId = $this->stockRepository->sumStockQuantityByProductId($stockProductId->value());
 
             if ($countStockByProductId === null) {

@@ -14,8 +14,8 @@ class StockUpdaterService implements StockUpdaterServiceInterface
 {
     private $stockId;
     private $stockProductId;
-    private $stockPhysicalStockQuantity;
     private $stockSystemStockQuantity;
+    private $stockPhysicalStockQuantity;
 
     public function __construct(
         private IStockRepository $stockRepository
@@ -23,19 +23,19 @@ class StockUpdaterService implements StockUpdaterServiceInterface
         $this->stockRepository = $stockRepository;
     }
 
-    public function updateStockFromMovement(string $stockProductId, int $stockQuantity): void
+    public function updateStockFromMovement(string $stockProductId, StockSystemStockQuantity $systemStockQuantity, StockPhysicalStockQuantity $physicalStockQuantity): void
     {
         $stockItem = $this->stockRepository->getStockByProductId($stockProductId);
         
         $stockId = $stockItem[0]['id'];
-        $physicalQuantity = $stockItem[0]['physical_quantity'] + $stockQuantity;
-        $systemQuantity = $stockItem[0]['system_quantity'] + $stockQuantity;
-
+        $systemQuantity = $stockItem[0]['system_quantity'] + $systemStockQuantity->value();
+        $physicalQuantity = $stockItem[0]['physical_quantity'] + $physicalStockQuantity->value();
+        
         $stock = Stock::create(
             $this->stockId = new StockId($stockId),
             $this->stockProductId = new StockProductId($stockProductId),
-            $this->stockPhysicalStockQuantity = new StockPhysicalStockQuantity($physicalQuantity),
             $this->stockSystemStockQuantity = new StockSystemStockQuantity($systemQuantity),
+            $this->stockPhysicalStockQuantity = new StockPhysicalStockQuantity($physicalQuantity),
         );
         
         $this->stockRepository->updateQuantities($stock);

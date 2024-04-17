@@ -16,8 +16,8 @@ return new class extends Migration
             $table->uuid('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('restrict');
             $table->unique('product_id');
-            $table->integer('system_quantity')->unsigned();
-            $table->integer('physical_quantity')->unsigned();
+            $table->integer('system_quantity');
+            $table->integer('physical_quantity');
             $table->timestamps();
         });
     }

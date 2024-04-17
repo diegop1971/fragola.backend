@@ -14,22 +14,22 @@ final class Stock
     public function __construct(
         private StockId $stockId,
         private StockProductId $stockProductId,
-        private StockPhysicalStockQuantity $stockPhysicalStockQuantity,
         private StockSystemStockQuantity $stockSystemStockQuantity,
+        private StockPhysicalStockQuantity $stockPhysicalStockQuantity,
     ) {
     }
 
     public static function create(
         StockId $stockId,
         StockProductId $stockProductId,
-        StockPhysicalStockQuantity $stockPhysicalStockQuantity,
         StockSystemStockQuantity $stockSystemStockQuantity,
+        StockPhysicalStockQuantity $stockPhysicalStockQuantity,
     ): self {
         $stock = new self(
             $stockId,
             $stockProductId,
-            $stockPhysicalStockQuantity,
             $stockSystemStockQuantity,
+            $stockPhysicalStockQuantity,
         );
 
         return $stock;
@@ -38,14 +38,14 @@ final class Stock
     public static function update(
         StockId $stockId,
         StockProductId $stockProductId,
-        StockPhysicalStockQuantity $stockPhysicalStockQuantity,
         StockSystemStockQuantity $stockSystemStockQuantity,
+        StockPhysicalStockQuantity $stockPhysicalStockQuantity,
     ): self {
         $stock = new self(
             $stockId,
             $stockProductId,
-            $stockPhysicalStockQuantity,
             $stockSystemStockQuantity,
+            $stockPhysicalStockQuantity,
         );
 
         return $stock;

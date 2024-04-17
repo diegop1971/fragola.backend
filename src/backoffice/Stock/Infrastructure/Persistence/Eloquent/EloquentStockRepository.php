@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace src\backoffice\Stock\Infrastructure\Persistence\Eloquent;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use src\backoffice\Stock\Domain\Stock;
 use src\backoffice\Stock\Domain\StockNotExist;
 use src\backoffice\Stock\Domain\Interfaces\IStockRepository;
@@ -111,15 +112,16 @@ class EloquentStockRepository implements IStockRepository
 
     public function updateQuantities(Stock $stock): void
     {
+        
         $model = EloquentStockModel::where('product_id', $stock->stockProductId()->value())->first();
 
         if (!$model) {
             throw new StockNotExist($stock->stockProductId()->value());
         }
-
+        
         $model->system_quantity = $stock->stockSystemStockQuantity()->value();
         $model->physical_quantity = $stock->stockPhysicalStockQuantity()->value();
-        
+
         $model->update();
     }
 

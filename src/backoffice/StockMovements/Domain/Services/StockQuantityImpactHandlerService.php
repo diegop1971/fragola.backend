@@ -3,9 +3,9 @@
 namespace src\backoffice\StockMovements\Domain\Services;
 
 use src\backoffice\Shared\Domain\Stock\StockQuantity;
-use src\backoffice\StockMovements\Domain\Interfaces\StockQuantitySignHandlerServiceInterface;
+use src\backoffice\StockMovements\Domain\Interfaces\IStockQuantityImpactHandlerService;
 
-class StockQuantitySignHandlerService implements StockQuantitySignHandlerServiceInterface
+class StockQuantityImpactHandlerService implements IStockQuantityImpactHandlerService
 {
     public function setStockQuantitySign(int $stockMovementType, StockQuantity $stockQuantity): StockQuantity
     {
