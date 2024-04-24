@@ -1,6 +1,6 @@
 <?php
 
-namespace src\backoffice\Categories\Domain\Providers;
+namespace src\backoffice\OrderStatus\Domain\Providers;
 
 use src\Shared\Domain\UuidGenerator;
 use Illuminate\Support\ServiceProvider;
@@ -8,11 +8,11 @@ use src\Shared\Domain\Bus\Command\Container;
 use src\Shared\Domain\Bus\Command\CommandBus;
 use src\Shared\Infrastructure\LaravelContainer;
 use src\Shared\Infrastructure\RamseyUuidGenerator;
-use src\backoffice\Categories\Domain\CategoryRepository;
 use src\Shared\Infrastructure\Bus\Command\SimpleCommandBus;
-use src\backoffice\Categories\Infrastructure\Persistence\Eloquent\EloquentCategoryRepository;
+use src\backoffice\OrderStatus\Domain\Interfaces\IOrderStatusRepository;
+use src\backoffice\OrderStatus\Infrastructure\Persistence\Eloquent\EloquentOrderStatusRepository;
 
-class CategoryServiceProvider extends ServiceProvider
+class OrderStatusServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -37,8 +37,8 @@ class CategoryServiceProvider extends ServiceProvider
       );
 
       $this->app->bind(
-        CategoryRepository::class, 
-        EloquentCategoryRepository::class
+        IOrderStatusRepository::class, 
+        EloquentOrderStatusRepository::class
       );
     }
 

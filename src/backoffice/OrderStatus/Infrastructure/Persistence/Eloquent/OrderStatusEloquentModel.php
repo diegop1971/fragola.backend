@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use src\backoffice\OrderManager\Infrastructure\Persistence\Eloquent\OrderEloquentModel;
+use src\backoffice\OrderHistory\Infrastructure\Persistence\Eloquent\OrderHistoryEloquentModel;
 
 class OrderStatusEloquentModel extends Model
 {
@@ -24,5 +25,10 @@ class OrderStatusEloquentModel extends Model
     public function orders(): HasMany
     {
         return $this->hasMany(OrderEloquentModel::class);
+    }
+
+    public function orderHistories(): HasMany
+    {
+        return $this->hasMany(OrderHistoryEloquentModel::class);
     }
 }

@@ -15,6 +15,7 @@ use App\Http\Controllers\Backoffice\Stock\GetStockMovementController;
 use App\Http\Controllers\Frontoffice\Cart\CartItemQuantityController;
 use App\Http\Controllers\Frontoffice\Checkout\CheckoutStoreController;
 use App\Http\Controllers\Backoffice\Categories\CategoriesGetController;
+use App\Http\Controllers\Backoffice\Orders\OrdersGetController;
 use App\Http\Controllers\Backoffice\Products\StockProductsGetController;
 use App\Http\Controllers\Frontoffice\Home\GetProductsCardListController;
 use App\Http\Controllers\Backoffice\Stock\GetStockListByProductIdController;
@@ -122,3 +123,5 @@ Route::prefix('stock-movement-types')->group(function () {
         Route::get('/', StockMovementTypesGetController::class)->name('backoffice.stock-movement-types.index');
         Route::get('/limited-fields-list', StockMovementTypesLimitedFieldsGetController::class);
 });
+
+Route::get('/orders-list', OrdersGetController::class);

@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('order_histories', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('id_order');
-            $table->uuid('id_order_state');
+            $table->uuid('id_order_status');
             $table->timestamps();
 
             $table->foreign('id_order')->references('id')->on('orders')->onDelete('restrict');
-            $table->foreign('id_order_state')->references('id')->on('order_status')->onDelete('restrict');
+            $table->foreign('id_order_status')->references('id')->on('order_status')->onDelete('restrict');
         });
     }
 

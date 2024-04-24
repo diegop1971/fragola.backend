@@ -184,6 +184,8 @@ return [
         src\backoffice\StockMovements\Domain\Providers\StockMovementsServiceProvider::class,
         src\backoffice\StockMovementType\Domain\Providers\StockMovementTypeServiceProvider::class,
         src\backoffice\Shared\Domain\Providers\BackOfficeSharedServiceProvider::class,
+        src\backoffice\OrderManager\Domain\Providers\OrderManagerServiceProvider::class,
+        src\backoffice\OrderStatus\Domain\Providers\OrderStatusServiceProvider::class,
     
         /* Frontoffice
         |--------------------------------------------------------------------------
@@ -202,7 +204,8 @@ return [
         src\frontoffice\CartCheckout\Domain\Providers\CheckoutServiceProvider::class,
         src\frontoffice\StockMovements\Domain\Providers\StockMovementsServiceProvider::class,
         src\frontoffice\StockMovementType\Domain\Providers\StockMovementTypeServiceProvider::class,
-        src\frontoffice\Stock\Domain\Providers\StockServiceProvider::class
+        src\frontoffice\Stock\Domain\Providers\StockServiceProvider::class,
+        src\frontoffice\Orders\Domain\Providers\OrderServiceProvider::class
     ])->toArray(),
 
     /*
