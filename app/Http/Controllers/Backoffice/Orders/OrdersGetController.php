@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backoffice\Orders;
 
 use Throwable;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use src\backoffice\OrderManager\Application\Find\OrdersGet;
 use src\backoffice\OrderStatus\Application\Find\OrdersStatusGet;
