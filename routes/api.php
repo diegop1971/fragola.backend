@@ -46,7 +46,8 @@ use App\Http\Controllers\Backoffice\StockMovementTypes\StockMovementTypesLimited
 |
 */
 
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('auth:sanctum');
+//Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
 
